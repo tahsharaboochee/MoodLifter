@@ -1,6 +1,6 @@
 require('dotenv').config()
 const express = require('express')
-const axios = require('path')
+const axios = require('axios').default;
 const path = require('path')
 const bodyParser = require('body-parser')
 const app = express()
@@ -38,7 +38,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(cors())
 app.use(cookieParser())
-app.use(session())
+
 
 //serve static files from React app
 app.use(express.static(path.join(__dirname, 'react-client/build')));
@@ -51,10 +51,19 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     maxAge: SESS_LIFETIME,
-    sameSite: true
+    sameSite: true,
+    httpOnly: false,  // this must be false if you want to access the cookie
+    secure: process.env.NODE_ENV === "production"
   }
 }))
-
+  // console.log('redirect uri:', redirect_uri)
+  const refreshTokenChecker = (refresh_token) => {
+    return spotify.post('token',  querystring.stringify({
+      grant_type: "refresh_token",
+      refresh_token: refresh_token,
+      redirect_uri
+    }))
+  }
 
 const redirectUriForTokens = (access_token, refresh_token)=> {
   return (frontEndUri + querystring.stringify({
@@ -68,14 +77,13 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname+'/react-client/build/index.html'))
 })
 
-}
 app.get('/login', function(req, res) {
   // console.log('inside app.get spotifiy client id:', process.env.SPOTIFY_CLIENT_ID)
   //spotify getting moodLifter authorization
 
   // pseudocode for new process:
   // 1. check if our session cookie exists, and has a refresh token
-  console.log('login request for cookie session', req.session)
+  // console.log('login request for cookie session', req.session)
   if(req.session.refresh_token){
     refreshTokenChecker(req.session.refresh_token)
     .then((res, body)=>{
@@ -112,7 +120,7 @@ app.get('/callback', function(req, res) {
   let state = req.query.state || null;
   let storedState = req.cookies ? req.cookies[stateCookie] : null;
   
-  if(state == null || state !== storedState){
+  if(state === null || state !== storedState){
     return res.redirect(frontEndUri + querystring.stringify({
       error: 'state_mismatch'
     }))
@@ -125,12 +133,12 @@ app.get('/callback', function(req, res) {
   .then((res) =>{
 
     console.log('/callback res:', res.data)
-    let access_token = body.access_token;
-    let refresh_token = body.refresh_token;
-    req.session.access_token = access_token;
-    req.session.refresh_token = refresh_token;
+  //   let access_token = body.access_token;
+  //   let refresh_token = body.refresh_token;
+  //   req.session.access_token = access_token;
+  //   req.session.refresh_token = refresh_token;
 
-  res.redirect(redirectUriForTokens(access_token, refresh_token))
+  // res.redirect(redirectUriForTokens(access_token, refresh_token))
   })
   .catch((err) =>{
     console.error(err)
@@ -142,21 +150,21 @@ app.get('/callback', function(req, res) {
 
 
 
-app.get('/refresh_token', function(req, res) {
+// app.get('/refresh_token', function(req, res) {
 
-  // requesting access token from refresh token
-  let refresh_token = req.query.refresh_token;
-  refreshTokenChecker(refresh_token)
-  .then((res, body)=>{
-    if(res.statusCode === 200){
-      let access_token = body.access_token;
-      res.send({
-        'access_token': access_token
-      });
-    }
-  })
+//   // requesting access token from refresh token
+//   let refresh_token = req.query.refresh_token;
+//   refreshTokenChecker(refresh_token)
+//   .then((res, body)=>{
+//     if(res.statusCode === 200){
+//       let access_token = body.access_token;
+//       res.send({
+//         'access_token': access_token
+//       });
+//     }
+//   })
 
-});
+// });
 
 let server = app.listen(process.env.PORT || 3001, 
   function(){
