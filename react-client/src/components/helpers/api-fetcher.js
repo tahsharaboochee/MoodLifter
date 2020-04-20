@@ -14,8 +14,9 @@
 
   export function usersTopArtistsOrSongs(token, type){
     const artistOrTrack = type;
+   
     const endpoint = `https://api.spotify.com/v1/me/top/${artistOrTrack}`;
-    fetch(endpoint, {
+    return fetch(endpoint, {
       method: "GET",
       headers: {
       authorization: `Bearer ${token}`,
@@ -23,14 +24,17 @@
       }
     }).then(async resp => {
       if (resp.ok) {
-        const topArtistOrSongs = await resp.json()
-        console.log(type, topArtistOrSongs.items)
-        return topArtistOrSongs.items;
+        let topArtistOrSongs = await resp.json()
+        return topArtistOrSongs
+    
+
       } else {
         throw new Error(
           `😩 fetch(${endpoint}) failed: Express server responded with HTTP ${resp.status} ${resp.statusText}. (Note: this error is custom to Booktonica and you cannot Google it). Check your Network console for more information about the request and the Express logs for more information about the response.`
         );
       }
-    });
+    })
   }
+
+ 
 

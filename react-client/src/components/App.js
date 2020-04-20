@@ -38,7 +38,7 @@ class App extends Component {
     const urlParams = new URLSearchParams(queryString)
     const access_token = urlParams.get('access_token')
     const refresh_token = urlParams.get('refresh_token')
-    console.log('we have a token', access_token, '\nrefresh token', refresh_token)
+    // console.log('we have a token', access_token, '\nrefresh token', refresh_token)
     if (access_token) {
       // Set token, loggedIn variable
       this.setState({
@@ -92,18 +92,19 @@ class App extends Component {
    this.spotifyPlayer.addListener('player_state_changed', state => this.onStateChange(state))
 
    // ready
-   this.spotifyPlayer.addListener('ready', data => {
+   this.spotifyPlayer.addListener('ready', async data => {
      let {device_id} = data;
     //  console.log('let the music play on!', data)
       // swap music playback to moodLifter
       transferPlaybackToMoodLifter(device_id, this.state.token);
-      let usersTopArtists = usersTopArtistsOrSongs(this.state.token, 'artists')
-      let usersTopSongs = usersTopArtistsOrSongs(this.state.token, 'tracks')
-      usersTopArtists === 'undefined' ? console.log('prompt user to input artist they like') : this.setState({usersTopArtist: usersTopArtists});
-      usersTopArtists === 'undefined' ? console.log('prompt user to input tracks they like') : this.setState({usersTopSongs: usersTopSongs});
-    
-      console.log('usersTopArtist', usersTopArtists, '\n top tracks', usersTopSongs)
 
+      let usersTopArtists = await usersTopArtistsOrSongs(this.state.token, 'artists')
+      let usersTopSongs = await usersTopArtistsOrSongs(this.state.token, 'tracks')
+      
+      // console.log('usersTopArtist', usersTopArtists, '\n top tracks', usersTopSongs)
+      usersTopArtists.length === 0 ? console.log('prompt user to input artist they like') : this.setState({usersTopArtist: usersTopArtists});
+      usersTopSongs.length === 0 ? console.log('prompt user to input tracks they like') : this.setState({usersTopSongs: usersTopSongs});
+  
       this.setState({ deviceId: device_id });
     //  console.log('getting spotifyPlayer data .then', this.state.deviceId)
    })
