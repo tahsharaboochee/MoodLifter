@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import Header from './header/Header'
 import Logo from './logo/Logo'
 import Feeling from './moods/Feeling'
-// import {queryString} from 'query-string'
-// import queryString from './queryString'
-import {transferPlaybackToMoodLifter, usersTopArtist} from './helpers/api-fetcher'
+import {transferPlaybackToMoodLifter, usersTopArtistsOrSongs} from './helpers/api-fetcher'
 import './App.css'
 
 // A Spotify URI is a link that you can find in the Share menu of any track, album, or artist page on Spotify. When a user clicks a link that consists of a Spotify URI (rather than an URL/HTTP address), they're taken directly to the Spotify application, without having to go through the web page first.
@@ -17,6 +15,8 @@ class App extends Component {
     this.state = {
       refresh_token: null,
       token: null,
+      usersTopArtis: [],
+      usersTopSongs: [],
       deviceId: '',
       loggedIn: false, 
       songName: 'track Name',
@@ -97,7 +97,12 @@ class App extends Component {
     //  console.log('let the music play on!', data)
       // swap music playback to moodLifter
       transferPlaybackToMoodLifter(device_id, this.state.token);
-      console.log('usersTopArtis', usersTopArtist(this.state.token))
+      let usersTopArtists = usersTopArtistsOrSongs(this.state.token, 'artists')
+      let usersTopSongs = usersTopArtistsOrSongs(this.state.token, 'tracks')
+      usersTopArtists === 'undefined' ? console.log('prompt user to input artist they like') : this.setState({usersTopArtist: usersTopArtists});
+      usersTopArtists === 'undefined' ? console.log('prompt user to input tracks they like') : this.setState({usersTopSongs: usersTopSongs});
+    
+      console.log('usersTopArtist', usersTopArtists, '\n top tracks', usersTopSongs)
 
       this.setState({ deviceId: device_id });
     //  console.log('getting spotifyPlayer data .then', this.state.deviceId)
