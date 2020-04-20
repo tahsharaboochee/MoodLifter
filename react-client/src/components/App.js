@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import Header from './header/Header'
 import Logo from './logo/Logo'
 import Feeling from './moods/Feeling'
-import query from './query'
+// import {queryString} from 'query-string'
+// import queryString from './queryString'
 import {transferPlaybackToMoodLifter, usersTopArtist} from './helpers/api-fetcher'
 import './App.css'
 
@@ -32,9 +33,12 @@ class App extends Component {
   //when we sign into spotify
   componentDidMount() {
     // Set token
-    let access_token = query.access_token;
-    let refresh_token = query.refresh_token;
-    console.log('we have a token', access_token)
+    const queryString = window.location.search
+    //parse the query string's parameters
+    const urlParams = new URLSearchParams(queryString)
+    const access_token = urlParams.get('access_token')
+    const refresh_token = urlParams.get('refresh_token')
+    console.log('we have a token', access_token, '\nrefresh token', refresh_token)
     if (access_token) {
       // Set token, loggedIn variable
       this.setState({

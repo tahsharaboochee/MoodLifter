@@ -24,13 +24,13 @@ const {
 //name of cookie
 const stateCookie = 'spotify_auth_state'
 
-spotify.defaults.headers.common['Authorization'] = 'Basic' + (Buffer.from(
+spotify.defaults.headers.common['Authorization'] = 'Basic ' + (Buffer.from(
   process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
 ).toString('base64'))
 
 spotify.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
-let frontEndUri = process.env.FRONTEND_URI || 'http://localhost:3000'
+let frontEndUri = process.env.FRONTEND_URI || 'http://localhost:3000/'
 
 let redirect_uri = process.env.REDIRECT_URI || 'http://localhost:3000/callback';
 
@@ -66,7 +66,7 @@ app.use(session({
   }
 
 const redirectUriForTokens = (access_token, refresh_token)=> {
-  return (frontEndUri + querystring.stringify({
+  return (frontEndUri + '?' + querystring.stringify({
     access_token: access_token,
     refresh_token: refresh_token,
   }))
@@ -83,13 +83,16 @@ app.get('/login', function(req, res) {
 
   // pseudocode for new process:
   // 1. check if our session cookie exists, and has a refresh token
-  // console.log('login request for cookie session', req.session)
+  console.log('login request for cookie session', req.session.refresh_token)
   if(req.session.refresh_token){
+    console.log('about to call refreshTokenChecker')
     refreshTokenChecker(req.session.refresh_token)
-    .then((res, body)=>{
-      return res.redirect(redirectUriForTokens(body.access_token, body.refresh_token))
+    .then((response)=>{
+      console.log('***************************** \ninside .then after completing refreshTokenChecker function')
+      res.redirect(redirectUriForTokens(response.data.access_token, response.data.refresh_token))
     })
-  }
+  }else {
+
   // 2. if so:
   //   a. try calling /api/token 
   //   b. if we get new tokens, we're done; go to 5.
@@ -100,48 +103,59 @@ app.get('/login', function(req, res) {
   //   a. set session cookies with new(ly refreshed) tokens
   //   b. send tokens to frontend
 
-  const state = uuidv4(); //generate random string
-  res.cookie(stateCookie, state) //setting a cookie
-  res.redirect('https://accounts.spotify.com/authorize?' +
-  querystring.stringify({
-    response_type: 'code',
-    client_id: process.env.SPOTIFY_CLIENT_ID,
-    scope: 'streaming user-read-private user-read-email user-read-playback-state user-top-read user-read-currently-playing user-library-read playlist-modify-public user-follow-read',
-    state: state,
-    redirect_uri
-  }))
+    const state = uuidv4(); //generate random string
+      res.cookie(stateCookie, state) //setting a cookie
+      console.log('about to redirect to spotify state:', state)
+      res.redirect('https://accounts.spotify.com/authorize?' +
+        querystring.stringify({
+          response_type: 'code',
+          client_id: process.env.SPOTIFY_CLIENT_ID,
+          scope: 'streaming user-read-private user-read-email user-read-playback-state user-top-read user-read-currently-playing user-library-read playlist-modify-public user-follow-read',
+          state: state,
+          redirect_uri
+        })
+      )
+    console.log('___________________________________\nredirect to spotify completed')
+  }
 })
-
 app.get('/callback', function(req, res) {
   // console.log('/callback req:', req)
-  // console.log( '/callback res:', res)
+  console.log( 'in /callback res:')
   //moodLifter requesting refresh and access tokens after checking state parameter
   let code = req.query.code || null;
   let state = req.query.state || null;
   let storedState = req.cookies ? req.cookies[stateCookie] : null;
   
   if(state === null || state !== storedState){
-    return res.redirect(frontEndUri + querystring.stringify({
+    console.log('inside if statement')
+    return res.redirect(frontEndUri + '?' + querystring.stringify({
       error: 'state_mismatch'
     }))
   }
+  console.log('after if statement about to post token')
   spotify.post('token',  querystring.stringify({
     grant_type: "authorization_code",
     code: code,
-    redirect_uri
+    redirect_uri: redirect_uri
   }))
-  .then((res) =>{
+  .then((response) =>{
 
-    console.log('/callback res:', res.data)
-  //   let access_token = body.access_token;
-  //   let refresh_token = body.refresh_token;
-  //   req.session.access_token = access_token;
-  //   req.session.refresh_token = refresh_token;
-
-  // res.redirect(redirectUriForTokens(access_token, refresh_token))
+    console.log('after token posted /callback res:', response.data)
+    let access_token = response.data.access_token;
+    let refresh_token = response.data.refresh_token;
+    req.session.access_token = access_token;
+    req.session.refresh_token = refresh_token;
+    const temp = redirectUriForTokens(access_token, refresh_token)
+    console.log('data from redirectURIForToken', temp)
+    res.redirect(redirectUriForTokens(access_token, refresh_token))
   })
   .catch((err) =>{
-    console.error(err)
+    console.error(
+      'config data', err.config.data, 
+      '\nrequest header',err.request._header, 
+      '\n response status', err.response.status, 
+      '\n response statusText', err.response.statusText,
+      '\n response data', err.response.data )
     res.redirect(frontEndUri + '?' + querystring.stringify({
       error: 'invalid_token'
     }));
