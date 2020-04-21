@@ -17,7 +17,6 @@ class App extends Component {
       token: null,
       usersTopArtists: [],
       usersTopSongs: [],
-      topArtistsUri: [],
       deviceId: '',
       loggedIn: false, 
       songName: 'track Name',
@@ -49,48 +48,52 @@ class App extends Component {
       });
     
     //user info
-    fetchUser(access_token).then((userInfo) => console.log(userInfo))
-    //only able to retrieve data when I set state
-    usersTopArtistsOrSongs(access_token, 'tracks').then((topTracks) => this.setState({usersTopSongs: topTracks.items}))
-
-
+    // fetchUser(access_token).then((userInfo) => console.log(userInfo))
+    usersTopArtistsOrSongs(access_token, 'tracks').then((data) => {
+      console.log('artist info', data)
+      let allArtists = []
+      let artistsInfo = []
+      let trackInfo = []
+        for(let artist of data.items){
+          console.log(artist)
+          trackInfo.push({
+            'name': artist['name'], 
+            'track_uri': artist['uri'], 
+            'track_id': artist['id']
+          })
+          for (let artist_info of artist['artists']){
+            if ( !allArtists.includes(artist_info['name'])){
+              allArtists.push(artist_info['name'])
+              artistsInfo.push({'name': artist_info['name'], 'artistUri' : artist_info['uri']})
+          }
+        }
+      }
+      // console.log('all Artist', artistsInfo)
+      this.setState({
+        usersTopArtists:artistsInfo,
+        usersTopSongs: trackInfo
+      })
+    })
     // usersTopArtistsOrSongs(access_token, 'artists').then((topArtists) => this.setState({usersTopArtists:topArtists}))
   }
 }
 
 componentDidUpdate(prevProps, prevState) {
-  console.log('top artist', this.state.usersTopArtists, '\ntop tracks', this.state.usersTopSongs)
-  let allArtists = []
-  let topArtistsUri = []
- 
-  // this.setState({usersTopArtist:allArtists})
-  
-  console.log('inside component did update')
-  if (prevState.token !== this.state.token) {
-    console.log('inside component did update if statement')
-    for (let tracks of this.state.usersTopSongs){
-      for(let artist of tracks['artists']){
-        if ( !allArtists.includes(artist['name'])){
-          allArtists.push(artist['name'])
-          topArtistsUri.push(artist['uri'])
-        }
-      }
-    }
-    this.setState({
-      usersTopArtists: allArtists,
-      topArtistsUri
-    })
+  if(prevState.usersTopArtists !== this.state.usersTopArtists){
+    console.log('prevState', prevState, 'top artist', this.state.usersTopArtists, 'top songs', this.state.usersTopSongs)
   }
 
   }
 
   render() {
+    // console.log(this.state)
     const {
       loggedIn,
       artistName,
       songName,
       playing,
-      backgroundImage
+      backgroundImage,
+      usersTopArtists,
     } = this.state;
 
     return (
@@ -111,8 +114,8 @@ componentDidUpdate(prevProps, prevState) {
               <button onClick={() => this.onPlayClick()}>{playing ? "Pause" : "Play"}</button>
               <button onClick={() => this.onNextClick()}>Next</button>
             </div>
-        </div>) : <Header />}
-        <Feeling />
+        </div>) : <Header  />}
+        <Feeling artists={usersTopArtists}/>
       </div>
     );
   }
