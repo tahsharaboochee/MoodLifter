@@ -12,10 +12,30 @@
     })
   }
 
+  export const fetchUser = (token) => {
+    return fetch('https://api.spotify.com/v1/me', {
+        method: "GET",
+        headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+        }
+      }).then(async res => {
+        // send user back to homepage if no token
+        if(res.statusText === "Unauthorized") {
+          window.location.href = './';
+        }
+        const userInfo = await res.json()
+        return userInfo
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    };
+
   export function usersTopArtistsOrSongs(token, type){
     const artistOrTrack = type;
    
-    const endpoint = `https://api.spotify.com/v1/me/top/${artistOrTrack}`;
+    const endpoint = `https://api.spotify.com/v1/me/top/${artistOrTrack}?limit=50`;
     return fetch(endpoint, {
       method: "GET",
       headers: {

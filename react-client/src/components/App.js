@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Header from './header/Header'
 import Logo from './logo/Logo'
 import Feeling from './moods/Feeling'
-import {transferPlaybackToMoodLifter, usersTopArtistsOrSongs} from './helpers/api-fetcher'
+import {transferPlaybackToMoodLifter, usersTopArtistsOrSongs, fetchUser} from './helpers/api-fetcher'
 import './App.css'
 
 // A Spotify URI is a link that you can find in the Share menu of any track, album, or artist page on Spotify. When a user clicks a link that consists of a Spotify URI (rather than an URL/HTTP address), they're taken directly to the Spotify application, without having to go through the web page first.
@@ -15,8 +15,9 @@ class App extends Component {
     this.state = {
       refresh_token: null,
       token: null,
-      usersTopArtis: [],
+      usersTopArtists: [],
       usersTopSongs: [],
+      topArtistsUri: [],
       deviceId: '',
       loggedIn: false, 
       songName: 'track Name',
@@ -46,100 +47,41 @@ class App extends Component {
         refresh_token: refresh_token,
         loggedIn: true
       });
-      //checking every second for spotifies SDK player window.Spotify variable
-      this.spotifyPlayerCheckInterval = setInterval(() => this.checkingForSpotifyURI())
-    }
+    
+    //user info
+    fetchUser(access_token).then((userInfo) => console.log(userInfo))
+    //only able to retrieve data when I set state
+    usersTopArtistsOrSongs(access_token, 'tracks').then((topTracks) => this.setState({usersTopSongs: topTracks.items}))
+
+
+    // usersTopArtistsOrSongs(access_token, 'artists').then((topArtists) => this.setState({usersTopArtists:topArtists}))
   }
+}
 
-  //player recieved an update from player
-  onStateChange(state) {
-    // console.log('onStateChange line 72 state=', state)
-
-    if(state !== undefined){
-      const {
-        current_track
-      } = state.track_window; 
-      const songName = current_track.name; 
-      const position = current_track.position;
-      const duration = current_track.duration;
-      const artistName = current_track.artists.map(artist => artist.name).join(',');
-      const playing = !state.paused; 
-      const backgroundImage = current_track.album.images[0].url;
+componentDidUpdate(prevProps, prevState) {
+  console.log('top artist', this.state.usersTopArtists, '\ntop tracks', this.state.usersTopSongs)
+  let allArtists = []
+  let topArtistsUri = []
  
-
-      this.setState({
-        position,
-        duration,
-        songName,
-        artistName,
-        playing,
-        backgroundImage: backgroundImage
-      });
+  // this.setState({usersTopArtist:allArtists})
+  
+  console.log('inside component did update')
+  if (prevState.token !== this.state.token) {
+    console.log('inside component did update if statement')
+    for (let tracks of this.state.usersTopSongs){
+      for(let artist of tracks['artists']){
+        if ( !allArtists.includes(artist['name'])){
+          allArtists.push(artist['name'])
+          topArtistsUri.push(artist['uri'])
+        }
+      }
     }
+    this.setState({
+      usersTopArtists: allArtists,
+      topArtistsUri
+    })
   }
 
-  spotifyApiEventHandlers(){
-    // Error handling
-   this.spotifyPlayer.addListener('initialization_error', message => { console.error('Failed to initialize', message)})
-   this.spotifyPlayer.addListener('authentication_error', message => {
-     console.error('Failed to authenticate', message);
-     this.setState({loggedIn: false});
-   });
-   this.spotifyPlayer.addListener('account_error', e => { console.error(e)})
-   this.spotifyPlayer.addListener('playback_error', e => { console.error(e)})
-
-   //playback status updates
-   this.spotifyPlayer.addListener('player_state_changed', state => this.onStateChange(state))
-
-   // ready
-   this.spotifyPlayer.addListener('ready', async data => {
-     let {device_id} = data;
-    //  console.log('let the music play on!', data)
-      // swap music playback to moodLifter
-      transferPlaybackToMoodLifter(device_id, this.state.token);
-
-      let usersTopArtists = await usersTopArtistsOrSongs(this.state.token, 'artists')
-      let usersTopSongs = await usersTopArtistsOrSongs(this.state.token, 'tracks')
-      
-      // console.log('usersTopArtist', usersTopArtists, '\n top tracks', usersTopSongs)
-      usersTopArtists.length === 0 ? console.log('prompt user to input artist they like') : this.setState({usersTopArtist: usersTopArtists});
-      usersTopSongs.length === 0 ? console.log('prompt user to input tracks they like') : this.setState({usersTopSongs: usersTopSongs});
-  
-      this.setState({ deviceId: device_id });
-    //  console.log('getting spotifyPlayer data .then', this.state.deviceId)
-   })
- }
-
-  onPrevClick() {
-    this.spotifyPlayer.previousTrack();
-  }
-  
-  onPlayClick() {
-    this.spotifyPlayer.togglePlay();
-  }
-  
-  onNextClick() {
-    this.spotifyPlayer.nextTrack();
-  }
-
-  checkingForSpotifyURI(){
-    const {token} = this.state;
-    //global variable Spotify is public index.html file however to access the global variable have to use window.Spotify
-    if(window.Spotify !== undefined){
-      //cancel the interval
-      clearInterval(this.spotifyPlayerCheckInterval);
-      
-      this.spotifyPlayer = new window.Spotify.Player({
-        name: 'Mood Lifter Spotify Player',
-        getOAuthToken: cb => { cb(token) },
-        volume: 0.5
-      })
-      
-      //set up the spotify uri event handlers
-      this.spotifyApiEventHandlers();
-      //finally, connect!
-      this.spotifyPlayer.connect();
-    }
   }
 
   render() {
