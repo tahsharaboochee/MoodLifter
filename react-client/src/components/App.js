@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import Header from './header/Header'
+import Login from './login/Login'
 import Logo from './logo/Logo'
 import Feeling from './moods/Feeling'
 import {fetchAudioFeatures, usersTopArtistsOrSongs, fetchUser, transferPlaybackToMoodLifter} from './helpers/api-fetcher'
+import Header from './header/Header'
 import './App.css'
 
 // A Spotify URI is a link that you can find in the Share menu of any track, album, or artist page on Spotify. When a user clicks a link that consists of a Spotify URI (rather than an URL/HTTP address), they're taken directly to the Spotify application, without having to go through the web page first.
@@ -13,7 +14,7 @@ class App extends Component {
     super(props);
     //set the initial state
     this.state = {
-      userId: null,
+      userInfo: {},
       refresh_token: null,
       token: null,
       usersTopArtists: [],
@@ -51,7 +52,10 @@ class App extends Component {
       //checking every second for spotifies SDK player window.Spotify variable
       this.spotifyPlayerCheckInterval = setInterval(() => this.checkingForSpotifyURI())
     // //user info
-    fetchUser(access_token).then((userInfo) => this.setState({userId:userInfo.id}))
+    fetchUser(access_token).then((userInfo) => {
+      // console.log(userInfo)
+      this.setState({userInfo})
+    })
     usersTopArtistsOrSongs(access_token, 'tracks').then((data) => {
       // console.log('artist info', data)
       let allArtists = []
@@ -144,7 +148,7 @@ spotifyApiEventHandlers(){
     // swap music playback to moodLifter
     transferPlaybackToMoodLifter(device_id, this.state.token);
     // fetchAudioFeatures(this.state)
-  console.log(this.spotifyPlayer)
+  // console.log(this.spotifyPlayer)
     this.setState({ deviceId: device_id });
   //  console.log('getting spotifyPlayer data .then', this.state.deviceId)
  })
@@ -222,6 +226,7 @@ checkingForSpotifyURI(){
   render() {
     // console.log(this.state)
     const {
+      userInfo,
       loggedIn,
       artistName,
       songName,
@@ -234,7 +239,8 @@ checkingForSpotifyURI(){
 
     return (
       <div className="App">
-        <Logo />
+        {loggedIn ? <Header user={userInfo} /> : <Logo />}
+        {/* <Logo /> */}
         {loggedIn ? 
           (<div className="main-wrapper">
             <div className="now-playing__img">
@@ -252,7 +258,7 @@ checkingForSpotifyURI(){
             </div>
             <Feeling state={this.state}/>
             {/* <Feeling sadClick={this.state.sadClick.bind(this)} tracks={usersTopSongs}/> */}
-        </div>) : <Header  />}
+        </div>) : <Login  />}
       </div>
     );
   }

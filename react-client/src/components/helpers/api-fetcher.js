@@ -1,3 +1,25 @@
+//get user account information
+export const fetchUser = (token) => {
+  return fetch('https://api.spotify.com/v1/me', {
+      method: "GET",
+      headers: {
+      authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+      }
+    }).then(async res => {
+      // send user back to homepage if no token
+      if(res.statusText === "Unauthorized") {
+        window.location.href = './';
+      }
+      const userInfo = await res.json()
+      return userInfo
+    })
+    .catch(err => {
+      console.error(err);
+    });
+  };
+    
+  //connect to spotify's web api automatically 
     export function transferPlaybackToMoodLifter(deviceId, token){
       fetch("https://api.spotify.com/v1/me/player", {
       method: "PUT",
@@ -13,26 +35,7 @@
   }
   
 
-  export const fetchUser = (token) => {
-    return fetch('https://api.spotify.com/v1/me', {
-        method: "GET",
-        headers: {
-        authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-        }
-      }).then(async res => {
-        // send user back to homepage if no token
-        if(res.statusText === "Unauthorized") {
-          window.location.href = './';
-        }
-        const userInfo = await res.json()
-        return userInfo
-      })
-      .catch(err => {
-        console.error(err);
-      });
-    };
-
+//retrieve the valence to determine the mood of a song
   export const fetchAudioFeatures = (token, id) => {
     return fetch(`https://api.spotify.com/v1/audio-features/${id}`, {
         method: "GET",
@@ -53,6 +56,7 @@
       });
     };
 
+  //find the top songs to create playlist based on music user already listens to 
   export function usersTopArtistsOrSongs(token, type){
     const artistOrTrack = type;
    
@@ -75,6 +79,8 @@
       }
     })
   }
+
+  
 
     //this isn't working
   // export function usersTopArtistsOrSongs(token, type){
