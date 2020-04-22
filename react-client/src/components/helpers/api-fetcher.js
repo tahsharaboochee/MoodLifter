@@ -7,13 +7,34 @@
       },
       body: JSON.stringify({
         "device_ids": [ deviceId ],
-        "play": true,
+        "play": false,
       }),
     })
   }
+  
 
   export const fetchUser = (token) => {
     return fetch('https://api.spotify.com/v1/me', {
+        method: "GET",
+        headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+        }
+      }).then(async res => {
+        // send user back to homepage if no token
+        if(res.statusText === "Unauthorized") {
+          window.location.href = './';
+        }
+        const userInfo = await res.json()
+        return userInfo
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    };
+
+  export const fetchAudioFeatures = (token, id) => {
+    return fetch(`https://api.spotify.com/v1/audio-features/${id}`, {
         method: "GET",
         headers: {
         authorization: `Bearer ${token}`,
