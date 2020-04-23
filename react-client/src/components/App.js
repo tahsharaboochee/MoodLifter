@@ -19,6 +19,8 @@ class App extends Component {
       token: null,
       usersTopArtists: [],
       usersTopSongs: [],
+      songUris: '',
+      moods:{},
       loggedIn: false,
       playing: false,
       deviceId: '',
@@ -61,6 +63,7 @@ class App extends Component {
       let allArtists = []
       let artistsInfo = []
       let trackInfo = []
+      let songUris = ''
         for(let artist of data.items){
           // console.log(artist)
           trackInfo.push({
@@ -71,14 +74,18 @@ class App extends Component {
           for (let artist_info of artist['artists']){
             if ( !allArtists.includes(artist_info['name'])){
               allArtists.push(artist_info['name'])
+              songUris += artist_info['uri'] + ','
               artistsInfo.push({'name': artist_info['name'], 'artistUri' : artist_info['uri']})
           }
         }
       }
+      //get rid of the last comma
+      songUris = songUris.substring(0, songUris.length - 1);
       // console.log('all Artist', artistsInfo)
       this.setState({
         usersTopArtists:artistsInfo,
-        usersTopSongs: trackInfo
+        usersTopSongs: trackInfo,
+        songUris
       })
     })
     // usersTopArtistsOrSongs(access_token, 'artists').then((topArtists) => this.setState({usersTopArtists:topArtists}))
@@ -96,7 +103,7 @@ sadClick (){
       }
       // console.log(audio)
     })
-    return sadSongs;
+    console.log('sad click', sadSongs);
   })
  
 
@@ -187,41 +194,31 @@ checkingForSpotifyURI(){
 }
 
 
-// componentDidUpdate(prevProps, prevState) {
-  // const {usersTopSongs, token} = this.state
-//   sad< .33
-//   angry > .33 <= .66
-//   happy > .66
-// }
-  // if(prevState.usersTopArtists !== this.state.usersTopArtists){
-  //   let angrySongs = [],
-  //       happySongs = [], 
-  //       sadSongs = []; 
-  //   for (let song of usersTopSongs){
-  //     // console.log(song)
-  //     fetchAudioFeatures(token, song.track_id).then(audio => {
-  //       let mood = audio.valence
-  //       if(mood <= 0.33){
-  //         sadSongs.push(song)
-  //       } else if(mood > .33 && mood <= .66){
-  //         angrySongs.push(song)
-  //       } else {
-  //         happySongs.push(song)
-  //       }
-  //       // console.log(audio)
-  //     })
-  //   }
-  //   this.setState({
-  //     angrySongs,
-  //     happySongs,
-  //     sadSongs
-  //   })
-  //   console.log(happySongs)
-  //   // console.log('prevState', prevState, 'top artist', this.state.usersTopArtists, 'top songs', this.state.usersTopSongs)
-    
-  // }
-
-// }
+componentDidUpdate(prevProps, prevState) {
+  const {usersTopSongs, token} = this.state
+  if(prevState.usersTopArtists !== this.state.usersTopArtists){
+    let angrySongs = [],
+        happySongs = [], 
+        sadSongs = []; 
+    for (let song of usersTopSongs){
+      // console.log(song)
+      fetchAudioFeatures(token, song.track_id).then(audio => {
+        let mood = audio.valence
+        if(mood <= 0.33){
+          sadSongs.push(song)
+        } else if(mood > .33 && mood <= .66){
+          angrySongs.push(song)
+        } else {
+          happySongs.push(song)
+        }
+        // console.log(audio)
+        this.setState({
+          moods: {'angry' : angrySongs,'happy': happySongs, 'sad': sadSongs}
+        })
+      })  
+    }
+  }
+}
 
   render() {
     // console.log(this.state)
@@ -256,7 +253,7 @@ checkingForSpotifyURI(){
               <button onClick={() => this.onPlayClick()}>{playing ? "Pause" : "Play"}</button>
               <button onClick={() => this.onNextClick()}>Next</button>
             </div>
-            <Feeling state={this.state}/>
+            <Feeling state={this.state} sad={this.sadClick}/>
             {/* <Feeling sadClick={this.state.sadClick.bind(this)} tracks={usersTopSongs}/> */}
         </div>) : <Login  />}
       </div>

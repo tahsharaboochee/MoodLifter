@@ -33,28 +33,6 @@ export const fetchUser = (token) => {
       }),
     })
   }
-  
-
-//retrieve the valence to determine the mood of a song
-  export const fetchAudioFeatures = (token, id) => {
-    return fetch(`https://api.spotify.com/v1/audio-features/${id}`, {
-        method: "GET",
-        headers: {
-        authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-        }
-      }).then(async res => {
-        // send user back to homepage if no token
-        if(res.statusText === "Unauthorized") {
-          window.location.href = './';
-        }
-        const userInfo = await res.json()
-        return userInfo
-      })
-      .catch(err => {
-        console.error(err);
-      });
-    };
 
   //find the top songs to create playlist based on music user already listens to 
   export function usersTopArtistsOrSongs(token, type){
@@ -80,6 +58,48 @@ export const fetchUser = (token) => {
     })
   }
 
+//retrieve the valence to determine the mood of a song
+  export const fetchAudioFeatures = (token, id) => {
+    return fetch(`https://api.spotify.com/v1/audio-features/${id}`, {
+        method: "GET",
+        headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+        }
+      }).then(async res => {
+        // send user back to homepage if no token
+        if(res.statusText === "Unauthorized") {
+          window.location.href = './';
+        }
+        const userInfo = await res.json()
+        return userInfo
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    };
+
+export const createPlaylist = (userId, token, name) => {
+  return  fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "name": [ name]
+      }),
+    }).then(res => {
+      if(res.statusText === "Unauthorized") {
+        window.location.href = './';
+      }
+      return res.json();
+    }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.error(err);
+    });
+};
   
 
     //this isn't working
