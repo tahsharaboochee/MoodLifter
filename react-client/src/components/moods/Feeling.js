@@ -7,7 +7,7 @@ import './feelings.css'
 
 
 const Feeling = (props) => {
-  // console.log(props)
+  console.log(props)
 
  
   

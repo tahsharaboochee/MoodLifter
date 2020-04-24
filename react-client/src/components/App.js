@@ -103,7 +103,7 @@ sadClick (){
  onStateChange(state) {
   // console.log('onStateChange line 72 state=', state)
 
-  if(state !== undefined){
+  if(state !== null){
     const {
       current_track
     } = state.track_window; 
@@ -227,9 +227,10 @@ componentDidUpdate(prevProps, prevState) {
       playing,
       backgroundImage,
       usersPlaylists,
+      moods,
       token,
     } = this.state;
-    // console.log(this.state)
+    // console.log(userInfo)
  
 
     return (
@@ -251,7 +252,7 @@ componentDidUpdate(prevProps, prevState) {
               <button onClick={() => this.onPlayClick()}>{playing ? "Pause" : "Play"}</button>
               <button onClick={() => this.onNextClick()}>Next</button>
             </div>
-            <CreatePlaylist userId={userInfo.id} playlists={usersPlaylists} token={token} sad={this.sadClick}/>
+            <CreatePlaylist userId={userInfo.id} playlists={usersPlaylists} token={token} moods={moods} sad={this.sadClick}/>
             {/* <Feeling userId={userInfo.id} playlists={usersPlaylists} state={this.state} sad={this.sadClick}/> */}
             {/* <Feeling sadClick={this.state.sadClick.bind(this)} tracks={usersTopSongs}/> */}
         </div>) : <Login  />}
