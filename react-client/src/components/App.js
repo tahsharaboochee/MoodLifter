@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import Login from './login/Login'
 import Logo from './logo/Logo'
-import Feeling from './moods/Feeling'
-import {fetchAudioFeatures, usersTopArtistsOrSongs, fetchUser, transferPlaybackToMoodLifter} from './helpers/api-fetcher'
+import CreatePlaylist from './moods/CreateAPlaylist'
+// import Feeling from './moods/Feeling'
+import {fetchAudioFeatures, usersTopArtistsOrSongs, fetchUser, transferPlaybackToMoodLifter, getUsersPlaylist} from './helpers/api-fetcher'
 import Header from './header/Header'
 import './App.css'
 
@@ -15,6 +16,7 @@ class App extends Component {
     //set the initial state
     this.state = {
       userInfo: {},
+      usersPlaylists: [],
       refresh_token: null,
       token: null,
       usersTopArtists: [],
@@ -55,9 +57,10 @@ class App extends Component {
       this.spotifyPlayerCheckInterval = setInterval(() => this.checkingForSpotifyURI())
     // //user info
     fetchUser(access_token).then((userInfo) => {
-      // console.log(userInfo)
+      console.log(userInfo)
       this.setState({userInfo})
     })
+    
     usersTopArtistsOrSongs(access_token, 'tracks').then((data) => {
       // console.log('artist info', data)
       let allArtists = []
@@ -88,24 +91,12 @@ class App extends Component {
         songUris
       })
     })
-    // usersTopArtistsOrSongs(access_token, 'artists').then((topArtists) => this.setState({usersTopArtists:topArtists}))
   }
 }
 
 sadClick (){
   // const {usersTopSongs, token} = this.state
-  this.state.usersTopSongs.filter((song) => {
-    let  sadSongs = []; 
-    fetchAudioFeatures(this.state.token, song.track_id).then(audio => {
-      let mood = audio.valence
-      if(mood <= 0.33){
-        sadSongs.push(song)
-      }
-      // console.log(audio)
-    })
-    console.log('sad click', sadSongs);
-  })
- 
+  console.log('clicked')
 
 }
  //player recieved an update from player
@@ -195,7 +186,7 @@ checkingForSpotifyURI(){
 
 
 componentDidUpdate(prevProps, prevState) {
-  const {usersTopSongs, token} = this.state
+  const {usersTopSongs, token, userInfo} = this.state
   if(prevState.usersTopArtists !== this.state.usersTopArtists){
     let angrySongs = [],
         happySongs = [], 
@@ -218,10 +209,16 @@ componentDidUpdate(prevProps, prevState) {
       })  
     }
   }
+  if(prevState.userInfo !== this.state.userInfo){
+    getUsersPlaylist(userInfo.id, token).then((playlists) =>{
+      // console.log(playlists)
+      this.setState({usersPlaylists: playlists})
+    })
+  }
 }
 
+
   render() {
-    // console.log(this.state)
     const {
       userInfo,
       loggedIn,
@@ -229,9 +226,10 @@ componentDidUpdate(prevProps, prevState) {
       songName,
       playing,
       backgroundImage,
-      usersTopArtists,
-      usersTopSongs
+      usersPlaylists,
+      token,
     } = this.state;
+    // console.log(this.state)
  
 
     return (
@@ -253,7 +251,8 @@ componentDidUpdate(prevProps, prevState) {
               <button onClick={() => this.onPlayClick()}>{playing ? "Pause" : "Play"}</button>
               <button onClick={() => this.onNextClick()}>Next</button>
             </div>
-            <Feeling state={this.state} sad={this.sadClick}/>
+            <CreatePlaylist userId={userInfo.id} playlists={usersPlaylists} token={token} sad={this.sadClick}/>
+            {/* <Feeling userId={userInfo.id} playlists={usersPlaylists} state={this.state} sad={this.sadClick}/> */}
             {/* <Feeling sadClick={this.state.sadClick.bind(this)} tracks={usersTopSongs}/> */}
         </div>) : <Login  />}
       </div>

@@ -100,42 +100,35 @@ export const createPlaylist = (userId, token, name) => {
       console.error(err);
     });
 };
-  
 
-    //this isn't working
-  // export function usersTopArtistsOrSongs(token, type){
-  //   const artistOrTrack = type;
-   
-  //   const endpoint = `https://api.spotify.com/v1/me/top/${artistOrTrack}?limit=50`;
-  //   return fetch(endpoint, {
-  //     method: "GET",
-  //     headers: {
-  //     authorization: `Bearer ${token}`,
-  //     "Content-Type": "application/json"
-  //     }
-  //   }).then(resp => resp.json())
-  //   .then(data => data.items)
-  //   .then(artistData => {
-  //     let allArtists = []
-  //     let artists = []
-  //       for(let artist of artistData['artists']){
-  //         if ( !allArtists.includes(artist['name'])){
-  //           allArtists.push(artists['name'])
-  //           artists.push({'name': artist['name'], 'artistsUri' : artist['uri']})
-  //         }
-  //       }
-  //       return artists
-  //   })
-    // .then(async resp => {
-    //   if (resp.ok) {
-    //     let topArtistOrSongs = await resp.json()
-    //     return topArtistOrSongs
-    
-
-    //   } else {
-    //     throw new Error(
-    //       `😩 fetch(${endpoint}) failed: Express server responded with HTTP ${resp.status} ${resp.statusText}. (Note: this error is custom to MoodLifter and you cannot Google it). Check your Network console for more information about the request and the Express logs for more information about the response.`
-    //     );
-    //   }
-    // })
-  // }
+export const getUsersPlaylist = (userId, token) => {
+  console.log('userId', userId, 'token:', token)
+  return fetch(`https://api.spotify.com/v1/users/${userId}/playlists?limit=50`, {
+      method: "Get",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      }
+    }).then(async res => {
+      if(res.statusText === "Unauthorized") {
+        window.location.href = './';
+      }
+      const usersPlaylists = await res.json()
+      return usersPlaylists
+    }).then(res => {
+      const playlist = []
+      const result = res.items
+      let obj = {}
+      result.forEach((list) => {
+        let name = list.name
+        let id = list.id
+        obj[name] = id
+      })
+      playlist.push(obj)
+      console.log(playlist)
+      return playlist
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
