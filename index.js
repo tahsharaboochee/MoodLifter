@@ -110,7 +110,7 @@ app.get('/login', function(req, res) {
         querystring.stringify({
           response_type: 'code',
           client_id: process.env.SPOTIFY_CLIENT_ID,
-          scope: 'streaming user-read-private user-read-email user-read-playback-state user-top-read user-read-currently-playing user-library-read playlist-modify-public user-follow-read',
+          scope: 'streaming playlist-read-collaborative user-read-private user-read-email user-read-playback-state user-top-read user-read-currently-playing user-library-read playlist-modify-public user-follow-read',
           state: state,
           redirect_uri
         })
