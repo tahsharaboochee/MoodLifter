@@ -1,7 +1,9 @@
-## Deployed 
-https://mood-lifter.herokuapp.com/
+## Deployed
+
+https://moodlifter.herokuapp.com/
 
 ## Inspiration
+
 Life is hard and sometimes it takes a word, phrase or song to help make your day a little better. A simple app to play music to let someone be in their feels for a moment but then let them see the light at the end of the tunnel with some uplifting music.
 
 ## What it does
@@ -27,4 +29,3 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
-
