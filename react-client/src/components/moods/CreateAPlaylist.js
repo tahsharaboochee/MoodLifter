@@ -3,6 +3,7 @@ import { createPlaylist } from "../helpers/api-fetcher";
 import Feeling from "./Feeling";
 
 const CreatePlaylist = (props) => {
+  console.log(props);
   // console.log('userId:', props.userId)
   const [playlistId, setPlaylistId] = useState({});
   const [playlistsRecentlyCreated, setPlaylistsRecentlyCreated] = useState({});
@@ -14,27 +15,27 @@ const CreatePlaylist = (props) => {
     "Happy Music MoodLifter",
     "Angry Music MoodLifter",
   ];
-  const allUsersPlaylist = Object.values(playlists)[0];
-  if (userId && allUsersPlaylist) {
-    useEffect(() => {
-      //     If exist
-      if (!calledCreatePlaylist) {
-        playlistInfo("testing123", allUsersPlaylist);
-        // playlist.forEach((list) => playlistInfo(list, allUsersPlaylist))
-        console.log(
-          "userId:",
-          userId,
-          "playlistId:",
-          playlistId,
-          "playlistRecentlyCreated:",
-          playlistsRecentlyCreated
-        );
-        setCalledCreatePlaylist(false);
-      } else {
-        console.log("called create playlist already");
-      }
-    });
-  }
+  // const allUsersPlaylist = Object.values(playlists)[0];
+  // if (userId && allUsersPlaylist) {
+  //   useEffect(() => {
+  //     //     If exist
+  //     if (!calledCreatePlaylist) {
+  //       playlistInfo("testing123", allUsersPlaylist);
+  //       // playlist.forEach((list) => playlistInfo(list, allUsersPlaylist))
+  //       console.log(
+  //         "userId:",
+  //         userId,
+  //         "playlistId:",
+  //         playlistId,
+  //         "playlistRecentlyCreated:",
+  //         playlistsRecentlyCreated
+  //       );
+  //       setCalledCreatePlaylist(false);
+  //     } else {
+  //       console.log("called create playlist already");
+  //     }
+  //   });
+  // }
 
   // const listOfPlaylist = Object.values(playlists)[0]
   // console.log('listOfPlaylist', listOfPlaylist)
