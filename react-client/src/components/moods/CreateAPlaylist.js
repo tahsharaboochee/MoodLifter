@@ -104,7 +104,7 @@ const CreatePlaylist = (props) => {
   };
   return (
     <div>
-      <Feeling playlist={playlistId} />
+      <Feeling playlist={playlistId} sad={props.sad} />
     </div>
   );
 };
