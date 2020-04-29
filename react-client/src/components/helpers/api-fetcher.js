@@ -101,7 +101,11 @@ export const createPlaylist = (userId, token, name) => {
     })
     .then((res) => {
       console.log(res);
-      return res;
+      let id = res.id;
+      let name = res.name;
+      let listInfo = {[name]: id}
+      // console.log('listInfo', listInfo)
+      return listInfo
     })
     .catch((err) => {
       console.error(err);
@@ -109,7 +113,7 @@ export const createPlaylist = (userId, token, name) => {
 };
 
 export const getUsersPlaylist = (userId, token) => {
-  console.log("userId", userId, "token:", token);
+  // console.log("userId", userId, "token:", token);
   return fetch(
     `https://api.spotify.com/v1/users/${userId}/playlists?limit=50`,
     {
@@ -137,7 +141,7 @@ export const getUsersPlaylist = (userId, token) => {
         obj[name] = id;
       });
       playlist.push(obj);
-      console.log(playlist);
+      // console.log(playlist);
       return playlist;
     })
     .catch((err) => {
