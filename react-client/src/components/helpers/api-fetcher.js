@@ -100,10 +100,11 @@ export const createPlaylist = (userId, token, name) => {
       return res.json();
     })
     .then((res) => {
-      console.log(res);
+      // console.log(res);
       let id = res.id;
       let name = res.name;
-      let listInfo = {[name]: id}
+      let uri = res.uri;
+      let listInfo = {[name]: {'id': id, 'uri': uri}}
       // console.log('listInfo', listInfo)
       return listInfo
     })
@@ -160,4 +161,37 @@ export const deleteUsersPlaylist = (playlistId, token) => {
   }).catch((err) => {
     console.error(err);
   });
+};
+
+export const setPlaylist = (playlistId, token, uris) => {
+  return fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    },
+    body: JSON.stringify({
+      uris: uris
+    }),
+  })
+    .then((res) => {
+      if (res.statusText === "Unauthorized") {
+        window.location.href = "./";
+      }
+      console.log(res);
+      return res.json();
+    })
+    .then((res) => {
+      console.log('setting playlist with songs response', res);
+      // let id = res.id;
+      // let name = res.name;
+      // let uri = res.uri;
+      // let listInfo = {[name]: {'id': id, 'uri': uri}}
+      // // console.log('listInfo', listInfo)
+      // return listInfo
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
