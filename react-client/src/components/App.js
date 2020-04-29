@@ -58,7 +58,17 @@ class App extends Component {
     "Happy Music MoodLifter",
     "Angry Music MoodLifter",
   ];
-  let playlistInfo = {}
+  let playlistInfo = {},
+      allArtists = [],
+      artistsInfo = [],
+      trackInfo = [],
+      songUris = [],
+      angrySongs = [],
+      happySongs = [],
+      sadSongs = [],
+      angryMoodUris = [],
+      happyMoodUris = [],
+      sadMoodUris = [];
     // console.log('we have a token', access_token, '\nrefresh token', refresh_token)
     if (access_token) {
       // Set token, loggedIn variable
@@ -72,129 +82,108 @@ class App extends Component {
       this.spotifyPlayerCheckInterval = setInterval(() =>
         this.checkingForSpotifyURI()
       );
-      // //user info
-      fetchUser(access_token).then((userInfo) => {
-        let id = userInfo.id;
-        getUsersPlaylist(id, access_token).then((playlists) => {
-          playlists = playlists[0];
-          let playlistsName = Object.keys(playlists);
-          // let playlistInfo = {}
-          // console.log(playlistsName, playlists);
-          for(let playlist in playlists){
-            if(moodLifterPlaylists.includes(playlist)){
-              playlistInfo[playlist] = playlists[playlist]
-            }
-          }
-          return playlistInfo
-        })
-        .then((playlists)=>{
-          for(let playlist in playlists){
-            // console.log('deleting playlist', playlist)
-            deleteUsersPlaylist(playlists[playlist], access_token)
-          }
 
-        })
-        .then(() => {
-          console.log('about to create moodlifter playlists')
-          let sad = createPlaylist(userInfo.id, access_token, 'Sad Music MoodLifter').then(async (info) => {
-            // console.log('listInfo', info)
-            let data = await info
-            return data
-          });
-          let angry = createPlaylist(userInfo.id, access_token, 'Angry Music MoodLifter').then(async (info) => {
-            // console.log('listInfo', info)
-            let data = await info
-            return data
-          });
-          let happy = createPlaylist(userInfo.id, access_token, 'Happy Music MoodLifter').then(async (info) => {
-            // console.log('listInfo', info)
-            let data = await info
-            return data
-          });
-          
-          let moodLifterCreatedPlaylists = Promise.all([angry, happy, sad])
-          // moodLifterCreatedPlaylists.then((x) => console.log(x))
-          // console.log('moodLifterCreatedPlaylists', moodLifterCreatedPlaylists);
-          return moodLifterCreatedPlaylists
-        })
-        .then((moodLiftersPlaylists) =>{
-          let angryMood = this.state.moods['angry']
-          let happyMood = this.state.moods['happy']
-          let sadMood = this.state.moods['sad']
-          let angryMoodUris = []
-          
-          angryMood.forEach((song) =>{
-            // console.log(song['track_uri'])
-            angryMoodUris.push(song['track_uri'])
-          })
-          
-          let setAngryPlaylist = setPlaylist(playlistInfo['Angry Music MoodLifter'], access_token, angryMoodUris)
-          console.log('playlist info', playlistInfo, '\n angry:', playlistInfo['Angry Music MoodLifter'], '\nangry uris', angryMoodUris)
-          // console.log('array of playlists', moodLiftersPlaylists, '\n moods', '\n angry', angryMoodUris, '\n happy', happyMood, '\n sad', sadMood)
-        })
-        .then(async (moodLiftersCreatedPlaylist) => {
-          // console.log('array of playlists', moodLiftersCreatedPlaylist, this.state.moods)
-          // this.setState({usersPlaylists: await moodLiftersCreatedPlaylist});
-        })
-      });
-
-      let allArtists = [],
-        artistsInfo = [],
-        trackInfo = [],
-        songUris = "",
-        angrySongs = [],
-        happySongs = [],
-        sadSongs = [];
       usersTopArtistsOrSongs(access_token, "tracks")
-        .then((data) => {
-          // console.log('artist info', data)
-          for (let artist of data.items) {
-            // console.log(artist)
-            trackInfo.push({
-              name: artist["name"],
-              track_uri: artist["uri"],
-              track_id: artist["id"],
-            });
-            for (let artist_info of artist["artists"]) {
-              if (!allArtists.includes(artist_info["name"])) {
-                allArtists.push(artist_info["name"]);
-                songUris += artist_info["uri"] + ",";
-                artistsInfo.push({
-                  name: artist_info["name"],
-                  artistUri: artist_info["uri"],
-                });
-              }
+      .then((data) => {
+        // console.log('artist info', data)
+        for (let artist of data.items) {
+          // console.log(artist)
+          trackInfo.push({
+            name: artist["name"],
+            track_uri: artist["uri"],
+            track_id: artist["id"],
+          });
+          for (let artist_info of artist["artists"]) {
+            if (!allArtists.includes(artist_info["name"])) {
+              allArtists.push(artist_info["name"]);
+              // songUris += artist_info["uri"] + ",";
+              artistsInfo.push({
+                name: artist_info["name"],
+                artistUri: artist_info["uri"],
+              });
             }
           }
-          let songs = trackInfo;
-          return songs;
-        })
-        .then((songs) => {
-          for (let song of songs) {
-            // console.log(song)
-            fetchAudioFeatures(access_token, song.track_id).then((audio) => {
-              let mood = audio.valence;
-              if (mood <= 0.33) {
-                sadSongs.push(song);
-              } else if (mood > 0.33 && mood <= 0.66) {
-                angrySongs.push(song);
-              } else {
-                happySongs.push(song);
-              }
-            });
-          }
-          //get rid of the last comma
-          songUris = songUris.substring(0, songUris.length - 1);
-          // // console.log('all Artist', artistsInfo)
-          this.setState({
-            usersTopArtists: artistsInfo,
-            usersTopSongs: trackInfo,
-            songUris,
-            moods: { angry: angrySongs, happy: happySongs, sad: sadSongs },
+        }
+        let songs = trackInfo;
+        return songs;
+      })
+      .then((songs) => {
+        for (let song of songs) {
+          // console.log(song)
+          songUris.push(song.track_id)
+           fetchAudioFeatures(access_token, song.track_id).then((audio) => {
+            let mood = audio.valence;
+            let danceability = audio.danceability;
+            let energy = audio.energy;
+            // let 
+            if (mood <= 0.33) {
+              sadSongs.push(song);
+            } else if (mood > 0.33 && mood <= 0.66) {
+              angrySongs.push(song);
+            } else {
+              happySongs.push(song);
+            }
           });
-        });
-    }
+        }
+        //get rid of the last comma
+        songUris = songUris.join(',');
+        // console.log('all Artist', artistsInfo, 'songUris', songUris)
+        let moods = { angry: angrySongs, happy: happySongs, sad: sadSongs }
+        console.log('after fetch audio features request', moods)
+        return moods
+      })
+      .then((moods)=>{
+        // console.log(moods)
+        let angryMood = moods['angry']
+        let happyMood = moods['happy']
+        let sadMood = moods['sad']
+        
+        
+        angryMood.forEach((song) =>{
+          // console.log(song['track_uri'])
+          angryMoodUris.push(song['track_uri'])
+        })
+        happyMood.forEach((song) =>{
+          // console.log(song['track_uri'])
+          happyMoodUris.push(song['track_uri'])
+        })
+        sadMood.forEach((song) =>{
+          // console.log(song['track_uri'])
+          sadMoodUris.push(song['track_uri'])
+        })
+      })
+      .then(() =>{
+        // //user info
+        fetchUser(access_token).then((userInfo) => {
+          console.log('inside fetch user', userInfo)
+          let id = userInfo.id;
+          getUsersPlaylist(id, access_token).then(async (playlists) => {
+            console.log(playlists)
+            playlists = playlists[0];
+            let playlistsName = Object.keys(playlists);
+            for(let playlist in playlists){
+              if(moodLifterPlaylists.includes(playlist)){
+                playlistInfo[playlist] = playlists[playlist]
+              }
+            }
+            await playlistInfo
+          })
+          .then((playlists) =>{
+            console.log(playlists)
+          
+            
+          // let setAngryPlaylist = setPlaylist(playlistInfo['Angry Music MoodLifter'], access_token, angryMoodUris)
+          // let setHappyPlaylist = setPlaylist(playlistInfo['Happy Music MoodLifter'], access_token, happyMoodUris)
+          // let setSadPlaylist = setPlaylist(playlistInfo['Sad Music MoodLifter'], access_token, sadMoodUris)
+          // let moodLifterSetPlaylists = Promise.all([setAngryPlaylist, setHappyPlaylist, setSadPlaylist])
+        //     console.log('playlist info', playlistInfo, '\n angry:', playlistInfo['Angry Music MoodLifter'], '\nangry uris', angryMoodUris)
+        //     console.log('array of playlists', moodLiftersPlaylists, '\n moods', '\n angry', angryMoodUris, '\n happy', happyMood, '\n sad', sadMood)
+            // return moodLifterSetPlaylists
+        })
+      })
+    })
   }
+}
 
   //player received an update from player
   onStateChange(state) {
