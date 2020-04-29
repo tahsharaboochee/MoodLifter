@@ -4,11 +4,13 @@ import Logo from "./logo/Logo";
 import CreatePlaylist from "./moods/CreateAPlaylist";
 // import Feeling from './moods/Feeling'
 import {
+  createPlaylist,
+  deleteUsersPlaylist,
   fetchAudioFeatures,
-  usersTopArtistsOrSongs,
   fetchUser,
-  transferPlaybackToMoodLifter,
   getUsersPlaylist,
+  transferPlaybackToMoodLifter,
+  usersTopArtistsOrSongs,
 } from "./helpers/api-fetcher";
 import Header from "./header/Header";
 import "./App.css";
@@ -50,6 +52,11 @@ class App extends Component {
     const urlParams = new URLSearchParams(queryString);
     const access_token = urlParams.get("access_token");
     const refresh_token = urlParams.get("refresh_token");
+    const moodLifterPlaylists = [
+    "Sad Music MoodLifter",
+    "Happy Music MoodLifter",
+    "Angry Music MoodLifter",
+  ];
     // console.log('we have a token', access_token, '\nrefresh token', refresh_token)
     if (access_token) {
       // Set token, loggedIn variable
@@ -69,15 +76,45 @@ class App extends Component {
         getUsersPlaylist(id, access_token).then((playlists) => {
           playlists = playlists[0];
           let playlistsName = Object.keys(playlists);
+          let playlistInfo = {}
           // console.log(playlistsName);
+          for(let playlist in playlists){
+            if(moodLifterPlaylists.includes(playlist)){
+              playlistInfo[playlist] = playlists[playlist]
+            }
+          }
+          return playlistInfo
+        })
+        .then((playlists)=>{
+          for(let playlist in playlists){
+            // console.log(playlist)
+            deleteUsersPlaylist(playlists[playlist], access_token)
+          }
 
-          this.setState({
-            usersPlaylists: playlists,
-            userInfo,
+        })
+        .then(() => {
+          console.log('about to create moodlifter playlists')
+          let sad = createPlaylist(userInfo.id, access_token, 'Sad Music MoodLifter').then((info) => {
+            // console.log('listInfo', info)
+            return info
           });
-        });
-        // console.log(userInfo);
-        // this.setState({ userInfo });
+          let angry = createPlaylist(userInfo.id, access_token, 'Angry Music MoodLifter').then((info) => {
+            // console.log('listInfo', info)
+            return info
+          });
+          let happy = createPlaylist(userInfo.id, access_token, 'Happy Music MoodLifter').then((info) => {
+            // console.log('listInfo', info)
+           return info
+          });
+          
+          let moodLifterCreatedPlaylists = Promise.all([angry, happy, sad])
+          // console.log('moodLifterCreatedPlaylists', moodLifterCreatedPlaylists);
+          return moodLifterCreatedPlaylists
+        })
+        .then(async (info) => {
+          console.log('array of playlists', info)
+          this.setState({usersPlaylists: await info});
+        })
       });
 
       let allArtists = [],
@@ -142,11 +179,7 @@ class App extends Component {
     }
   }
 
-  sadClick() {
-    // const {usersTopSongs, token} = this.state
-    console.log("clicked");
-  }
-  //player recieved an update from player
+  //player received an update from player
   onStateChange(state) {
     // console.log('onStateChange line 72 state=', state)
 
@@ -240,38 +273,6 @@ class App extends Component {
     }
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { usersTopSongs, token, userInfo } = this.state;
-  //   if (prevState.usersTopArtists !== this.state.usersTopArtists) {
-  //     let angrySongs = [],
-  //       happySongs = [],
-  //       sadSongs = [];
-  //     for (let song of usersTopSongs) {
-  //       // console.log(song)
-  //       fetchAudioFeatures(token, song.track_id).then((audio) => {
-  //         let mood = audio.valence;
-  //         if (mood <= 0.33) {
-  //           sadSongs.push(song);
-  //         } else if (mood > 0.33 && mood <= 0.66) {
-  //           angrySongs.push(song);
-  //         } else {
-  //           happySongs.push(song);
-  //         }
-  //         // console.log(audio)
-  //         this.setState({
-  //           moods: { angry: angrySongs, happy: happySongs, sad: sadSongs },
-  //         });
-  //       });
-  //     }
-  //   }
-  //   if (prevState.userInfo !== this.state.userInfo) {
-  //     getUsersPlaylist(userInfo.id, token).then((playlists) => {
-  //       // console.log(playlists)
-  //       this.setState({ usersPlaylists: playlists });
-  //     });
-  //   }
-  // }
-
   render() {
     const {
       userInfo,
@@ -312,7 +313,7 @@ class App extends Component {
               playlists={usersPlaylists}
               token={token}
               moods={moods}
-              sad={this.sadClick}
+              // sad={this.sadClick}
             />
             {/* <Feeling userId={userInfo.id} playlists={usersPlaylists} state={this.state} sad={this.sadClick}/> */}
             {/* <Feeling sadClick={this.state.sadClick.bind(this)} tracks={usersTopSongs}/> */}
