@@ -319,7 +319,7 @@ class App extends Component {
       moods,
       token,
     } = this.state;
-    // console.log(this.state)
+    console.log(this.state)
 
     return (
       <div className="App">
