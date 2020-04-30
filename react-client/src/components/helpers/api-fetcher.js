@@ -100,8 +100,13 @@ export const createPlaylist = (userId, token, name) => {
       return res.json();
     })
     .then((res) => {
-      console.log(res);
-      return res;
+      // console.log(res);
+      let id = res.id;
+      let name = res.name;
+      let uri = res.uri;
+      let listInfo = {[name]: {'id': id, 'uri': uri}}
+      // console.log('listInfo', listInfo)
+      return listInfo
     })
     .catch((err) => {
       console.error(err);
@@ -109,7 +114,7 @@ export const createPlaylist = (userId, token, name) => {
 };
 
 export const getUsersPlaylist = (userId, token) => {
-  console.log("userId", userId, "token:", token);
+  // console.log("userId", userId, "token:", token);
   return fetch(
     `https://api.spotify.com/v1/users/${userId}/playlists?limit=50`,
     {
@@ -132,12 +137,14 @@ export const getUsersPlaylist = (userId, token) => {
       const result = res.items;
       let obj = {};
       result.forEach((list) => {
+        // console.log(list)
         let name = list.name;
         let id = list.id;
-        obj[name] = id;
+        let total = list.tracks['total']
+        obj[name] = {'id': id, 'total': total}
       });
       playlist.push(obj);
-      console.log(playlist);
+      // console.log(playlist);
       return playlist;
     })
     .catch((err) => {
@@ -156,4 +163,40 @@ export const deleteUsersPlaylist = (playlistId, token) => {
   }).catch((err) => {
     console.error(err);
   });
+};
+
+export const setPlaylist = (playlistId, token, uris) => {
+  console.log('uris', uris)
+  let body = JSON.stringify({
+    uris: uris
+  })
+  console.log('body', body)
+  return fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    },
+    body: body
+  })
+    .then((res) => {
+      if (res.statusText === "Unauthorized") {
+        window.location.href = "./";
+      }
+      console.log(res);
+      return res.json();
+    })
+    .then((res) => {
+      console.log('setting playlist with songs response', res);
+      // let id = res.id;
+      // let name = res.name;
+      // let uri = res.uri;
+      // let listInfo = {[name]: {'id': id, 'uri': uri}}
+      // // console.log('listInfo', listInfo)
+      // return listInfo
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };

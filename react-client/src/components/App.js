@@ -4,11 +4,14 @@ import Logo from "./logo/Logo";
 import CreatePlaylist from "./moods/CreateAPlaylist";
 // import Feeling from './moods/Feeling'
 import {
+  createPlaylist,
+  deleteUsersPlaylist,
   fetchAudioFeatures,
-  usersTopArtistsOrSongs,
   fetchUser,
-  transferPlaybackToMoodLifter,
   getUsersPlaylist,
+  setPlaylist,
+  transferPlaybackToMoodLifter,
+  usersTopArtistsOrSongs,
 } from "./helpers/api-fetcher";
 import Header from "./header/Header";
 import "./App.css";
@@ -21,14 +24,10 @@ class App extends Component {
     super(props);
     //set the initial state
     this.state = {
-      userInfo: {},
-      usersPlaylists: [],
       refresh_token: null,
       token: null,
-      usersTopArtists: [],
-      usersTopSongs: [],
-      songUris: "",
-      moods: {},
+      userInfo: {},
+      usersPlaylists: {},
       loggedIn: false,
       playing: false,
       deviceId: "",
@@ -50,6 +49,26 @@ class App extends Component {
     const urlParams = new URLSearchParams(queryString);
     const access_token = urlParams.get("access_token");
     const refresh_token = urlParams.get("refresh_token");
+    const moodLifterPlaylists = [
+    "Sad Music MoodLifter",
+    "Happy Music MoodLifter",
+    "Angry Music MoodLifter",
+  ];
+  let playlistInfo = {},
+      userProfile = {},
+      allArtists = [],
+      artistsInfo = [],
+      trackInfo = [],
+      songUris = [],
+      angrySongs = [],
+      happySongs = [],
+      sadSongs = [],
+      angry,
+      happy,
+      sad,
+      angryMoodUris = [],
+      happyMoodUris = [],
+      sadMoodUris = [];
     // console.log('we have a token', access_token, '\nrefresh token', refresh_token)
     if (access_token) {
       // Set token, loggedIn variable
@@ -63,90 +82,138 @@ class App extends Component {
       this.spotifyPlayerCheckInterval = setInterval(() =>
         this.checkingForSpotifyURI()
       );
-      // //user info
-      fetchUser(access_token).then((userInfo) => {
-        let id = userInfo.id;
-        getUsersPlaylist(id, access_token).then((playlists) => {
-          playlists = playlists[0];
-          let playlistsName = Object.keys(playlists);
-          // console.log(playlistsName);
 
-          this.setState({
-            usersPlaylists: playlists,
-            userInfo,
-          });
-        });
-        // console.log(userInfo);
-        // this.setState({ userInfo });
-      });
-
-      let allArtists = [],
-        artistsInfo = [],
-        trackInfo = [],
-        songUris = "",
-        angrySongs = [],
-        happySongs = [],
-        sadSongs = [];
-      usersTopArtistsOrSongs(access_token, "tracks")
-        .then((data) => {
-          // console.log('artist info', data)
-          for (let artist of data.items) {
-            // console.log(artist)
-            trackInfo.push({
-              name: artist["name"],
-              track_uri: artist["uri"],
-              track_id: artist["id"],
-            });
-            for (let artist_info of artist["artists"]) {
-              if (!allArtists.includes(artist_info["name"])) {
-                allArtists.push(artist_info["name"]);
-                songUris += artist_info["uri"] + ",";
-                artistsInfo.push({
-                  name: artist_info["name"],
-                  artistUri: artist_info["uri"],
-                });
-              }
+   usersTopArtistsOrSongs(access_token, "tracks")
+      .then((data) => {
+        console.log('song info', data.items)
+        let songs = data.items.map((song) =>{
+          return {
+              name: song["name"],
+              track_uri: song["uri"],
+              track_id: song["id"],
             }
-          }
-          let songs = trackInfo;
+        })
           return songs;
         })
-        .then((songs) => {
-          for (let song of songs) {
-            // console.log(song)
-            fetchAudioFeatures(access_token, song.track_id).then((audio) => {
-              let mood = audio.valence;
-              if (mood <= 0.33) {
-                sadSongs.push(song);
-              } else if (mood > 0.33 && mood <= 0.66) {
-                angrySongs.push(song);
-              } else {
-                happySongs.push(song);
-              }
-              // console.log(audio)
-              //   this.setState({
-              //     moods: { angry: angrySongs, happy: happySongs, sad: sadSongs },
-              //   });
-            });
-          }
-          //get rid of the last comma
-          // songUris = songUris.substring(0, songUris.length - 1);
-          // // console.log('all Artist', artistsInfo)
-          this.setState({
-            usersTopArtists: artistsInfo,
-            usersTopSongs: trackInfo,
-            songUris,
-            moods: { angry: angrySongs, happy: happySongs, sad: sadSongs },
-          });
-        });
-    }
-  }
+      .then(async (songs) => {
+        console.log('top songs', songs)
+        for (let song of songs) {
+          let audio = await fetchAudioFeatures(access_token, song.track_id)
+          // console.log('fetch audio features', audio)
+            let mood = audio.valence;
+            // let danceability = await audio.danceability;
+            // let energy = await audio.energy;
 
-  sadClick() {
-    // const {usersTopSongs, token} = this.state
-    console.log("clicked");
+            if (mood <= 0.33) {
+               sadSongs.push(song);
+            } else if (mood > 0.33 && mood <= 0.66) {
+               angrySongs.push(song);
+            } else {
+              happySongs.push(song);
+            }
+        }
+        let moods = { angry: angrySongs, happy: happySongs, sad: sadSongs }
+        return moods
+      })
+      .then((moods)=>{
+        console.log('after fetch audio features request moods', moods)
+        let angryMood =  moods['angry']
+        let happyMood =  moods['happy']
+        let sadMood =  moods['sad']
+
+        angryMood.forEach((song) =>{
+          // console.log(song['track_uri'])
+          angryMoodUris.push(song['track_uri'])
+        })
+        happyMood.forEach((song) =>{
+          // console.log(song['track_uri'])
+          happyMoodUris.push(song['track_uri'])
+        })
+        sadMood.forEach((song) =>{
+          // console.log(song['track_uri'])
+         sadMoodUris.push(song['track_uri'])
+        })
+        // console.log('angryMoodUris', angryMoodUris)
+        let moodSongsUris = { angryUris: angryMoodUris, happy: happyMoodUris, sad: sadMoodUris }
+        // console.log('moodSongUris', moodSongsUris)
+        return moodSongsUris
+      })
+      .then((moodSongsUris) =>{
+        console.log('mood uris', moodSongsUris)
+        // //user info
+        fetchUser(access_token).then((userInfo) => {
+          // console.log('inside fetch user', userInfo)
+          userProfile = userInfo;
+          let id = userInfo.id;
+          getUsersPlaylist(id, access_token).then(async (playlists) => {
+            // console.log(playlists)
+            playlists = playlists[0];
+            let playlistsName = Object.keys(playlists);
+
+            for(let playlist in playlists){
+              if(moodLifterPlaylists.includes(playlist)){
+                playlistInfo[playlist] = playlists[playlist]
+              }
+            }
+            // console.log(playlistInfo)
+            if (!playlistsName.includes('Sad Music MoodLifter')){
+              console.log('playlist does not exist')
+              sad = createPlaylist(userInfo.id, access_token, 'Sad Music MoodLifter').then(async (info) => {
+                // console.log('listInfo', info)
+                let data = await info
+                return data
+              });
+            }
+            if(!playlistsName.includes('Angry Music MoodLifter')){
+              console.log('playlist does not exist')
+                angry = createPlaylist(userInfo.id, access_token, 'Angry Music MoodLifter').then(async (info) => {
+                    // console.log('listInfo', info)
+                    let data = await info
+                    return data
+                  });
+            }
+            if(!playlistsName.includes('Happy Music MoodLifter')){
+              console.log('playlist does not exist')
+              happy = createPlaylist(userInfo.id, access_token, 'Happy Music MoodLifter').then(async (info) => {
+                // console.log('listInfo', info)
+                let data = await info
+                return data
+              });
+            }
+            // console.log(playlistInfo, 'length', Object.keys(playlistInfo).length)
+            if(Object.keys(playlistInfo).length === 3){
+              return playlistInfo 
+            } else{
+              let moodLifterCreatedPlaylists = Promise.all([angry, happy, sad])
+              return moodLifterCreatedPlaylists
+            }
+          })
+          .then((playlists) =>{
+            console.log('playlist', playlists)
+            if(playlists['Angry Music MoodLifter']['total'] === 0){
+              console.log('about to create playlist')
+              let setAngryPlaylist = setPlaylist(playlists['Angry Music MoodLifter']['id'], access_token, angryMoodUris)
+              let setHappyPlaylist = setPlaylist(playlists['Happy Music MoodLifter']['id'], access_token, happyMoodUris)
+              let setSadPlaylist = setPlaylist(playlists['Sad Music MoodLifter']['id'], access_token, sadMoodUris)
+              let moodLifterSetPlaylists = Promise.all([setAngryPlaylist, setHappyPlaylist, setSadPlaylist])
+              this.setState({
+                userInfo: userProfile,
+                usersPlaylists: playlists,
+              });
+            }
+            return playlists
+          })
+        //   .then((playlists)=> {
+        //   //     console.log('playlist info', playlistInfo, '\n angry:', playlistInfo['Angry Music MoodLifter'], '\nangry uris', angryMoodUris)
+        //   //     console.log('array of playlists', moodLiftersPlaylists, '\n moods', '\n angry', angryMoodUris, '\n happy', happyMood, '\n sad', sadMood)
+        //       // return moodLifterSetPlaylists           
+        // })
+      })
+    })
   }
-  //player recieved an update from player
+}
+
+  //player received an update from player
   onStateChange(state) {
     // console.log('onStateChange line 72 state=', state)
 
@@ -240,38 +307,6 @@ class App extends Component {
     }
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { usersTopSongs, token, userInfo } = this.state;
-  //   if (prevState.usersTopArtists !== this.state.usersTopArtists) {
-  //     let angrySongs = [],
-  //       happySongs = [],
-  //       sadSongs = [];
-  //     for (let song of usersTopSongs) {
-  //       // console.log(song)
-  //       fetchAudioFeatures(token, song.track_id).then((audio) => {
-  //         let mood = audio.valence;
-  //         if (mood <= 0.33) {
-  //           sadSongs.push(song);
-  //         } else if (mood > 0.33 && mood <= 0.66) {
-  //           angrySongs.push(song);
-  //         } else {
-  //           happySongs.push(song);
-  //         }
-  //         // console.log(audio)
-  //         this.setState({
-  //           moods: { angry: angrySongs, happy: happySongs, sad: sadSongs },
-  //         });
-  //       });
-  //     }
-  //   }
-  //   if (prevState.userInfo !== this.state.userInfo) {
-  //     getUsersPlaylist(userInfo.id, token).then((playlists) => {
-  //       // console.log(playlists)
-  //       this.setState({ usersPlaylists: playlists });
-  //     });
-  //   }
-  // }
-
   render() {
     const {
       userInfo,
@@ -284,7 +319,7 @@ class App extends Component {
       moods,
       token,
     } = this.state;
-    // console.log(userInfo)
+    // console.log(this.state)
 
     return (
       <div className="App">
@@ -312,7 +347,7 @@ class App extends Component {
               playlists={usersPlaylists}
               token={token}
               moods={moods}
-              sad={this.sadClick}
+              // sad={this.sadClick}
             />
             {/* <Feeling userId={userInfo.id} playlists={usersPlaylists} state={this.state} sad={this.sadClick}/> */}
             {/* <Feeling sadClick={this.state.sadClick.bind(this)} tracks={usersTopSongs}/> */}

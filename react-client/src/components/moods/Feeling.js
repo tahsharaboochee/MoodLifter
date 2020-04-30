@@ -7,9 +7,17 @@ import './feelings.css'
 
 
 const Feeling = (props) => {
-  console.log(props)
+  // console.log(props)
 
- 
+  const [playlistId, setPlaylistId] = useState({});
+  const [calledCreatePlaylist, setCalledCreatePlaylist] = useState(false);
+  const { userId, playlists, token, sad } = props;
+  const playlist = [
+    "example1",
+    "Sad Music MoodLifter",
+    "Happy Music MoodLifter",
+    "Angry Music MoodLifter",
+  ];
   
   return (
     <div >
