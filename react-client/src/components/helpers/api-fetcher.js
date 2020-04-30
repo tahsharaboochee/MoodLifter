@@ -166,6 +166,11 @@ export const deleteUsersPlaylist = (playlistId, token) => {
 };
 
 export const setPlaylist = (playlistId, token, uris) => {
+  console.log('uris', uris)
+  let body = JSON.stringify({
+    uris: uris
+  })
+  console.log('body', body)
   return fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
     method: "POST",
     headers: {
@@ -173,9 +178,7 @@ export const setPlaylist = (playlistId, token, uris) => {
       "Content-Type": "application/json",
       "Accept": "application/json",
     },
-    body: JSON.stringify({
-      uris: uris
-    }),
+    body: body
   })
     .then((res) => {
       if (res.statusText === "Unauthorized") {
