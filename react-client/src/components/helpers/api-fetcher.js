@@ -137,9 +137,11 @@ export const getUsersPlaylist = (userId, token) => {
       const result = res.items;
       let obj = {};
       result.forEach((list) => {
+        // console.log(list)
         let name = list.name;
         let id = list.id;
-        obj[name] = id;
+        let total = list.tracks['total']
+        obj[name] = {'id': id, 'total': total}
       });
       playlist.push(obj);
       // console.log(playlist);
