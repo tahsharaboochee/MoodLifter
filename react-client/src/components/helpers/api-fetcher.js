@@ -140,8 +140,9 @@ export const getUsersPlaylist = (userId, token) => {
         // console.log(list)
         let name = list.name;
         let id = list.id;
+        let uri = list.uri;
         let total = list.tracks['total']
-        obj[name] = {'id': id, 'total': total}
+        obj[name] = {'id': id, 'uri': uri, 'total': total}
       });
       playlist.push(obj);
       // console.log(playlist);
@@ -166,9 +167,45 @@ export const deleteUsersPlaylist = (playlistId, token) => {
 };
 
 export const setPlaylist = (playlistId, token, uris) => {
-  console.log('uris', uris)
+  // console.log('uris', uris)
   let body = JSON.stringify({
     uris: uris
+  })
+  // console.log('body', body)
+  return fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    },
+    body: body
+  })
+    .then((res) => {
+      if (res.statusText === "Unauthorized") {
+        window.location.href = "./";
+      }
+      // console.log(res);
+      return res.json();
+    })
+    .then((res) => {
+      // console.log('setting playlist with songs response', res);
+      // let id = res.id;
+      // let name = res.name;
+      // let uri = res.uri;
+      // let listInfo = {[name]: {'id': id, 'uri': uri}}
+      // // console.log('listInfo', listInfo)
+      // return listInfo
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
+export const queuePlaylist = (playlistId, token, uri) => {
+  console.log('uri', uri)
+  let body = JSON.stringify({
+    uris: uri
   })
   console.log('body', body)
   return fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {

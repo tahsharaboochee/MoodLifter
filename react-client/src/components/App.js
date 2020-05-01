@@ -1,11 +1,14 @@
 import React, { Component } from "react";
+import { css } from "@emotion/core";
+import ClipLoader from "react-spinners/ClipLoader";
 import Login from "./login/Login";
 import Logo from "./logo/Logo";
 import CreatePlaylist from "./moods/CreateAPlaylist";
-// import Feeling from './moods/Feeling'
+import Feeling from './moods/Feeling'
 import {
   createPlaylist,
   deleteUsersPlaylist,
+  queuePlaylist,
   fetchAudioFeatures,
   fetchUser,
   getUsersPlaylist,
@@ -16,6 +19,11 @@ import {
 import Header from "./header/Header";
 import "./App.css";
 
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 // A Spotify URI is a link that you can find in the Share menu of any track, album, or artist page on Spotify. When a user clicks a link that consists of a Spotify URI (rather than an URL/HTTP address), they're taken directly to the Spotify application, without having to go through the web page first.
 // import logo from './logo.svg';
 
@@ -24,6 +32,7 @@ class App extends Component {
     super(props);
     //set the initial state
     this.state = {
+      loading: true,
       refresh_token: null,
       token: null,
       userInfo: {},
@@ -56,10 +65,6 @@ class App extends Component {
   ];
   let playlistInfo = {},
       userProfile = {},
-      allArtists = [],
-      artistsInfo = [],
-      trackInfo = [],
-      songUris = [],
       angrySongs = [],
       happySongs = [],
       sadSongs = [],
@@ -85,7 +90,7 @@ class App extends Component {
 
    usersTopArtistsOrSongs(access_token, "tracks")
       .then((data) => {
-        console.log('song info', data.items)
+        // console.log('song info', data.items)
         let songs = data.items.map((song) =>{
           return {
               name: song["name"],
@@ -96,7 +101,7 @@ class App extends Component {
           return songs;
         })
       .then(async (songs) => {
-        console.log('top songs', songs)
+        // console.log('top songs', songs)
         for (let song of songs) {
           let audio = await fetchAudioFeatures(access_token, song.track_id)
           // console.log('fetch audio features', audio)
@@ -116,7 +121,7 @@ class App extends Component {
         return moods
       })
       .then((moods)=>{
-        console.log('after fetch audio features request moods', moods)
+        // console.log('after fetch audio features request moods', moods)
         let angryMood =  moods['angry']
         let happyMood =  moods['happy']
         let sadMood =  moods['sad']
@@ -139,14 +144,15 @@ class App extends Component {
         return moodSongsUris
       })
       .then((moodSongsUris) =>{
-        console.log('mood uris', moodSongsUris)
+        // console.log('mood uris', moodSongsUris)
+
         // //user info
         fetchUser(access_token).then((userInfo) => {
           // console.log('inside fetch user', userInfo)
           userProfile = userInfo;
           let id = userInfo.id;
           getUsersPlaylist(id, access_token).then(async (playlists) => {
-            // console.log(playlists)
+            console.log('getting users playlist', playlists)
             playlists = playlists[0];
             let playlistsName = Object.keys(playlists);
 
@@ -182,15 +188,19 @@ class App extends Component {
             }
             // console.log(playlistInfo, 'length', Object.keys(playlistInfo).length)
             if(Object.keys(playlistInfo).length === 3){
-              return playlistInfo 
+              console.log('playlist Info', playlistInfo)
+              let playlist = await playlistInfo
+              return {playlistInfo: playlist, moodSongsUris: moodSongsUris}
+              // return playlistInfo 
             } else{
               let moodLifterCreatedPlaylists = Promise.all([angry, happy, sad])
-              return moodLifterCreatedPlaylists
+              return {moodLifterCreatedPlaylists: moodLifterCreatedPlaylists, moodSongsUris: moodSongsUris}
+              // return  moodLifterCreatedPlaylists
             }
           })
           .then((playlists) =>{
             console.log('playlist', playlists)
-            if(playlists['Angry Music MoodLifter']['total'] === 0){
+            if(playlists['Angry Music MoodLifter'] && playlists['Happy Music MoodLifter'] && playlists['Sad Music MoodLifter']){
               console.log('about to create playlist')
               let setAngryPlaylist = setPlaylist(playlists['Angry Music MoodLifter']['id'], access_token, angryMoodUris)
               let setHappyPlaylist = setPlaylist(playlists['Happy Music MoodLifter']['id'], access_token, happyMoodUris)
@@ -200,8 +210,14 @@ class App extends Component {
                 userInfo: userProfile,
                 usersPlaylists: playlists,
               });
+            } else {
+              this.setState({
+                userInfo: userProfile,
+                usersPlaylists: playlists,
+              });
             }
-            return playlists
+           
+            // return playlists
           })
         //   .then((playlists)=> {
         //   //     console.log('playlist info', playlistInfo, '\n angry:', playlistInfo['Angry Music MoodLifter'], '\nangry uris', angryMoodUris)
@@ -307,6 +323,19 @@ class App extends Component {
     }
   }
 
+  sadClick = () =>{
+    //want to do this logic like display a loading bar until the item is loaded in queue 
+    // {loading ? <ClipLoader
+    //   css={override}
+    //   size={150}
+    //   color={"#123abc"}
+    //   loading={this.state.loading}
+    // /> : <p className='f3'> {'Loading Music'} </p>}
+    console.log('moods uris', this.state.usersPlaylists)
+    //  queuePlaylist(this.state.usersPlaylists['Sad Music MoodLifter']['id'], this.state.token, this.state.usersPlaylists['Sad Music MoodLifter']['uri'])
+    // this.setState({loading :false})
+  }
+
   render() {
     const {
       userInfo,
@@ -316,10 +345,10 @@ class App extends Component {
       playing,
       backgroundImage,
       usersPlaylists,
-      moods,
       token,
+      loading
     } = this.state;
-    console.log(this.state)
+    // console.log(this.state)
 
     return (
       <div className="App">
@@ -342,14 +371,29 @@ class App extends Component {
               </button>
               <button onClick={() => this.onNextClick()}>Next</button>
             </div>
-            <CreatePlaylist
-              userId={userInfo.id}
-              playlists={usersPlaylists}
-              token={token}
-              moods={moods}
-              // sad={this.sadClick}
-            />
-            {/* <Feeling userId={userInfo.id} playlists={usersPlaylists} state={this.state} sad={this.sadClick}/> */}
+            <div className='white f3'>
+          {'Click your Mood!!!'}
+      </div>
+      <div >
+        <div className='center pa3'>
+          <div className='form pa4 br3 shadow-5 ph3'>
+            {/* <button className='w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-orange'>HAPPY</button> */}
+            <button className='w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-yellow'>HAPPY</button>
+            <button onClick={this.sadClick}  className='w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-light-blue' >SAD</button>
+            <button className='w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-red'>ANGRY</button>
+          </div>
+        </div>
+          <p className='f3'>
+              {'This App will generate a playlist based on your mood'}
+          </p>
+        </div>
+        {/* {loading ? <ClipLoader
+          css={override}
+          size={150}
+          color={"#123abc"}
+          loading={this.state.loading}
+        /> : <p className='f3'> {'Loading Music'} </p>} */}
+            {/* <Feeling userId={userInfo.id} playlists={usersPlaylists} token={token} /> */}
             {/* <Feeling sadClick={this.state.sadClick.bind(this)} tracks={usersTopSongs}/> */}
           </div>
         ) : (
