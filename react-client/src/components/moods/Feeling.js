@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { queuePlaylist } from '../helpers/api-fetcher';
+import { queuePlaylist, setPlayerToQueuedPlaylist, playPlaylist } from '../helpers/api-fetcher';
 import './feelings.css';
 import { css } from '@emotion/core';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -22,9 +22,14 @@ const Feeling = (props) => {
     const sadClick = () =>{
       // console.log('inside sadClick', playlists, playlists.moodSongsUris.sadUris)
       let sadUris = playlists.moodSongsUris.sadUris
+      let urisPromises = []
       sadUris.forEach(uri => {
-         queuePlaylist(token, uri)
+         urisPromises.push(queuePlaylist(token, uri))
       });
+      Promise.all((urisPromises)).then(() =>{
+        setPlayerToQueuedPlaylist(token)
+        playPlaylist(token)
+      })
     }
   
 

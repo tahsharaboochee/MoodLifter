@@ -185,22 +185,12 @@ export const setPlaylist = (playlistId, token, uris) => {
             // console.log(res);
             return res.json();
         })
-        .then((res) => {
-            // console.log('setting playlist with songs response', res);
-            // let id = res.id;
-            // let name = res.name;
-            // let uri = res.uri;
-            // let listInfo = {[name]: {'id': id, 'uri': uri}}
-            // // console.log('listInfo', listInfo)
-            // return listInfo
-        })
         .catch((err) => {
             console.error(err);
         });
 };
 
 export const queuePlaylist = (token, uri) => {
-    console.log('uri', uri);
     return fetch(`https://api.spotify.com/v1/me/player/queue?uri=${uri}`, {
         method: 'POST',
         headers: {
@@ -213,19 +203,37 @@ export const queuePlaylist = (token, uri) => {
             if (res.statusText === 'Unauthorized') {
                 window.location.href = './';
             }
-            console.log(res);
+            // console.log(res);
             return res.json();
-        })
-        .then((res) => {
-            console.log('queue playlist with response', res);
-            // let id = res.id;
-            // let name = res.name;
-            // let uri = res.uri;
-            // let listInfo = {[name]: {'id': id, 'uri': uri}}
-            // // console.log('listInfo', listInfo)
-            // return listInfo
         })
         .catch((err) => {
             console.error(err);
         });
+};
+
+export const setPlayerToQueuedPlaylist = (token) => {
+    return fetch(`https://api.spotify.com/v1/me/player/next`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        }
+    })     
+    .catch((err) => {
+        console.error(err);
+    });
+};
+export const playPlaylist = (token) => {
+    return fetch(`https://api.spotify.com/v1/me/player/play`, {
+        method: 'PUT',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        }
+    })     
+    .catch((err) => {
+        console.error(err);
+    });
 };

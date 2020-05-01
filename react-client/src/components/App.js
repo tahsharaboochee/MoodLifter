@@ -7,8 +7,6 @@ import CreatePlaylist from './moods/CreateAPlaylist';
 import Feeling from './moods/Feeling';
 import {
     createPlaylist,
-    deleteUsersPlaylist,
-    queuePlaylist,
     fetchAudioFeatures,
     fetchUser,
     getUsersPlaylist,
