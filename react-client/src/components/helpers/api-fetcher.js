@@ -197,7 +197,7 @@ export const queuePlaylist = (token, uri) => {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
             Accept: 'application/json',
-        }
+        },
     })
         .then((res) => {
             if (res.statusText === 'Unauthorized') {
@@ -218,9 +218,8 @@ export const setPlayerToQueuedPlaylist = (token) => {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
             Accept: 'application/json',
-        }
-    })     
-    .catch((err) => {
+        },
+    }).catch((err) => {
         console.error(err);
     });
 };
@@ -231,9 +230,8 @@ export const playPlaylist = (token) => {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
             Accept: 'application/json',
-        }
-    })     
-    .catch((err) => {
+        },
+    }).catch((err) => {
         console.error(err);
     });
 };

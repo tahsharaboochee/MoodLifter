@@ -18,20 +18,34 @@ const Feeling = (props) => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState('now Playing');
     // console.log(props);
-   
-    const sadClick = () =>{
-      // console.log('inside sadClick', playlists, playlists.moodSongsUris.sadUris)
-      let sadUris = playlists.moodSongsUris.sadUris
-      let urisPromises = []
-      sadUris.forEach(uri => {
-         urisPromises.push(queuePlaylist(token, uri))
-      });
-      Promise.all((urisPromises)).then(() =>{
-        setPlayerToQueuedPlaylist(token)
-        playPlaylist(token)
-      })
-    }
-  
+
+    const onSadClick = () => {
+        // console.log('inside sadClick', playlists, playlists.moodSongsUris.sadUris)
+        let sadUris = playlists.moodSongsUris.sadUris;
+        onClickHandler(sadUris);
+    };
+    const onHappyClick = () => {
+        // console.log('inside sadClick', playlists, playlists.moodSongsUris.sadUris)
+        let happyUris = playlists.moodSongsUris.happyUris;
+        onClickHandler(happyUris);
+    };
+    const onAngryClick = () => {
+        // console.log('inside sadClick', playlists, playlists.moodSongsUris.sadUris)
+        let angryUris = playlists.moodSongsUris.angryUris;
+        onClickHandler(angryUris);
+    };
+    const onClickHandler = (mood) => {
+        // console.log('inside sadClick', playlists, playlists.moodSongsUris.sadUris)
+        let urisPromises = [];
+        mood.forEach((uri) => {
+            urisPromises.push(queuePlaylist(token, uri));
+        });
+        Promise.all(urisPromises).then(() => {
+            setPlayerToQueuedPlaylist(token).then(() => {
+                playPlaylist(token);
+            });
+        });
+    };
 
     return (
         <div>
@@ -39,13 +53,22 @@ const Feeling = (props) => {
             <div className="center pa3">
                 <div className="form pa4 br3 shadow-5 ph3">
                     {/* <button className='w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-orange'>HAPPY</button>  */}
-                    <button className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-yellow">
+                    <button
+                        onClick={onHappyClick}
+                        className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-yellow"
+                    >
                         HAPPY
                     </button>
-                    <button onClick={sadClick} className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-light-blue">
+                    <button
+                        onClick={onSadClick}
+                        className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-light-blue"
+                    >
                         SAD
                     </button>
-                    <button className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-red">
+                    <button
+                        onClick={onAngryClick}
+                        className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-red"
+                    >
                         ANGRY
                     </button>
                 </div>

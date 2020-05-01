@@ -379,7 +379,7 @@ class App extends Component {
                         {loading ? (
                             <DotLoader css={override} size={150} color={'#123abc'} loading={this.state.loading} />
                         ) : (
-                            <Feeling userId={userInfo.id} playlists={usersPlaylists} token={token}/>
+                            <Feeling userId={userInfo.id} playlists={usersPlaylists} token={token} />
                         )}
                         {/* <Feeling sadClick={this.state.sadClick.bind(this)} tracks={usersTopSongs}/> */}
                     </div>
