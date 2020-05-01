@@ -214,6 +214,7 @@ class App extends Component {
               this.setState({
                 userInfo: userProfile,
                 usersPlaylists: playlists,
+                loading :false
               });
             }
            
@@ -323,18 +324,7 @@ class App extends Component {
     }
   }
 
-  sadClick = () =>{
-    //want to do this logic like display a loading bar until the item is loaded in queue 
-    // {loading ? <ClipLoader
-    //   css={override}
-    //   size={150}
-    //   color={"#123abc"}
-    //   loading={this.state.loading}
-    // /> : <p className='f3'> {'Loading Music'} </p>}
-    console.log('moods uris', this.state.usersPlaylists)
-    //  queuePlaylist(this.state.usersPlaylists['Sad Music MoodLifter']['id'], this.state.token, this.state.usersPlaylists['Sad Music MoodLifter']['uri'])
-    // this.setState({loading :false})
-  }
+
 
   render() {
     const {
@@ -373,27 +363,13 @@ class App extends Component {
             </div>
             <div className='white f3'>
           {'Click your Mood!!!'}
-      </div>
-      <div >
-        <div className='center pa3'>
-          <div className='form pa4 br3 shadow-5 ph3'>
-            {/* <button className='w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-orange'>HAPPY</button> */}
-            <button className='w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-yellow'>HAPPY</button>
-            <button onClick={this.sadClick}  className='w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-light-blue' >SAD</button>
-            <button className='w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-red'>ANGRY</button>
-          </div>
         </div>
-          <p className='f3'>
-              {'This App will generate a playlist based on your mood'}
-          </p>
-        </div>
-        {/* {loading ? <ClipLoader
+          {loading ? <ClipLoader
           css={override}
           size={150}
           color={"#123abc"}
           loading={this.state.loading}
-        /> : <p className='f3'> {'Loading Music'} </p>} */}
-            {/* <Feeling userId={userInfo.id} playlists={usersPlaylists} token={token} /> */}
+          /> : <Feeling userId={userInfo.id} playlists={usersPlaylists} token={token} /> }
             {/* <Feeling sadClick={this.state.sadClick.bind(this)} tracks={usersTopSongs}/> */}
           </div>
         ) : (
