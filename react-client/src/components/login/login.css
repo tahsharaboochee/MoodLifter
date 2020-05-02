@@ -1,7 +1,7 @@
 .btn {
   background-color: transparent;
   border-radius: 2em;
-  border: 0.2em solid #f7e40d;
+  border: 0.2em solid white; 
   color: #f8f8f5;
   cursor: pointer;
   /* font-size: 3vmin; */
@@ -11,7 +11,7 @@
 }
 
 .btn:hover {
-  background: #1ecd97;
+  background: white;
   color: #333;
 }
 

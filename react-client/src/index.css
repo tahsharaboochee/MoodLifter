@@ -5,7 +5,8 @@ body {
   /* background: linear-gradient(100deg, #FF5EDF 50%, #04C8DE 50%); */
   /* background: linear-gradient(89deg, #9CE422 33%, #73CBFF 66%, #FF8F4C 100%); */
   /* background: linear-gradient(89deg, #0077BE 0%, #73CBFF 100%); */
-  background: linear-gradient(89deg, #9CE422 0%, #73CBFF 100%);
+  /* background: linear-gradient(89deg, #9CE422 0%, #73CBFF 100%); */
+  background: linear-gradient(89deg, rgb(92, 34, 228) 0%, rgb(164, 115, 255) 100%);
 }
 button {
   cursor: pointer;

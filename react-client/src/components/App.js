@@ -3,8 +3,11 @@ import { css } from '@emotion/core';
 import DotLoader from 'react-spinners/DotLoader';
 import Login from './login/Login';
 import Logo from './logo/Logo';
-import CreatePlaylist from './moods/CreateAPlaylist';
 import Feeling from './moods/Feeling';
+// import ColorChanger from './ColorChanger/ColorChanger';
+// import Signup from './stayInformed/SignUp'
+import Layout from './layout/Layout'
+// import Footer from './footer/Footer'
 import {
     createPlaylist,
     fetchAudioFeatures,
@@ -13,6 +16,7 @@ import {
     setPlaylist,
     transferPlaybackToMoodLifter,
     usersTopArtistsOrSongs,
+    playPlaylist,
 } from './helpers/api-fetcher';
 import Header from './header/Header';
 import './App.css';
@@ -137,116 +141,117 @@ class App extends Component {
                 })
                 .then((moodSongsUris) => {
                     // console.log('mood uris', moodSongsUris)
-
+        
                     // //user info
                     fetchUser(access_token).then((userInfo) => {
-                        // console.log('inside fetch user', userInfo)
-                        userProfile = userInfo;
-                        let id = userInfo.id;
-                        getUsersPlaylist(id, access_token)
-                            .then(async (playlists) => {
-                                console.log('getting users playlist', playlists);
-                                playlists = playlists[0];
-                                let playlistsName = Object.keys(playlists);
+                                // console.log('inside fetch user', userInfo)
+                    userProfile = userInfo;
+                    let id = userInfo.id;
+                    getUsersPlaylist(id, access_token)
+                        .then(async (playlists) => {
+                            console.log('getting users playlist', playlists);
+                            playlists = playlists[0];
+                            let playlistsName = Object.keys(playlists);
 
-                                for (let playlist in playlists) {
-                                    if (moodLifterPlaylists.includes(playlist)) {
-                                        playlistInfo[playlist] = playlists[playlist];
-                                    }
+                            for (let playlist in playlists) {
+                                if (moodLifterPlaylists.includes(playlist)) {
+                                    playlistInfo[playlist] = playlists[playlist];
                                 }
-                                // console.log(playlistInfo)
-                                if (!playlistsName.includes('Sad Music MoodLifter')) {
-                                    console.log('playlist does not exist');
-                                    sad = createPlaylist(userInfo.id, access_token, 'Sad Music MoodLifter').then(
-                                        async (info) => {
-                                            // console.log('listInfo', info)
-                                            let data = await info;
-                                            return data;
-                                        },
-                                    );
-                                }
-                                if (!playlistsName.includes('Angry Music MoodLifter')) {
-                                    console.log('playlist does not exist');
-                                    angry = createPlaylist(userInfo.id, access_token, 'Angry Music MoodLifter').then(
-                                        async (info) => {
-                                            // console.log('listInfo', info)
-                                            let data = await info;
-                                            return data;
-                                        },
-                                    );
-                                }
-                                if (!playlistsName.includes('Happy Music MoodLifter')) {
-                                    console.log('playlist does not exist');
-                                    happy = createPlaylist(userInfo.id, access_token, 'Happy Music MoodLifter').then(
-                                        async (info) => {
-                                            // console.log('listInfo', info)
-                                            let data = await info;
-                                            return data;
-                                        },
-                                    );
-                                }
-                                // console.log(playlistInfo, 'length', Object.keys(playlistInfo).length)
-                                if (Object.keys(playlistInfo).length === 3) {
-                                    console.log('playlist Info', playlistInfo);
-                                    let playlist = await playlistInfo;
-                                    return { playlistInfo: playlist, moodSongsUris: moodSongsUris };
-                                    // return playlistInfo
-                                } else {
-                                    let moodLifterCreatedPlaylists = Promise.all([angry, happy, sad]);
-                                    return {
-                                        moodLifterCreatedPlaylists: moodLifterCreatedPlaylists,
-                                        moodSongsUris: moodSongsUris,
-                                    };
-                                    // return  moodLifterCreatedPlaylists
-                                }
-                            })
-                            .then((playlists) => {
-                                console.log('playlist', playlists);
-                                if (
-                                    playlists['Angry Music MoodLifter'] &&
-                                    playlists['Happy Music MoodLifter'] &&
-                                    playlists['Sad Music MoodLifter']
-                                ) {
-                                    console.log('about to create playlist');
-                                    let setAngryPlaylist = setPlaylist(
-                                        playlists['Angry Music MoodLifter']['id'],
-                                        access_token,
-                                        angryMoodUris,
-                                    );
-                                    let setHappyPlaylist = setPlaylist(
-                                        playlists['Happy Music MoodLifter']['id'],
-                                        access_token,
-                                        happyMoodUris,
-                                    );
-                                    let setSadPlaylist = setPlaylist(
-                                        playlists['Sad Music MoodLifter']['id'],
-                                        access_token,
-                                        sadMoodUris,
-                                    );
-                                    let moodLifterSetPlaylists = Promise.all([
-                                        setAngryPlaylist,
-                                        setHappyPlaylist,
-                                        setSadPlaylist,
-                                    ]);
-                                    this.setState({
-                                        userInfo: userProfile,
-                                        usersPlaylists: playlists,
-                                    });
-                                } else {
-                                    this.setState({
-                                        userInfo: userProfile,
-                                        usersPlaylists: playlists,
-                                        loading: false,
-                                    });
-                                }
+                            }
+                            // console.log(playlistInfo)
+                            if (!playlistsName.includes('Sad Music MoodLifter')) {
+                                console.log('playlist does not exist');
+                                sad = createPlaylist(userInfo.id, access_token, 'Sad Music MoodLifter').then(
+                                    async (info) => {
+                                        // console.log('listInfo', info)
+                                        let data = await info;
+                                        return data;
+                                    },
+                                );
+                            }
+                            if (!playlistsName.includes('Angry Music MoodLifter')) {
+                                console.log('playlist does not exist');
+                                angry = createPlaylist(userInfo.id, access_token, 'Angry Music MoodLifter').then(
+                                    async (info) => {
+                                        // console.log('listInfo', info)
+                                        let data = await info;
+                                        return data;
+                                    },
+                                );
+                            }
+                            if (!playlistsName.includes('Happy Music MoodLifter')) {
+                                console.log('playlist does not exist');
+                                happy = createPlaylist(userInfo.id, access_token, 'Happy Music MoodLifter').then(
+                                    async (info) => {
+                                        // console.log('listInfo', info)
+                                        let data = await info;
+                                        return data;
+                                    },
+                                );
+                            }
+                            // console.log(playlistInfo, 'length', Object.keys(playlistInfo).length)
+                            if (Object.keys(playlistInfo).length === 3) {
+                                console.log('playlist Info', playlistInfo);
+                                let playlist = await playlistInfo;
+                                return {
+                                    playlistInfo: playlist,
+                                    moodSongsUris: moodSongsUris,
+                                    setPlaylistExist: true,
+                                };
+                                // return playlistInfo
+                            } else {
+                                let moodLifterCreatedPlaylists = Promise.all([angry, happy, sad]);
+                                return {
+                                    moodLifterCreatedPlaylists: moodLifterCreatedPlaylists,
+                                    moodSongsUris: moodSongsUris,
+                                    setPlaylistExist: false,
+                                };
+                                // return  moodLifterCreatedPlaylists
+                            }
+                        })
+                        .then(async (playlists) => {
+                            playlists = await playlists;
+                            let moodLifterCreatedPlaylists = await playlists['moodLifterCreatedPlaylists']
 
-                                // return playlists
-                            });
-                        //   .then((playlists)=> {
-                        //   //     console.log('playlist info', playlistInfo, '\n angry:', playlistInfo['Angry Music MoodLifter'], '\nangry uris', angryMoodUris)
-                        //   //     console.log('array of playlists', moodLiftersPlaylists, '\n moods', '\n angry', angryMoodUris, '\n happy', happyMood, '\n sad', sadMood)
-                        //       // return moodLifterSetPlaylists
-                        // })
+                            console.log('playlist', playlists);
+                            if (!playlists['setPlaylistExist']) {
+                                console.log(
+                                    'about to set playlist');
+                                let setAngryPlaylist = setPlaylist(
+                                    moodLifterCreatedPlaylists[0]['Angry Music MoodLifter']['id'],
+                                    access_token,
+                                    angryMoodUris,
+                                );
+                                let setHappyPlaylist = setPlaylist(
+                                    moodLifterCreatedPlaylists[1]['Happy Music MoodLifter']['id'],
+                                    access_token,
+                                    happyMoodUris,
+                                );
+                                let setSadPlaylist = setPlaylist(
+                                    moodLifterCreatedPlaylists[2]['Sad Music MoodLifter']['id'],
+                                    access_token,
+                                    sadMoodUris,
+                                );
+                                let moodLifterSetPlaylists = await Promise.all([
+                                    setAngryPlaylist,
+                                    setHappyPlaylist,
+                                    setSadPlaylist,
+                                ]);
+                                this.setState({
+                                    userInfo: userProfile,
+                                    usersPlaylists: playlists,
+                                    loading: false,
+                                });
+                            } else {
+                                this.setState({
+                                    userInfo: userProfile,
+                                    usersPlaylists: playlists,
+                                    loading: false,
+                                });
+                            }
+
+                            // return playlists
+                        });
                     });
                 });
         }
@@ -358,10 +363,10 @@ class App extends Component {
 
         return (
             <div className="App">
-                {loggedIn ? <Header user={userInfo} /> : <Logo />}
+                {/* <ColorChanger /> */}
                 {/* <Logo /> */}
                 {loggedIn ? (
-                    <div className="main-wrapper">
+                  <div className="main-wrapper">
                         <div className="now-playing__img">
                             <img alt={backgroundImage} src={backgroundImage} />
                         </div>
@@ -380,14 +385,18 @@ class App extends Component {
                             <DotLoader css={override} size={150} color={'#123abc'} loading={this.state.loading} />
                         ) : (
                             <Feeling userId={userInfo.id} playlists={usersPlaylists} token={token} />
-                        )}
-                        {/* <Feeling sadClick={this.state.sadClick.bind(this)} tracks={usersTopSongs}/> */}
+                            )}
                     </div>
                 ) : (
-                    <Login />
-                )}
+                  <Login />
+                  )}
+                  {loggedIn ? <Header user={userInfo} /> : <Layout/>} {/*<Logo /> */}
+                
+                {/* <Signup/> */}
+                {/* <Footer/> */}
             </div>
         );
+     
     }
 }
 
