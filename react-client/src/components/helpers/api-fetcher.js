@@ -36,15 +36,14 @@ export function transferPlaybackToMoodLifter(deviceId, token) {
 }
 
 //find the top songs to create playlist based on music user already listens to
-export function usersTopArtistsOrSongs(token, type) {
-    const artistOrTrack = type;
-
-    const endpoint = `https://api.spotify.com/v1/me/top/${artistOrTrack}?limit=50`;
+export function usersTopArtistsOrSongs(token, type, time_range='medium_term') {
+    const artistOrTrack = type; 
+    const endpoint = `https://api.spotify.com/v1/me/top/${artistOrTrack}?time_range=${time_range}&limit=50`;
     return fetch(endpoint, {
         method: 'GET',
         headers: {
             authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
     }).then(async (resp) => {
         if (resp.ok) {
