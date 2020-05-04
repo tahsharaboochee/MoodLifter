@@ -1,0 +1,56 @@
+  
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    background: #bdd630;
+    transition: background-color 0.5s ease;
+    color: #fff;
+  }
+  #header {
+    background: #000;
+    height: 40px;
+    text-align: center;
+  }
+  #content {
+    /* Now, to activate scrollbars
+               and compensate #footer height: */
+    padding-bottom: 40px;
+  }
+  #footer {
+    background: #000;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    /* cause of fixed pos */
+    height: 40px;
+    text-align: center;
+  }
+  /* .animate-me {
+    
+    animation: 4s infinite bgcolorchange;
+  }
+  @keyframes bgcolorchange {
+    0% {
+      color: #FF002A; 
+    }
+    25% {
+      background: #FF0000;
+    }
+    50% {
+      background: #FF2A00;
+    }
+    75% {
+      background: #FF0000;
+    }
+    100% {
+      background: #FF5500;
+    }
+  }
+  @-webkit-keyframes bgcolorchange {
+    0%   {background: #FF0000;}
+    25%  {background: #FF2A00;}
+    75%  {background: #FF0000;;}
+    100% {background: #FF5500;}
+  } */
