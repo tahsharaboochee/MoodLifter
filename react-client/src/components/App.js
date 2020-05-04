@@ -98,26 +98,6 @@ class App extends Component {
                 })
                 .then(async (songs) => {
                     songs = await songs
-                    
-                    let nextFiftySongs = usersTopArtistsOrSongs(access_token, 'tracks', 'long_term').then((data) =>{
-                        // console.log('song info', data)
-                         let moreSongs = data.items.map((song) => {
-                            //  console.log('inside second fetch for songs', song)
-                            return {
-                                name: song['name'],
-                                track_uri: song['uri'],
-                                track_id: song['id'],
-                            };
-                        });
-                        // console.log('inside map', nextFiftySongs)
-                        return moreSongs;
-                    })
-                    let allSongs = await Promise.all([songs, nextFiftySongs])
-                    let result = allSongs[0].concat(allSongs[1])
-                    return result
-                })
-                .then(async (songs) => {
-                    songs = await songs
                     // console.log('top songs', songs)
                     for (let song of songs) {
                         let audio = await fetchAudioFeatures(access_token, song.track_id);

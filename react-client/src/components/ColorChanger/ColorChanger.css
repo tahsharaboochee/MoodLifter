@@ -27,30 +27,3 @@
     height: 40px;
     text-align: center;
   }
-  /* .animate-me {
-    
-    animation: 4s infinite bgcolorchange;
-  }
-  @keyframes bgcolorchange {
-    0% {
-      color: #FF002A; 
-    }
-    25% {
-      background: #FF0000;
-    }
-    50% {
-      background: #FF2A00;
-    }
-    75% {
-      background: #FF0000;
-    }
-    100% {
-      background: #FF5500;
-    }
-  }
-  @-webkit-keyframes bgcolorchange {
-    0%   {background: #FF0000;}
-    25%  {background: #FF2A00;}
-    75%  {background: #FF0000;;}
-    100% {background: #FF5500;}
-  } */
