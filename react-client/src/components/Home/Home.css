@@ -1,0 +1,17 @@
+* {
+    padding-left: .25rem;
+}
+.f-headline { float: left;  _display: inline; }
+
+
+@media (--breakpoint-not-small) {
+  .fl-ns { float: left; _display: inline; }
+}
+
+@media (--breakpoint-medium) {
+  .fl-m { float: left; _display: inline; }
+}
+
+@media (--breakpoint-large) {
+  .fl-l { float: left; _display: inline; }
+}

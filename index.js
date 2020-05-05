@@ -39,23 +39,27 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(cors())
 app.use(cookieParser())
 
-
+const IN_PROD = process.env.NODE_ENV === "production"
 //serve static files from React app
 app.use(express.static(path.join(__dirname, 'react-client/build')));
 app.use(session({
+  genid: (req) => {
+    console.log('Inside the session middleware')
+    console.log(req.sessionID)
+    return uuidv4() // use UUIDs for session IDs
+  },
   name: SESS_NAME,
-  secret: SESS_SECRET,
-  access_token: null, 
-  refresh_token: null,
   resave: false,
   saveUninitialized: false,
+  secret: SESS_SECRET,
   cookie: {
     maxAge: SESS_LIFETIME,
     sameSite: true,
     httpOnly: false,  // this must be false if you want to access the cookie
-    secure: process.env.NODE_ENV === "production"
+    // secure: IN_PROD
   }
 }))
+let refresh_token;
   // console.log('redirect uri:', redirect_uri)
   const refreshTokenChecker = (refresh_token) => {
     return spotify.post('token',  querystring.stringify({
@@ -73,10 +77,27 @@ const redirectUriForTokens = (access_token, refresh_token)=> {
 }
 
 //put all api endpoints under '/api
+app.get('/debug', (req, res) => {
+  req.session.foo = (req.session.foo || 0) + 1; 
+  res.type('txt')
+  .send(req.session)
+})
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname+'/react-client/build/index.html'))
 })
 
+//login temp 
+app.get('/loginTemp', function(req, res){
+  req.session.save(err => {
+    console.log("req.session.save error:", err);
+    console.log('inside login temp session is', req.session)
+    // res.redirect('http://localhost:3000/login')
+    if(!err){
+      res.redirect('/')
+    }
+  });
+
+})
 app.get('/login', function(req, res) {
   // console.log('inside app.get spotifiy client id:', process.env.SPOTIFY_CLIENT_ID)
   //spotify getting moodLifter authorization
@@ -104,7 +125,8 @@ app.get('/login', function(req, res) {
   //   b. send tokens to frontend
 
     const state = uuidv4(); //generate random string
-      res.cookie(stateCookie, state) //setting a cookie
+      // res.cookie(stateCookie, state) //setting a cookie
+      req.session.state = state //setting a cookie
       console.log('about to redirect to spotify state:', state)
       res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
@@ -120,11 +142,15 @@ app.get('/login', function(req, res) {
 })
 app.get('/callback', function(req, res) {
   // console.log('/callback req:', req)
+  console.log('inside callback session is:', req.session)
+
   console.log( 'in /callback res:')
   //moodLifter requesting refresh and access tokens after checking state parameter
   let code = req.query.code || null;
   let state = req.query.state || null;
-  let storedState = req.cookies ? req.cookies[stateCookie] : null;
+  // let storedState = req.cookies ? req.cookies[stateCookie] : null;
+  let storedState = req.session.state || null;
+
   
   if(state === null || state !== storedState){
     console.log('inside if statement')
@@ -146,7 +172,8 @@ app.get('/callback', function(req, res) {
     req.session.access_token = access_token;
     req.session.refresh_token = refresh_token;
     const temp = redirectUriForTokens(access_token, refresh_token)
-    console.log('data from redirectURIForToken', temp)
+    console.log('data from redirectURIForToken', temp, req.session)
+    //get rid of access token for security purposes 
     res.redirect(redirectUriForTokens(access_token, refresh_token))
   })
   .catch((err) =>{
@@ -164,21 +191,30 @@ app.get('/callback', function(req, res) {
 
 
 
-// app.get('/refresh_token', function(req, res) {
+app.get('/refresh_token', function(req, res) {
 
-//   // requesting access token from refresh token
-//   let refresh_token = req.query.refresh_token;
-//   refreshTokenChecker(refresh_token)
-//   .then((res, body)=>{
-//     if(res.statusCode === 200){
-//       let access_token = body.access_token;
-//       res.send({
-//         'access_token': access_token
-//       });
-//     }
-//   })
+  // requesting access token from refresh token
+  console.log('inside refresh token backend', {...req.session, cookie: null})
+  let refresh_token = req.session.refresh_token;
+  if (refresh_token){
+    refreshTokenChecker(refresh_token)
+    .then((resp)=>{
+      // console.log('inside .then refresh token checker resp:', resp, 'res.data', resp.data, 'resp status', resp.statusCode)
+      if(resp.status === 200){
+        let access_token = resp.data.access_token;
+        res.send({
+          'access_token': access_token
+        });
+      }else {
+        res.statusCode = 500 
+        res.send({
+          'error': 'error debug me'
+        })
+      }
+    })
+  }
 
-// });
+});
 
 let server = app.listen(process.env.PORT || 3001, 
   function(){

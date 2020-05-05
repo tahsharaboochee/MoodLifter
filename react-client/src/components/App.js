@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { css } from '@emotion/core';
+import ColorChanger from './ColorChanger/ColorChanger';
 import DotLoader from 'react-spinners/DotLoader';
+import Feeling from './moods/Feeling';
+import Home from './Home/Home'
 import Login from './login/Login';
 import Logo from './logo/Logo';
-import Feeling from './moods/Feeling';
-import ColorChanger from './ColorChanger/ColorChanger';
 // import Signup from './stayInformed/SignUp'
-import Layout from './layout/Layout'
 // import Footer from './footer/Footer'
 import {
     createPlaylist,
@@ -17,6 +17,7 @@ import {
     transferPlaybackToMoodLifter,
     usersTopArtistsOrSongs,
     playPlaylist,
+    fetchRefreshToken
 } from './helpers/api-fetcher';
 import Header from './header/Header';
 import './App.css';
@@ -83,6 +84,8 @@ class App extends Component {
 
             //checking every second for spotifies SDK player window.Spotify variable
             this.spotifyPlayerCheckInterval = setInterval(() => this.checkingForSpotifyURI());
+
+        
 
             usersTopArtistsOrSongs(access_token, 'tracks')
                 .then((data) => {
@@ -255,6 +258,7 @@ class App extends Component {
                 });
             });
         }
+        this.getRefreshToken()
     }
 
     //player received an update from player
@@ -346,6 +350,38 @@ class App extends Component {
             this.spotifyPlayer.connect();
         }
     }
+    logout = ()=>{
+        // AuthenticationClient.clearCookies(getApplication());
+        // const url = 'https://www.spotify.com/logout/'                                                                                                                                                                                                                                                                               
+        // const spotifyLogoutWindow = window.open(url, 'Spotify Logout', 'width=700,height=500,top=40,left=40')                                                                                                
+        // setTimeout(() => spotifyLogoutWindow.close(), 2000)
+    }
+
+    getRefreshToken(){
+        // let debug = true;
+        fetchRefreshToken(this.access_token).then((token) => {
+            let access_token = token.access_token
+            //checking every second for spotifies SDK player window.Spotify variable
+            this.spotifyPlayerCheckInterval = setInterval(() => this.checkingForSpotifyURI());
+            this.setState({
+                token: access_token,
+                loggedIn: true,
+                // loading: false
+            })
+        })
+        // console.log('inside getRefreshToken', 'session cookie', document.session.cookie, 'cookie', document.cookie)
+        setInterval(() =>{
+            fetchRefreshToken(this.access_token).then((token) => {
+                let access_token = token.access_token
+                this.setState({
+                    token: access_token,
+                    loggedIn: true,
+                    // loading: false
+                })
+            })
+        }, this.state.loggedIn ? 5000 : 1000 * 60 * 30)
+    }
+
 
     render() {
         const {
@@ -359,10 +395,13 @@ class App extends Component {
             token,
             loading,
         } = this.state;
-        // console.log(this.state)
+        console.log('token', this.state.token)
 
         return (
             <div className="App">
+                <button onclick={this.logout}>
+                    <a href="/logout">{'Logout of Spotify'}</a>
+                    </button>
                 <ColorChanger />
                 {/* <Logo /> */}
                 {loggedIn ? (
@@ -388,9 +427,9 @@ class App extends Component {
                             )}
                     </div>
                 ) : (
-                  <Login />
+                  <Login token={token} />
                   )}
-                  {loggedIn ? <Header user={userInfo} /> : <Layout/>} {/*<Logo /> */}
+                  {loggedIn ? <Header user={userInfo} /> : <Home/>} {/*<Logo /> */}
                 
                 {/* <Signup/> */}
                 {/* <Footer/> */}

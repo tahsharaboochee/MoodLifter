@@ -1,3 +1,11 @@
+//refresh token
+export function fetchRefreshToken(token) {
+    console.log('before fetch refresh token')
+   return fetch('/refresh_token', {
+        method: 'GET'
+    })
+    .then((res) => res.json())
+}
 //get user account information
 export const fetchUser = (token) => {
     return fetch('https://api.spotify.com/v1/me', {

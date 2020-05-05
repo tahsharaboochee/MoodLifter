@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
-import './Layout.css';
+import './Home.css';
 
-class Layout extends Component {
+class Home extends Component {
     render() {
         return (
             <main class="site-layout__main">
                 <div class="hero">
-                    <div class="hero__inner">
-                        <h2 class="heading   heading--xlarge hero__heading">
+                        <h2 className="f-headline lh-solid ">
                             <span class="heading__main">
                                 Music
                                 <br />
-                                Streaming
+                                Uplifts
                                 <br />
-                                Redefined
+                                Redirects 
                             </span>
                         </h2>
                         <div class="download-buttons"></div>
@@ -32,16 +31,14 @@ class Layout extends Component {
                                 </g>
                             </svg>
                         </div>
-                    </div>
                 </div>
                 <div class="container container--white">
                     <div class="rich-text  rich-text--large rich-text--left-aligned">
                         <p className="f3 white">
                             Every one Experiences Feelings of Happiness, Sadness and Anger
-                            I believe that listening to music is an excellent way for us to cycle through our emotions, which is why
-                            I built the interactive playlist — I call them moodLifters.
+                            I believe that listening to music is an excellent way for us to cycle through our emotions
                         </p>
-                        <p className="f3 white" >Get ready to take music discovery to a whole new level.</p>
+                        <p className="f3 white" >Listen and allow your emotions to flow.</p>
                     </div>
                     <div class="rich-text__wave rich-text__wave--desktop" aria-hidden="true">
                         <svg
@@ -482,4 +479,4 @@ class Layout extends Component {
     }
 }
 
-export default Layout;
+export default Home;
