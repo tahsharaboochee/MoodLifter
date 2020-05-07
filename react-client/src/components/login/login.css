@@ -18,20 +18,3 @@
 .btn--login {
   margin: 0 auto;
 }
-
-.fixed-img{
-  width: 25rem;
-  height: 25rem;
-}
-.item {
-  width: 100%
-}
-
-.container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.div {
-  flex: 0 50%;
-}

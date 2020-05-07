@@ -6,39 +6,39 @@ class Home extends Component {
         return (
             <main class="site-layout__main">
                 <div class="hero">
-                        <h2 className="f-headline lh-solid ">
-                            <span class="heading__main">
-                                Music
-                                <br />
-                                Uplifts
-                                <br />
-                                Redirects 
-                            </span>
-                        </h2>
-                        <div class="download-buttons"></div>
-                        <div class="hero__wave" aria-hidden="true">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 409 14" class="wave  wave--animated  ">
-                                <g fill="none" fill-rule="evenodd" stroke="#FFF" stroke-linecap="round">
-                                    <path
-                                        class="wave__thin"
-                                        d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                    ></path>
-                                    <path
-                                        class="wave__thick"
-                                        stroke-width="5"
-                                        d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                    ></path>
-                                </g>
-                            </svg>
-                        </div>
+                    <h2 className="f-headline lh-solid ">
+                        <span class="heading__main">
+                            Music
+                            <br />
+                            Uplifts
+                            <br />
+                            Redirects
+                        </span>
+                    </h2>
+                    <div class="download-buttons"></div>
+                    <div class="hero__wave" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 409 14" class="wave  wave--animated  ">
+                            <g fill="none" fill-rule="evenodd" stroke="#FFF" stroke-linecap="round">
+                                <path
+                                    class="wave__thin"
+                                    d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
+                                ></path>
+                                <path
+                                    class="wave__thick"
+                                    stroke-width="5"
+                                    d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
+                                ></path>
+                            </g>
+                        </svg>
+                    </div>
                 </div>
                 <div class="container container--white">
                     <div class="rich-text  rich-text--large rich-text--left-aligned">
                         <p className="f3 white">
-                            Every one Experiences Feelings of Happiness, Sadness and Anger
-                            I believe that listening to music is an excellent way for us to cycle through our emotions
+                            Every one Experiences Feelings of Happiness, Sadness and Anger I believe that listening to
+                            music is an excellent way for us to cycle through our emotions
                         </p>
-                        <p className="f3 white" >Listen and allow your emotions to flow.</p>
+                        <p className="f3 white">Listen and allow your emotions to flow.</p>
                     </div>
                     <div class="rich-text__wave rich-text__wave--desktop" aria-hidden="true">
                         <svg
@@ -68,8 +68,9 @@ class Home extends Component {
                                     <div class="grid-container    ">
                                         <div class="grid-item grid-item--12">
                                             <h2 class="heading heading--dark   teaser__title">
-                                                <span class="heading__pre-text">MoodLifter is</span><br/>
-                                                <span  class="heading__main">Personal</span>
+                                                <span class="heading__pre-text">MoodLifter is</span>
+                                                <br />
+                                                <span class="heading__main">Personal</span>
                                             </h2>
                                         </div>
                                         <div class="teaser__wave teaser__wave--mobile" aria-hidden="true">
@@ -98,8 +99,8 @@ class Home extends Component {
                                         </div>
                                         <div class="grid-item grid-item--12 grid-item-lg--10">
                                             <p class="teaser__manchet" className="f3 white">
-                                                Click your mood, sit back as moodlifter builds
-                                                you an interactive playlist based on your favorite music.
+                                                Click your mood, sit back as moodlifter builds you an interactive
+                                                playlist based on your favorite music.
                                             </p>
                                             <div class="teaser__wave teaser__wave--desktop" aria-hidden="true">
                                                 <svg

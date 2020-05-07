@@ -13,17 +13,17 @@ class Logout extends Component {
 
         return (
             <nav >
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                   <img></img>
+                <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <img src= {require('../logo/Mood Lifter-logo-white.png')}></img>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                {/* <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <button 
                         onClick={this.handleLogout.bind(this)}
                         className="f3 link dim white underline pa3 pointer btn btn--loginApp-link"
                     >
                         <a href="/logout">{'Logout of Spotify'}</a>
                     </button>
-                </div>
+                </div> */}
             </nav>
         );
     }
