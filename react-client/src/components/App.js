@@ -61,7 +61,7 @@ class App extends Component {
         const urlParams = new URLSearchParams(queryString);
         const access_token = urlParams.get('access_token');
         const refresh_token = urlParams.get('refresh_token');
-        window.history.pushState({}, document.title, '/'); //To modify current URL https://stackoverflow.com/questions/22753052/remove-url-parameters-without-refreshing-page
+        // window.history.pushState({}, document.title, '/'); //To modify current URL https://stackoverflow.com/questions/22753052/remove-url-parameters-without-refreshing-page
         const moodLifterPlaylists = ['Sad Music MoodLifter', 'Happy Music MoodLifter', 'Angry Music MoodLifter'];
         let playlistInfo = {},
             userProfile = {},
