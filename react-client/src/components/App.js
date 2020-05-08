@@ -415,7 +415,7 @@ class App extends Component {
                 {loggedIn ? <Header user={userInfo} /> : <Home />} {/*<Logo /> */}
                 {loggedIn ? (
                     <div className="main-wrapper">
-                        <div className="now-playing__img">
+                        <div className="now-playing__img ba b--white bw5">
                             <img alt={backgroundImage} src={backgroundImage} />
                         </div>
                         <div className="now-playing__side">

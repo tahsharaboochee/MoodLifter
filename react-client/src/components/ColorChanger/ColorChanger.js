@@ -11,16 +11,16 @@ class ColorChanger extends Component {
             '#FF002A',
             '#FF8000',
             '#FFAA00',
-            '#45c1bf',
-            '#f0593e',
-            '#aeacd4',
-            '#bdd630',
-            '#4479bd',
-            '#f5b11e',
+            // '#45c1bf',
+            // '#f0593e',
+            // '#aeacd4',
+            // '#bdd630',
+            // '#4479bd',
+            // '#f5b11e',
         ];
         //   //random new color
         function GetNewColor() {
-            let index = Math.floor(Math.random() * 12 + 1);
+            let index = Math.floor(Math.random() * 6 + 1);
             // let index = Math.floor((Math.random() * 5) + 1);
             return arrColor[index];
         }

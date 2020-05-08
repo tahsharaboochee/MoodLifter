@@ -13,8 +13,8 @@ class Logout extends Component {
 
         return (
             <nav >
-                <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                <img src= {require('../logo/Mood Lifter-logo-white.png')}></img>
+                <div className="ba bw5" style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <img style={{maxWidth: "100%", height: "auto"}} src= {require('../logo/Mood Lifter-logo-white.png')}></img>
                 </div>
                 {/* <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <button 
