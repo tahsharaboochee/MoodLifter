@@ -4,10 +4,10 @@ import './Home.css';
 class Home extends Component {
     render() {
         return (
-            <main class="site-layout__main">
-                <div class="hero">
+            <main >
+                <div >
                     <h2 className="f-headline lh-solid ">
-                        <span class="heading__main">
+                        <span >
                             Music
                             <br />
                             Uplifts
@@ -15,7 +15,6 @@ class Home extends Component {
                             Redirects
                         </span>
                     </h2>
-                    <div class="download-buttons"></div>
                     <div class="hero__wave" aria-hidden="true">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 409 14" class="wave  wave--animated  ">
                             <g fill="none" fill-rule="evenodd" stroke="#FFF" stroke-linecap="round">
@@ -32,15 +31,15 @@ class Home extends Component {
                         </svg>
                     </div>
                 </div>
-                <div class="container container--white">
-                    <div class="rich-text  rich-text--large rich-text--left-aligned">
+                <div>
+                    <div>
                         <p className="f3 white">
                             Every one Experiences Feelings of Happiness, Sadness and Anger I believe that listening to
                             music is an excellent way for us to cycle through our emotions
                         </p>
                         <p className="f3 white">Listen and allow your emotions to flow.</p>
                     </div>
-                    <div class="rich-text__wave rich-text__wave--desktop" aria-hidden="true">
+                    <div aria-hidden="true">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 409 14"
@@ -61,16 +60,21 @@ class Home extends Component {
                     </div>
                 </div>
                 <div>
-                    <div class="teaser">
-                        <div class="container">
-                            <div class="grid-container grid-container--vertical-gaps grid-container--vertical-center  ">
-                                <div class="grid-item grid-item--12 grid-item-md--6">
-                                    <div class="grid-container    ">
-                                        <div class="grid-item grid-item--12">
-                                            <h2 class="heading heading--dark   teaser__title">
-                                                <span class="heading__pre-text">MoodLifter is</span>
-                                                <br />
-                                                <span class="heading__main">Personal</span>
+                    <div>
+                        <div>
+                            <div>
+                                <div>
+                                    <div>
+                                        <div>
+                                            <h2>
+                                                <span className="f-headline lh-solid">
+                                                    MoodLifter
+                                                    <br />
+                                                    Is
+                                                    <br />
+                                                    Personal
+                                                </span>
+                                                {/* <span className="tr pa7 ma6 f-headline lh-solid">MoodLifter is Personal</span> */}
                                             </h2>
                                         </div>
                                         <div class="teaser__wave teaser__wave--mobile" aria-hidden="true">
