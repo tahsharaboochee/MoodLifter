@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Home.css';
+import ColorChanger from '../ColorChanger/ColorChanger'
 
 class Home extends Component {
     render() {
@@ -7,13 +8,14 @@ class Home extends Component {
             <main >
                 <div >
                     <h2 className="f-headline lh-solid ">
-                        <span >
+                        <div >
                             Music
                             <br />
                             Uplifts
                             <br />
                             Redirects
-                        </span>
+                            {/* <ColorChanger /> */}
+                        </div>
                     </h2>
                     <div class="hero__wave" aria-hidden="true">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 409 14" class="wave  wave--animated  ">

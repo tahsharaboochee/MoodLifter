@@ -28,6 +28,7 @@ class ColorChanger extends Component {
         // set new color
         function SetNewColor(color) {
             document.body.style.background = color;
+            // document.getElementById('heading').style.background = color;
         }
         // on document load function start
         (function () {

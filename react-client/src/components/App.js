@@ -415,7 +415,7 @@ class App extends Component {
                 {loggedIn ? <Header user={userInfo} /> : <Home />} {/*<Logo /> */}
                 {loggedIn ? (
                     <div className="main-wrapper">
-                        <div className="now-playing__img ba b--white bw5">
+                        <div className="now-playing__img ">
                             <img alt={backgroundImage} src={backgroundImage} />
                         </div>
                         <div className="now-playing__side">
@@ -435,7 +435,7 @@ class App extends Component {
                             <Feeling userId={userInfo.id} playlists={usersPlaylists} token={token} />
                         )}
                     </div>
-                ) : (
+                ) : ( 
                     <ColorChanger />
                 )}
                 
