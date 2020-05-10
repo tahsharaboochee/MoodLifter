@@ -411,7 +411,7 @@ class App extends Component {
             <div className="App">
                 {/* <Logo /> */}
                 {loggedIn ? <Logout logout={this.logout.bind(this)} /> : <Login token={token} />}
-                <div className='pa5'/>
+                {/* <div className='pa5'/> */}
                 {loggedIn ? <Header user={userInfo} /> : <Home />} {/*<Logo /> */}
                 {loggedIn ? (
                     <div className="main-wrapper">
@@ -438,7 +438,7 @@ class App extends Component {
                 ) : ( 
                     <ColorChanger />
                 )}
-                
+                <ColorChanger />
                 {/* <Signup/> */}
                 {/* <Footer/> */}
             </div>

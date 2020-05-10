@@ -2,9 +2,46 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Courier New", Courier, monspace; 
-  /* background: linear-gradient(89deg, rgb(92, 34, 228) 0%, rgb(164, 115, 255) 100%); */
+  background: linear-gradient(89deg,#ff5100 0%, #c90a00} 100%);
 }
 button {
   cursor: pointer;
 }
-
+/* 
+@-webkit-keyframes fillVertically{
+  0%{
+    background-size:0}
+  to{
+    background-size:100%}
+}
+@keyframes fillVertically{
+  0%{
+    background-size:0}
+  to{
+    background-size:100%}
+}
+@-webkit-keyframes colorspinElement{
+  0%{
+    background-color:#0b6494}
+  25%{
+    background-color:#c90a00}
+  50%{
+    background-color:#ff5100}
+  75%{
+    background-color:#ffb100}
+  to{
+    background-color:#0b6494}
+}
+@keyframes colorspinElement{
+  0%{
+    background-color:#0b6494}
+  25%{
+    background-color:#c90a00}
+  50%{
+    background-color:#ff5100}
+  75%{
+    background-color:#ffb100}
+  to{
+    background-color:#0b6494}
+}
+ */

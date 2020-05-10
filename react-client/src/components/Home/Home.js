@@ -1,31 +1,30 @@
 import React, { Component } from 'react';
 import './Home.css';
-import ColorChanger from '../ColorChanger/ColorChanger'
 
 class Home extends Component {
     render() {
         return (
-            <main >
-                <div >
+            <main className="site-layout" data-opennav="false">
+                <div className="hero">
                     <h2 className="f-headline lh-solid ">
-                        <div >
-                            Music
+                        <span className="title">
+                            Create
                             <br />
-                            Uplifts
-                            <br />
-                            Redirects
-                            {/* <ColorChanger /> */}
-                        </div>
+                            Personalised 
+                            <br/>
+                            Playlists
+                        </span>
                     </h2>
-                    <div class="hero__wave" aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 409 14" class="wave  wave--animated  ">
+                    <div></div>
+                    <div className="hero__wave" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 409 14" className="wave  wave--animated  ">
                             <g fill="none" fill-rule="evenodd" stroke="#FFF" stroke-linecap="round">
                                 <path
-                                    class="wave__thin"
+                                    className="wave__thin"
                                     d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
                                 ></path>
                                 <path
-                                    class="wave__thick"
+                                    className="wave__thick"
                                     stroke-width="5"
                                     d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
                                 ></path>
@@ -33,454 +32,51 @@ class Home extends Component {
                         </svg>
                     </div>
                 </div>
-                <div>
-                    <div>
-                        <p className="f3 white">
-                            Every one Experiences Feelings of Happiness, Sadness and Anger I believe that listening to
-                            music is an excellent way for us to cycle through our emotions
+                <div className="container container--white">
+                    <div className="rich-text  rich-text--large rich-text--left-aligned">
+                        <p className="">
+                            Every one Experiences Feelings of Happiness, Sadness and Anger. Listening to
+                            music is an excellent way to cycle through your emotions
                         </p>
-                        <p className="f3 white">Listen and allow your emotions to flow.</p>
+                        <p className="">Listen and allow your emotions to flow.</p>
                     </div>
-                    <div aria-hidden="true">
+                    <div className="rich-text__wave rich-text__wave--desktop" aria-hidden="true">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 409 14"
-                            class="wave delay-4 wave--animated wave--inherit-bg "
+                            className="wave delay-4 wave--animated wave--inherit-bg "
                         >
                             <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round">
                                 <path
-                                    class="wave__thin"
+                                    className="wave__thin"
                                     d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
                                 ></path>
                                 <path
-                                    class="wave__thick"
+                                    className="wave__thick"
                                     stroke-width="5"
                                     d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
                                 ></path>
                             </g>
                         </svg>
                     </div>
-                </div>
-                <div>
-                    <div>
-                        <div>
-                            <div>
-                                <div>
-                                    <div>
-                                        <div>
-                                            <h2>
-                                                <span className="f-headline lh-solid">
-                                                    MoodLifter
-                                                    <br />
-                                                    Is
-                                                    <br />
-                                                    Personal
-                                                </span>
-                                                {/* <span className="tr pa7 ma6 f-headline lh-solid">MoodLifter is Personal</span> */}
-                                            </h2>
-                                        </div>
-                                        <div class="teaser__wave teaser__wave--mobile" aria-hidden="true">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 409 14"
-                                                class="wave delay-5 wave--animated wave--inherit-bg "
-                                            >
-                                                <g
-                                                    fill="none"
-                                                    fill-rule="evenodd"
-                                                    stroke="currentColor"
-                                                    stroke-linecap="round"
-                                                >
-                                                    <path
-                                                        class="wave__thin"
-                                                        d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                    ></path>
-                                                    <path
-                                                        class="wave__thick"
-                                                        stroke-width="5"
-                                                        d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                    ></path>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                        <div class="grid-item grid-item--12 grid-item-lg--10">
-                                            <p class="teaser__manchet" className="f3 white">
-                                                Click your mood, sit back as moodlifter builds you an interactive
-                                                playlist based on your favorite music.
-                                            </p>
-                                            <div class="teaser__wave teaser__wave--desktop" aria-hidden="true">
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 409 14"
-                                                    class="wave delay-7 wave--animated wave--inherit-bg "
-                                                >
-                                                    <g
-                                                        fill="none"
-                                                        fill-rule="evenodd"
-                                                        stroke="currentColor"
-                                                        stroke-linecap="round"
-                                                    >
-                                                        <path
-                                                            class="wave__thin"
-                                                            d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                        ></path>
-                                                        <path
-                                                            class="wave__thick"
-                                                            stroke-width="5"
-                                                            d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                        ></path>
-                                                    </g>
-                                                </svg>
-                                            </div>
-                                            <div class="teaser__content">
-                                                <div class="rich-text rich-text--no-padding  ">
-                                                    <p></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* <div class="grid-item grid-item--12 grid-item-md--6">
-                                    <div class="teaser__image-wrapper">
-                                        <img
-                                            srcSet="https://images.prismic.io/MoodLifter-com/1f31e4f94588e688adbab2a811acb3eb5713b200_teaser_MoodLifters-2.png?auto=compress,format&amp;fit=clamp&amp;w=580, https://images.prismic.io/MoodLifter-com/1f31e4f94588e688adbab2a811acb3eb5713b200_teaser_MoodLifters-2.png?auto=compress,format&amp;fit=clamp&amp;w=1160 2x, https://images.prismic.io/MoodLifter-com/1f31e4f94588e688adbab2a811acb3eb5713b200_teaser_MoodLifters-2.png?auto=compress,format&amp;fit=clamp&amp;w=1740 3x"
-                                            src="https://images.prismic.io/MoodLifter-com/1f31e4f94588e688adbab2a811acb3eb5713b200_teaser_MoodLifters-2.png?auto=compress,format&amp;fit=clamp&amp;w=1160"
-                                            alt=""
-                                            class="teaser__image"
-                                        />
-                                    </div>
-                                </div> */}
-                            </div>
-                        </div>
+                    <div className='pa2'/>
+                    <ul class="social-links">
+                        <li class="social-links__item">
+                            <a href="https://www.linkedin.com/in/tahshara/" target="_blank" class="social-links__link social-links__link--round">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="social-links__link-icon" aria-hidden="true">
+                                <g fill="currentColor" fill-rule="nonzero">
+                                <path fill="currentColor" fill-rule="nonzero" d="M0 2.5788159v30.84236824C0 34.84552172 1.19104121 36 2.66033413 36H33.3396659C34.8089104 36 36 34.84552172 36 33.42118414V2.5788159C36 1.1549593 34.8089104 0 33.3396659 0H2.66033413C1.19104121 0 0 1.1549593 0 2.5788159zm10.9127142 27.55691547H5.47523639V13.8797151h5.43747781v16.25601627zM8.1939511 11.6602306h-.03543498c-1.82475608 0-3.00471175-1.2482796-3.00471175-2.8082684 0-1.5951041 1.21611678-2.8087494 3.0761142-2.8087494 1.86019103 0 3.00505063 1.2136453 3.04038873 2.8087494 0 1.5599888-1.1801977 2.8082684-3.0763562 2.8082684zm5.7274928 18.47550077s.0714992-14.73066187 0-16.25601627h5.4375746v2.3575409h-.0363063c.7154767-1.1097423 2.003238-2.7389997 4.9365957-2.7389997 3.577432 0 6.2599856 2.3233875 6.2599856 7.3165061v9.32096897h-5.4369938V21.4391427c0-2.1853312-.7870728-3.6760513-2.7546337-3.6760513-1.5021139 0-2.3967986 1.0053582-2.7898751 1.976082-.1435795.3473056-.1789176.8326675-.1789176 1.3185104v9.07804757h-5.4374294z">
+                                </path>
+                                </g>
+                            </svg>
+                            <span class="social-links__link-text">LinkedIn
+                            </span>
+                            </a>
+                        </li>
+                    </ul>
                     </div>
-                    {/* <div class="teaser">
-                        <div class="container">
-                            <div class="grid-container grid-container--vertical-gaps grid-container--vertical-center grid-container--reverse ">
-                                <div class="grid-item grid-item--12 grid-item-md--6">
-                                    <div class="grid-container    ">
-                                        <div class="grid-item grid-item--12">
-                                            <h2 class="heading heading--dark   teaser__title">
-                                                <span class="heading__pre-text">MoodLifter is</span><br/>
-                                                <span class="heading__main">Interactive</span>
-                                            </h2>
-                                        </div>
-                                        <div class="teaser__wave teaser__wave--mobile" aria-hidden="true">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 409 14"
-                                                class="wave delay-3 wave--animated wave--inherit-bg "
-                                            >
-                                                <g
-                                                    fill="none"
-                                                    fill-rule="evenodd"
-                                                    stroke="currentColor"
-                                                    stroke-linecap="round"
-                                                >
-                                                    <path
-                                                        class="wave__thin"
-                                                        d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                    ></path>
-                                                    <path
-                                                        class="wave__thick"
-                                                        stroke-width="5"
-                                                        d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                    ></path>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                        <div class="grid-item grid-item--12 grid-item-lg--10">
-                                            <p class="teaser__manchet">
-                                                Add songs to your moodLifter with tracks, and watch as the
-                                                playlist adapts. You’re in control.
-                                            </p>
-                                            <div class="teaser__wave teaser__wave--desktop" aria-hidden="true">
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 409 14"
-                                                    class="wave delay-4 wave--animated wave--inherit-bg "
-                                                >
-                                                    <g
-                                                        fill="none"
-                                                        fill-rule="evenodd"
-                                                        stroke="currentColor"
-                                                        stroke-linecap="round"
-                                                    >
-                                                        <path
-                                                            class="wave__thin"
-                                                            d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                        ></path>
-                                                        <path
-                                                            class="wave__thick"
-                                                            stroke-width="5"
-                                                            d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                        ></path>
-                                                    </g>
-                                                </svg>
-                                            </div>
-                                            <div class="teaser__content">
-                                                <div class="rich-text rich-text--no-padding  ">
-                                                    <p></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> 
-                                 <div class="grid-item grid-item--12 grid-item-md--6">
-                                    <div class="teaser__image-wrapper">
-                                        <img
-                                            srcSet="https://images.prismic.io/MoodLifter-com/853f877a60db8f487569f2f33606679052cc6618_teaser_interactive.png?auto=compress,format&amp;fit=clamp&amp;w=580, https://images.prismic.io/MoodLifter-com/853f877a60db8f487569f2f33606679052cc6618_teaser_interactive.png?auto=compress,format&amp;fit=clamp&amp;w=1160 2x, https://images.prismic.io/MoodLifter-com/853f877a60db8f487569f2f33606679052cc6618_teaser_interactive.png?auto=compress,format&amp;fit=clamp&amp;w=1740 3x"
-                                            src="https://images.prismic.io/MoodLifter-com/853f877a60db8f487569f2f33606679052cc6618_teaser_interactive.png?auto=compress,format&amp;fit=clamp&amp;w=1160"
-                                            alt=""
-                                            class="teaser__image"
-                                        />
-                                    </div>
-                                </div> 
-                             </div>
-                        </div>
-                    </div> */}
-                    {/* <div class="teaser">
-                        <div class="container">
-                            <div class="grid-container grid-container--vertical-gaps grid-container--vertical-center  ">
-                                <div class="grid-item grid-item--12 grid-item-md--6">
-                                    <div class="grid-container    ">
-                                        <div class="grid-item grid-item--12">
-                                            <h2 class="heading heading--dark   teaser__title">
-                                                <span class="heading__pre-text">MoodLifter is</span><br/>
-                                                <span class="heading__main">Social</span>
-                                            </h2>
-                                        </div>
-                                        <div class="teaser__wave teaser__wave--mobile" aria-hidden="true">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 409 14"
-                                                class="wave delay-6 wave--animated wave--inherit-bg "
-                                            >
-                                                <g
-                                                    fill="none"
-                                                    fill-rule="evenodd"
-                                                    stroke="currentColor"
-                                                    stroke-linecap="round"
-                                                >
-                                                    <path
-                                                        class="wave__thin"
-                                                        d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                    ></path>
-                                                    <path
-                                                        class="wave__thick"
-                                                        stroke-width="5"
-                                                        d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                    ></path>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                        <div class="grid-item grid-item--12 grid-item-lg--10">
-                                            <p class="teaser__manchet">
-                                                Good enough to share? Send your new moodlifter to a friend and let them
-                                                adjust it to make it their own.
-                                            </p>
-                                            <div class="teaser__wave teaser__wave--desktop" aria-hidden="true">
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 409 14"
-                                                    class="wave delay-6 wave--animated wave--inherit-bg "
-                                                >
-                                                    <g
-                                                        fill="none"
-                                                        fill-rule="evenodd"
-                                                        stroke="currentColor"
-                                                        stroke-linecap="round"
-                                                    >
-                                                        <path
-                                                            class="wave__thin"
-                                                            d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                        ></path>
-                                                        <path
-                                                            class="wave__thick"
-                                                            stroke-width="5"
-                                                            d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                        ></path>
-                                                    </g>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> 
-                                 <div class="grid-item grid-item--12 grid-item-md--6">
-                                    <div class="teaser__image-wrapper">
-                                        <img
-                                            srcSet="https://images.prismic.io/MoodLifter-com/4f1df17020b20d54d0f0a9f41170ec9735fa73c3_teaser_social2x.png?auto=compress,format&amp;fit=clamp&amp;w=580, https://images.prismic.io/MoodLifter-com/4f1df17020b20d54d0f0a9f41170ec9735fa73c3_teaser_social2x.png?auto=compress,format&amp;fit=clamp&amp;w=1160 2x, https://images.prismic.io/MoodLifter-com/4f1df17020b20d54d0f0a9f41170ec9735fa73c3_teaser_social2x.png?auto=compress,format&amp;fit=clamp&amp;w=1740 3x"
-                                            src="https://images.prismic.io/MoodLifter-com/4f1df17020b20d54d0f0a9f41170ec9735fa73c3_teaser_social2x.png?auto=compress,format&amp;fit=clamp&amp;w=1160"
-                                            alt=""
-                                            class="teaser__image"
-                                        />
-                                    </div>
-                                </div> 
-                            </div>
-                        </div>
-                    </div> */}
-                    {/* <div class="teaser">
-                        <div class="container">
-                            <div class="grid-container grid-container--vertical-gaps grid-container--vertical-center grid-container--reverse ">
-                                <div class="grid-item grid-item--12 grid-item-md--6">
-                                    <div class="grid-container    "> 
-                                         <div class="grid-item grid-item--12">
-                                            <h2 class="heading heading--dark   teaser__title">
-                                                <span class="heading__pre-text">MoodLifter is music</span><br/>
-                                                <span class="heading__main">Music is Ours</span>
-                                            </h2>
-                                        </div>
-                                        <div class="teaser__wave teaser__wave--mobile" aria-hidden="true">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 409 14"
-                                                class="wave delay-1 wave--animated wave--inherit-bg "
-                                            >
-                                                <g
-                                                    fill="none"
-                                                    fill-rule="evenodd"
-                                                    stroke="currentColor"
-                                                    stroke-linecap="round"
-                                                >
-                                                    <path
-                                                        class="wave__thin"
-                                                        d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                    ></path>
-                                                    <path
-                                                        class="wave__thick"
-                                                        stroke-width="5"
-                                                        d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                    ></path>
-                                                </g>
-                                            </svg>
-                                        </div> 
-                                         <div class="grid-item grid-item--12 grid-item-lg--10">
-                                            <div class="teaser__wave teaser__wave--desktop" aria-hidden="true">
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 409 14"
-                                                    class="wave delay-1 wave--animated wave--inherit-bg "
-                                                >
-                                                    <g
-                                                        fill="none"
-                                                        fill-rule="evenodd"
-                                                        stroke="currentColor"
-                                                        stroke-linecap="round"
-                                                    >
-                                                        <path
-                                                            class="wave__thin"
-                                                            d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                        ></path>
-                                                        <path
-                                                            class="wave__thick"
-                                                            stroke-width="5"
-                                                            d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                        ></path>
-                                                    </g>
-                                                </svg>
-                                            </div>
-                                        </div> 
-                                     </div>
-                                </div>
-                                <div class="grid-item grid-item--12 grid-item-md--6"></div>
-                            </div> 
-                        </div>
-                    </div> */}
+                <div className='divider'>
                 </div>
-                {/* <div class="container">
-                    <div class="divider"></div>
-                </div> */}
-                {/*  <div>
-                    <div class="teaser">
-                        <div class="container">
-                            <div class="grid-container grid-container--vertical-gaps grid-container--vertical-center  ">
-                               <div class="grid-item grid-item--12 grid-item-md--6">
-                                    <div class="grid-container    ">
-                                        <div class="grid-item grid-item--12">
-                                            <h2 class="heading heading--dark   teaser__title">
-                                                <span class="heading__pre-text">MoodLifter is</span><br/>
-                                                <span class="heading__main">made for music lovers like you</span>
-                                            </h2>
-                                        </div>
-                                        <div class="teaser__wave teaser__wave--mobile" aria-hidden="true">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 409 14"
-                                                class="wave delay-1 wave--animated wave--inherit-bg "
-                                            >
-                                                <g
-                                                    fill="none"
-                                                    fill-rule="evenodd"
-                                                    stroke="currentColor"
-                                                    stroke-linecap="round"
-                                                >
-                                                    <path
-                                                        class="wave__thin"
-                                                        d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                    ></path>
-                                                    <path
-                                                        class="wave__thick"
-                                                        stroke-width="5"
-                                                        d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                    ></path>
-                                                </g>
-                                            </svg>
-                                        </div> 
-                                        {/* <div class="grid-item grid-item--12 grid-item-lg--10">
-                                            <p class="teaser__manchet">
-                                                MoodLifter is built by and for music enthusiasts. I celebrate music as
-                                                vital to our culture, its impact on our lives and the sense of community
-                                                it fosters. MoodLifter is redefining what it means to discover, listen to
-                                                and share music.
-                                            </p>
-                                            <div class="teaser__wave teaser__wave--desktop" aria-hidden="true">
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 409 14"
-                                                    class="wave delay-8 wave--animated wave--inherit-bg "
-                                                >
-                                                    <g
-                                                        fill="none"
-                                                        fill-rule="evenodd"
-                                                        stroke="currentColor"
-                                                        stroke-linecap="round"
-                                                    >
-                                                        <path
-                                                            class="wave__thin"
-                                                            d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                        ></path>
-                                                        <path
-                                                            class="wave__thick"
-                                                            stroke-width="5"
-                                                            d="M3 3c6.4979 0 6.4979 8 12.9965 8 6.4995 0 6.4995-8 12.9999-8 6.4978 0 6.4978 8 12.9965 8 6.4995 0 6.4995-8 12.9998-8 6.4987 0 6.4987 8 12.9974 8 6.4995 0 6.4995-8 12.9982-8 6.4995 0 6.4995 8 12.999 8 6.4986 0 6.4986-8 12.9981-8 6.4995 0 6.4995 8 12.9982 8 6.5012 0 6.5012-8 13.0007-8s6.4995 8 12.9998 8c6.4987 0 6.4987-8 12.9982-8s6.4995 8 12.999 8 6.4995-8 12.9998-8c6.4995 0 6.4995 8 12.999 8 6.5011 0 6.5011-8 13.0014-8 6.4987 0 6.4987 8 12.9982 8s6.4995-8 12.999-8 6.4995 8 12.9982 8c6.4995 0 6.4995-8 12.9982-8 6.5003 0 6.5003 8 12.9998 8 6.5011 0 6.5011-8 13.0014-8 6.4995 0 6.4995 8 12.9998 8 6.5004 0 6.5004-8 13.0007-8 6.5011 0 6.5011 8 13.0014 8 6.5012 0 6.5012-8 13.0023-8 6.4995 0 6.4995 8 12.999 8 6.502 0 6.502-8 13.0039-8 6.5028 0 6.5028 8 13.0047 8 6.5028 0 6.5028-8 13.0055-8 6.5028 0 6.5028 8 13.0064 8"
-                                                        ></path>
-                                                    </g>
-                                                </svg>
-                                            </div>
-                                            <div class="teaser__content">
-                                                <div class="rich-text rich-text--no-padding  ">
-                                                    <p></p>
-                                                </div>
-                                            </div>
-                                            <a href="/about/" class="teaser__button button button--dark ">
-                                                <span class="button__text">Read more</span> 
-                                            </a> 
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="grid-item grid-item--12 grid-item-md--6">
-                                    <div class="teaser__image-wrapper">
-                                        <img
-                                            srcSet="https://images.prismic.io/MoodLifter-com/4a684f794a169b633b8a34f15e915777253f0a5f_image_about.jpg?auto=compress,format&amp;fit=clamp&amp;w=580, https://images.prismic.io/MoodLifter-com/4a684f794a169b633b8a34f15e915777253f0a5f_image_about.jpg?auto=compress,format&amp;fit=clamp&amp;w=1160 2x, https://images.prismic.io/MoodLifter-com/4a684f794a169b633b8a34f15e915777253f0a5f_image_about.jpg?auto=compress,format&amp;fit=clamp&amp;w=1740 3x"
-                                            src="https://images.prismic.io/MoodLifter-com/4a684f794a169b633b8a34f15e915777253f0a5f_image_about.jpg?auto=compress,format&amp;fit=clamp&amp;w=1160"
-                                            alt=""
-                                            class="teaser__image"
-                                        />
-                                    </div>
-                                </div> 
-                            </div>
-                        </div>
-                    </div>
-                </div>*/}
             </main>
         );
     }

@@ -1,29 +1,72 @@
-  
-  * {
-    margin: 0;
-    padding: 0;
+
+  .site-layout{
+    position:relative;
+    width:100%;
+    overflow:hidden}
+  .site-layout:before{
+    content:"";
+    width:100%;
+    height:100%;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+    background-color:#0b6494;
+    background-repeat:no-repeat;
+    background-image:linear-gradient(135deg,transparent,rgba(0,0,0,.9));
+    background-size:120%;
+    -webkit-transform:scale(1.2);
+    transform:scale(1.2);
+    background-position:50%;
+    background-blend-mode:overlay;
+    -webkit-animation:colorspinElement 30s linear infinite;
+    animation:colorspinElement 30s linear infinite}
+  @supports not (background-blend-mode:overlay){
+    .site-layout:before{
+      background-size:200%;
+      -webkit-transform:scale(2);
+      transform:scale(2)}
   }
-  body {
-    background: #bdd630;
-    transition: background-color 0.5s ease;
-    color: #fff;
+  @media (prefers-reduced-motion:reduce){
+    .site-layout:before{
+      -webkit-animation:none!important;
+      animation:none!important}
   }
-  #header {
-    background: #000;
-    height: 40px;
-    text-align: center;
+ 
+ 
+  @-webkit-keyframes fillVertically{
+    0%{
+      background-size:0}
+    to{
+      background-size:100%}
   }
-  #content {
-    /* Now, to activate scrollbars
-               and compensate #footer height: */
-    padding-bottom: 40px;
+  @keyframes fillVertically{
+    0%{
+      background-size:0}
+    to{
+      background-size:100%}
   }
-  #footer {
-    background: #000;
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-    /* cause of fixed pos */
-    height: 40px;
-    text-align: center;
+  @-webkit-keyframes colorspinElement{
+    0%{
+      background-color:#0b6494}
+    25%{
+      background-color:#c90a00}
+    50%{
+      background-color:#ff5100}
+    75%{
+      background-color:#ffb100}
+    to{
+      background-color:#0b6494}
   }
+  @keyframes colorspinElement{
+    0%{
+      background-color:#0b6494}
+    25%{
+      background-color:#c90a00}
+    50%{
+      background-color:#ff5100}
+    75%{
+      background-color:#ffb100}
+    to{
+      background-color:#0b6494}
+  } 
