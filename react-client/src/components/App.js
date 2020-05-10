@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { css } from '@emotion/core';
 import ColorChanger from './ColorChanger/ColorChanger';
-import DotLoader from 'react-spinners/DotLoader';
-import Feeling from './moods/Feeling';
+// import DotLoader from 'react-spinners/DotLoader';
+// import Feeling from './moods/Feeling';
 import Home from './Home/Home';
 import Login from './login/Login';
 // import Logo from './logo/Logo';
@@ -19,11 +19,11 @@ import {
 import Header from './header/Header';
 import './App.css';
 
-const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: black;
-`;
+// const override = css`
+//     display: block;
+//     margin: 0 auto;
+//     border-color: black;
+// `;
 // A Spotify URI is a link that you can find in the Share menu of any track, album, or artist page on Spotify. When a user clicks a link that consists of a Spotify URI (rather than an URL/HTTP address), they're taken directly to the Spotify application, without having to go through the web page first.
 // import logo from './logo.svg';
 
@@ -378,53 +378,16 @@ class App extends Component {
 
     render() {
         const {
-            userInfo,
             loggedIn,
-            artistName,
-            songName,
-            playing,
-            backgroundImage,
-            usersPlaylists,
             token,
-            loading,
         } = this.state;
-        console.log('token', this.state.token)
+        // console.log('token', this.state.token)
 
         return (
             <div className="App">
                 {/* <Logo /> */}
                 {loggedIn ? '' : <Login token={token} />}
-                {loggedIn ? (
-                    <div className="main-wrapper" 
-                        style={{
-                            position: 'absolute', left: '50%', top: '50%',
-                            transform: 'translate(-50%, -50%)'
-                    }}>
-                        <div className="ma4 mt0">
-                            {/* <p className="f1 white underline"> MOOD LIFTER</p> */}
-                            <h1 className="f3 pa3 ma3 white"> Welcome {userInfo.display_name} </h1>
-                        </div>
-                        <div className="now-playing__img ">
-                            <img alt={backgroundImage} src={backgroundImage} />
-                        </div>
-                        <div className="now-playing__side">
-                            <div className="now-playing__name">{songName}</div>
-                            <div className="now-playing__artist">{artistName}</div>
-                        </div>
-                        {/* <div className="background" style={backgroundImage} />{" "} */}
-                        <div>
-                            <button onClick={() => this.onPrevClick()}>Previous</button>
-                            <button onClick={() => this.onPlayClick()}>{playing ? 'Pause' : 'Play'}</button>
-                            <button onClick={() => this.onNextClick()}>Next</button>
-                        </div>
-                        <div className="white f3"></div>
-                        {loading ? (
-                            <DotLoader css={override} size={150} color={'#123abc'} loading={this.state.loading} />
-                        ) : (
-                            <Feeling userId={userInfo.id} playlists={usersPlaylists} token={token} />
-                        )}
-                    </div>
-                ) : ( 
+                {loggedIn ? (<Header state={this.state} onPrevClick={this.onPrevClick.bind(this)} onNextClick={this.onNextClick.bind(this)} onPlayClick={this.onPlayClick.bind(this)} />) : ( 
                     <Home />
                 )}
                 <ColorChanger />
