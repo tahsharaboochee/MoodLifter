@@ -67,11 +67,13 @@ const Feeling = (props) => {
     };
 
     return (
-        <div>
-            <div className="white f3">{'Click your Mood!!!'}</div>
-            <div className="center pa3">
+        <div tyle={{
+            position: 'absolute', left: '50%', top: '50%',
+            transform: 'translate(-50%, -50%)'
+        }}>
+            <div className="white pa3 f3">{'Click your Mood!!!'}</div>
+            <div className="pa3">
                 <div className="form pa4 br3 shadow-5 ph3">
-                    {/* <button className='w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-orange'>HAPPY</button>  */}
                     <button
                         onClick={onHappyClick}
                         className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-yellow"

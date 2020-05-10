@@ -5,10 +5,7 @@ import DotLoader from 'react-spinners/DotLoader';
 import Feeling from './moods/Feeling';
 import Home from './Home/Home';
 import Login from './login/Login';
-import Logout from './logout/Logout';
 // import Logo from './logo/Logo';
-// import Signup from './stayInformed/SignUp'
-// import Footer from './footer/Footer'
 import {
     createPlaylist,
     fetchAudioFeatures,
@@ -364,20 +361,6 @@ class App extends Component {
     };
 
     getRefreshToken() {
-        // let debug = true;
-        // if (this.state.loggedIn) {
-        //     fetchRefreshToken(this.access_token).then((token) => {
-        //         let access_token = token.access_token;
-        //         //checking every second for spotifies SDK player window.Spotify variable
-        //         this.spotifyPlayerCheckInterval = setInterval(() => this.checkingForSpotifyURI());
-        //         this.setState({
-        //             token: access_token,
-        //             loggedIn: true,
-        //             // loading: false,
-        //         });
-        //     });
-        // }
-        // console.log('inside getRefreshToken', 'session cookie', document.session.cookie, 'cookie', document.cookie)
         setInterval(
             () => {
                 fetchRefreshToken(this.access_token).then((token) => {
@@ -410,11 +393,17 @@ class App extends Component {
         return (
             <div className="App">
                 {/* <Logo /> */}
-                {loggedIn ? <Logout logout={this.logout.bind(this)} /> : <Login token={token} />}
-                {/* <div className='pa5'/> */}
-                {loggedIn ? <Header user={userInfo} /> : <Home />} {/*<Logo /> */}
+                {loggedIn ? '' : <Login token={token} />}
                 {loggedIn ? (
-                    <div className="main-wrapper">
+                    <div className="main-wrapper" 
+                        style={{
+                            position: 'absolute', left: '50%', top: '50%',
+                            transform: 'translate(-50%, -50%)'
+                    }}>
+                        <div className="ma4 mt0">
+                            {/* <p className="f1 white underline"> MOOD LIFTER</p> */}
+                            <h1 className="f3 pa3 ma3 white"> Welcome {userInfo.display_name} </h1>
+                        </div>
                         <div className="now-playing__img ">
                             <img alt={backgroundImage} src={backgroundImage} />
                         </div>
@@ -436,11 +425,9 @@ class App extends Component {
                         )}
                     </div>
                 ) : ( 
-                    <ColorChanger />
+                    <Home />
                 )}
                 <ColorChanger />
-                {/* <Signup/> */}
-                {/* <Footer/> */}
             </div>
         );
     }
