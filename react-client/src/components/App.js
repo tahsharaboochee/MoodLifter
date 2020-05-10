@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { css } from '@emotion/core';
 import ColorChanger from './ColorChanger/ColorChanger';
-// import DotLoader from 'react-spinners/DotLoader';
-// import Feeling from './moods/Feeling';
 import Home from './Home/Home';
 import Login from './login/Login';
-// import Logo from './logo/Logo';
 import {
     createPlaylist,
     fetchAudioFeatures,
@@ -16,16 +12,8 @@ import {
     usersTopArtistsOrSongs,
     fetchRefreshToken,
 } from './helpers/api-fetcher';
-import Header from './header/Header';
+import Player from './player/Player';
 import './App.css';
-
-// const override = css`
-//     display: block;
-//     margin: 0 auto;
-//     border-color: black;
-// `;
-// A Spotify URI is a link that you can find in the Share menu of any track, album, or artist page on Spotify. When a user clicks a link that consists of a Spotify URI (rather than an URL/HTTP address), they're taken directly to the Spotify application, without having to go through the web page first.
-// import logo from './logo.svg';
 
 class App extends Component {
     constructor(props) {
@@ -385,9 +373,8 @@ class App extends Component {
 
         return (
             <div className="App">
-                {/* <Logo /> */}
                 {loggedIn ? '' : <Login token={token} />}
-                {loggedIn ? (<Header state={this.state} onPrevClick={this.onPrevClick.bind(this)} onNextClick={this.onNextClick.bind(this)} onPlayClick={this.onPlayClick.bind(this)} />) : ( 
+                {loggedIn ? (<Player state={this.state} onPrevClick={this.onPrevClick.bind(this)} onNextClick={this.onNextClick.bind(this)} onPlayClick={this.onPlayClick.bind(this)} />) : ( 
                     <Home />
                 )}
                 <ColorChanger />

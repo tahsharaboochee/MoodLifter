@@ -76,19 +76,19 @@ const Feeling = (props) => {
                 <div className="form pa4 br3 shadow-5 ph3">
                     <button
                         onClick={onHappyClick}
-                        className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-yellow"
+                        className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-gold"
                     >
                         HAPPY
                     </button>
                     <button
                         onClick={onSadClick}
-                        className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-light-blue"
+                        className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-mid-gray"
                     >
                         SAD
                     </button>
                     <button
                         onClick={onAngryClick}
-                        className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-red"
+                        className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-dark-red"
                     >
                         ANGRY
                     </button>
