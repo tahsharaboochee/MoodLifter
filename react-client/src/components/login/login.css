@@ -11,10 +11,14 @@
 }
 
 .btn:hover {
-  background: white;
+  background: #333333;
   color: #333;
 }
 
 .btn--login {
   margin: 0 auto;
+}
+
+.login{
+  text-decoration: none;
 }

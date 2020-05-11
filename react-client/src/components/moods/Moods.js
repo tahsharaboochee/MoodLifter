@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { queuePlaylist, setPlayerToQueuedPlaylist, playPlaylist } from '../helpers/api-fetcher';
-import './feelings.css';
-import { css } from '@emotion/core';
-import ClipLoader from 'react-spinners/ClipLoader';
+import './Moods.css';
 
-// const select_songs_for_feeling(props){
-//   console.log(props)
-
-const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: red;
-`;
-
-const Feeling = (props) => {
+const Moods = (props) => {
     const { userId, token, playlists } = props;
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState('now Playing');
@@ -67,22 +56,20 @@ const Feeling = (props) => {
     };
 
     return (
-        <div tyle={{
-            position: 'absolute', left: '50%', top: '50%',
-            transform: 'translate(-50%, -50%)'
-        }}>
+        <div >
             <div className="white pa3 f3">{'Click your Mood!!!'}</div>
+            <br/>
             <div className="pa3">
                 <div className="form pa4 br3 shadow-5 ph3">
                     <button
                         onClick={onHappyClick}
-                        className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-gold"
+                        className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-orange"
                     >
                         HAPPY
                     </button>
                     <button
                         onClick={onSadClick}
-                        className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-mid-gray"
+                        className="w-33 grow no-underline f4 br-pill b bw2 ph3 pv2 mb2 dib white bg-silver"
                     >
                         SAD
                     </button>
@@ -98,4 +85,4 @@ const Feeling = (props) => {
     );
 };
 
-export default Feeling;
+export default Moods;

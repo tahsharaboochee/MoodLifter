@@ -11,8 +11,8 @@ const Login = (props) => {
                 <p className="f3 white pa3 ma3">Moodlifter</p>
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end',  width: '48%', height: '100px'}} className='item'>
-            <button className="f3 link dim white underline pa3 ma3 pointer btn btn--loginApp-link">
-                <a href="/login">{'Sign In'}</a>
+            <button className="f3 white pa3 ma3 pointer btn btn--loginApp-link">
+                <a className="login white" href="/login">{'Sign In'}</a>
             </button>
             </div>
         </nav>
