@@ -56,9 +56,9 @@ const Moods = (props) => {
     };
 
     return (
-        <div >
+        <div>
             <div className="white pa3 f3">{'Click your Mood!!!'}</div>
-            <br/>
+            <br />
             <div className="pa3">
                 <div className="form pa4 br3 shadow-5 ph3">
                     <button

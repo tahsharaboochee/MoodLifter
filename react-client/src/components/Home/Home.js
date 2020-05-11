@@ -10,8 +10,8 @@ class Home extends Component {
                         <span className="title">
                             Create
                             <br />
-                            Personalised 
-                            <br/>
+                            Personalised
+                            <br />
                             Playlists
                         </span>
                     </h2>
@@ -35,8 +35,8 @@ class Home extends Component {
                 <div className="container container--white">
                     <div className="rich-text  rich-text--large rich-text--left-aligned">
                         <p className="">
-                            Every one Experiences Feelings of Happiness, Sadness and Anger. Listening to
-                            music is an excellent way to cycle through your emotions
+                            Every one Experiences Feelings of Happiness, Sadness and Anger. Listening to music is an
+                            excellent way to cycle through your emotions
                         </p>
                         <p className="">Listen and allow your emotions to flow.</p>
                     </div>
@@ -59,24 +59,34 @@ class Home extends Component {
                             </g>
                         </svg>
                     </div>
-                    <div className='pa2'/>
+                    <div className="pa2" />
                     <ul class="social-links">
                         <li class="social-links__item">
-                            <a href="https://www.linkedin.com/in/tahshara/" target="_blank" class="social-links__link social-links__link--round">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="social-links__link-icon" aria-hidden="true">
-                                <g fill="currentColor" fill-rule="nonzero">
-                                <path fill="currentColor" fill-rule="nonzero" d="M0 2.5788159v30.84236824C0 34.84552172 1.19104121 36 2.66033413 36H33.3396659C34.8089104 36 36 34.84552172 36 33.42118414V2.5788159C36 1.1549593 34.8089104 0 33.3396659 0H2.66033413C1.19104121 0 0 1.1549593 0 2.5788159zm10.9127142 27.55691547H5.47523639V13.8797151h5.43747781v16.25601627zM8.1939511 11.6602306h-.03543498c-1.82475608 0-3.00471175-1.2482796-3.00471175-2.8082684 0-1.5951041 1.21611678-2.8087494 3.0761142-2.8087494 1.86019103 0 3.00505063 1.2136453 3.04038873 2.8087494 0 1.5599888-1.1801977 2.8082684-3.0763562 2.8082684zm5.7274928 18.47550077s.0714992-14.73066187 0-16.25601627h5.4375746v2.3575409h-.0363063c.7154767-1.1097423 2.003238-2.7389997 4.9365957-2.7389997 3.577432 0 6.2599856 2.3233875 6.2599856 7.3165061v9.32096897h-5.4369938V21.4391427c0-2.1853312-.7870728-3.6760513-2.7546337-3.6760513-1.5021139 0-2.3967986 1.0053582-2.7898751 1.976082-.1435795.3473056-.1789176.8326675-.1789176 1.3185104v9.07804757h-5.4374294z">
-                                </path>
-                                </g>
-                            </svg>
-                            <span class="social-links__link-text">LinkedIn
-                            </span>
+                            <a
+                                href="https://www.linkedin.com/in/tahshara/"
+                                target="_blank"
+                                class="social-links__link social-links__link--round"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 36 36"
+                                    class="social-links__link-icon"
+                                    aria-hidden="true"
+                                >
+                                    <g fill="currentColor" fill-rule="nonzero">
+                                        <path
+                                            fill="currentColor"
+                                            fill-rule="nonzero"
+                                            d="M0 2.5788159v30.84236824C0 34.84552172 1.19104121 36 2.66033413 36H33.3396659C34.8089104 36 36 34.84552172 36 33.42118414V2.5788159C36 1.1549593 34.8089104 0 33.3396659 0H2.66033413C1.19104121 0 0 1.1549593 0 2.5788159zm10.9127142 27.55691547H5.47523639V13.8797151h5.43747781v16.25601627zM8.1939511 11.6602306h-.03543498c-1.82475608 0-3.00471175-1.2482796-3.00471175-2.8082684 0-1.5951041 1.21611678-2.8087494 3.0761142-2.8087494 1.86019103 0 3.00505063 1.2136453 3.04038873 2.8087494 0 1.5599888-1.1801977 2.8082684-3.0763562 2.8082684zm5.7274928 18.47550077s.0714992-14.73066187 0-16.25601627h5.4375746v2.3575409h-.0363063c.7154767-1.1097423 2.003238-2.7389997 4.9365957-2.7389997 3.577432 0 6.2599856 2.3233875 6.2599856 7.3165061v9.32096897h-5.4369938V21.4391427c0-2.1853312-.7870728-3.6760513-2.7546337-3.6760513-1.5021139 0-2.3967986 1.0053582-2.7898751 1.976082-.1435795.3473056-.1789176.8326675-.1789176 1.3185104v9.07804757h-5.4374294z"
+                                        ></path>
+                                    </g>
+                                </svg>
+                                <span class="social-links__link-text">LinkedIn</span>
                             </a>
                         </li>
                     </ul>
-                    </div>
-                <div className='divider'>
                 </div>
+                <div className="divider"></div>
             </main>
         );
     }

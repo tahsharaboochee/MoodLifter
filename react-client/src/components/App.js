@@ -18,6 +18,13 @@ import './App.css';
 class App extends Component {
     constructor(props) {
         super(props);
+
+        this.mediaQuery = {
+            desktop: 1200,
+            tablet: 768,
+            phone: 576,
+          };
+
         //set the initial state
         this.state = {
             loading: true,
@@ -33,6 +40,7 @@ class App extends Component {
             position: 0,
             duration: 0,
             backgroundImage: '',
+            windowWidth: null
         };
         //repeatedly check to see if SDK is ready
         this.spotifyPlayerCheckInterval = null;
@@ -40,6 +48,10 @@ class App extends Component {
 
     //when we sign into spotify
     componentDidMount() {
+        window.addEventListener('resize', () => {
+            this.setState({windowWidth: document.body.clientWidth})
+          });
+
         // Set token
         const queryString = window.location.search;
         //parse the query string's parameters
@@ -339,7 +351,7 @@ class App extends Component {
         const spotifyLogoutWindow = window.open(url, 'Spotify Logout', 'width=700,height=500,top=40,left=40');
         // const close= window.close('https://www.spotify.com/us/', 'Spotify Logout', 'width=700,height=500,top=40,left=40');
         setTimeout(() => {
-            spotifyLogoutWindow()
+            spotifyLogoutWindow();
         }, 2000);
         this.setState({
             loggedIn: false,
@@ -356,7 +368,7 @@ class App extends Component {
                     this.setState({
                         token: access_token,
                         loggedIn: true,
-                        loading: false
+                        loading: false,
                     });
                 });
             },
@@ -365,16 +377,26 @@ class App extends Component {
     }
 
     render() {
-        const {
-            loggedIn,
-            token,
-        } = this.state;
+        const { loggedIn, token } = this.state;
         // console.log('token', this.state.token)
 
         return (
-            <div className="App">
+            <div className="App" 
+                style={{
+                    width: this.state.windowWidth > this.mediaQuery.phone
+                    ? '50%'
+                    : '100%',
+                }}
+            >
                 {loggedIn ? '' : <Login token={token} />}
-                {loggedIn ? (<Player state={this.state} onPrevClick={this.onPrevClick.bind(this)} onNextClick={this.onNextClick.bind(this)} onPlayClick={this.onPlayClick.bind(this)} />) : ( 
+                {loggedIn ? (
+                    <Player
+                        state={this.state}
+                        onPrevClick={this.onPrevClick.bind(this)}
+                        onNextClick={this.onNextClick.bind(this)}
+                        onPlayClick={this.onPlayClick.bind(this)}
+                    />
+                ) : (
                     <Home />
                 )}
                 <ColorChanger />
