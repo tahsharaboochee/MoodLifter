@@ -67,7 +67,7 @@ import {
 
     return (
         <div>
-            <div className="white pa3 f3">{'Click your Mood!!!'}</div>
+            <div className="white pa3 f3">{props.userName}{' Click your Mood!!!'}</div>
             <br />
             <div className="pa3">
                 {/* <div className="form pa4 br3 shadow-5 ph3"> */}

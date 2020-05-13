@@ -135,3 +135,27 @@
 .bg-animate, .bg-animate:hover, .bg-animate:focus {
     transition: background-color .15s ease-in-out;
 }
+
+.mw5 {
+  max-width: 16rem;
+}
+
+.bg-gray {
+  background-color: 4B4B4C;
+}
+
+.center {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media screen and (min-width: 30em) {
+  .mw7-ns {
+      max-width: 48rem;
+  }
+
+  .ph5-ns {
+      padding-left: 4rem;
+      padding-right: 4rem;
+  }
+}

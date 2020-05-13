@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ColorChanger from './ColorChanger/ColorChanger';
 import Home from './Home/Home';
 import Login from './login/Login';
-import Temp from './Temp';
 import {
     createPlaylist,
     fetchAudioFeatures,
@@ -384,10 +383,10 @@ class App extends Component {
 
         return (
             <div
-                className="App"
-                style={{
-                    width: this.state.windowWidth > this.mediaQuery.phone ? '50%' : '100%',
-                }}
+                // className="App"
+                // style={{
+                //     width: this.state.windowWidth > this.mediaQuery.phone ? '50%' : '100%',
+                // }}
             >
                 {loggedIn ? '' : <Login token={token} />}
                 {loggedIn ? (
@@ -397,12 +396,6 @@ class App extends Component {
                         onNextClick={this.onNextClick.bind(this)}
                         onPlayClick={this.onPlayClick.bind(this)}
                     />
-                    // <Temp 
-                    //     state={this.state}
-                    //     onPrevClick={this.onPrevClick.bind(this)}
-                    //     onNextClick={this.onNextClick.bind(this)}
-                    //     onPlayClick={this.onPlayClick.bind(this)}
-                    // />
                 ) : (
                     <Home />
                 )}
