@@ -10,6 +10,4 @@ module.exports = function (app) {
     app.use('/login', proxy());
     app.use('/callback', proxy());
     app.use('/refresh_token', proxy());
-    app.use('/debug', proxy());
-    app.use('/loginTemp', proxy());
 };

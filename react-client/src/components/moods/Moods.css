@@ -24,3 +24,24 @@
       padding: 2rem;
   }
 }
+
+.btn {
+  background-color: transparent;
+  border-radius: 2em;
+  border: 0.2em solid white; 
+  color: #f8f8f5;
+  cursor: pointer;
+  /* font-size: 3vmin; */
+  padding: 0.7em 1.5em;
+  text-transform: uppercase;
+  transition: all 0.25s ease;
+}
+
+.btn:hover {
+  background: #333333;
+  color: #333;
+}
+
+.btn--login {
+  margin: 0 auto;
+}

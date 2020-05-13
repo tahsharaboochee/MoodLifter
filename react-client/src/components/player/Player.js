@@ -57,7 +57,7 @@ const Player = (props) => {
                 )}
           </CardHeader>
           {
-           onPlayListClick && !loading ? 
+           playing ? 
             <div>
                     <CardTitle>{songName} by: {artistName}</CardTitle> 
                 <CardBody>
