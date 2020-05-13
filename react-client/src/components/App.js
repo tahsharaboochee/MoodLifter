@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ColorChanger from './ColorChanger/ColorChanger';
 import Home from './Home/Home';
 import Login from './login/Login';
+import Temp from './Temp';
 import {
     createPlaylist,
     fetchAudioFeatures,
@@ -23,7 +24,7 @@ class App extends Component {
             desktop: 1200,
             tablet: 768,
             phone: 576,
-          };
+        };
 
         //set the initial state
         this.state = {
@@ -40,7 +41,7 @@ class App extends Component {
             position: 0,
             duration: 0,
             backgroundImage: '',
-            windowWidth: null
+            windowWidth: null,
         };
         //repeatedly check to see if SDK is ready
         this.spotifyPlayerCheckInterval = null;
@@ -49,8 +50,8 @@ class App extends Component {
     //when we sign into spotify
     componentDidMount() {
         window.addEventListener('resize', () => {
-            this.setState({windowWidth: document.body.clientWidth})
-          });
+            this.setState({ windowWidth: document.body.clientWidth });
+        });
 
         // Set token
         const queryString = window.location.search;
@@ -321,6 +322,7 @@ class App extends Component {
     }
 
     onNextClick() {
+        console.log('spotify player', this.spotifyPlayer);
         this.spotifyPlayer.nextTrack();
     }
 
@@ -378,14 +380,13 @@ class App extends Component {
 
     render() {
         const { loggedIn, token } = this.state;
-        // console.log('token', this.state.token)
+        // console.log('state info', this.state)
 
         return (
-            <div className="App" 
+            <div
+                className="App"
                 style={{
-                    width: this.state.windowWidth > this.mediaQuery.phone
-                    ? '50%'
-                    : '100%',
+                    width: this.state.windowWidth > this.mediaQuery.phone ? '50%' : '100%',
                 }}
             >
                 {loggedIn ? '' : <Login token={token} />}
@@ -396,6 +397,12 @@ class App extends Component {
                         onNextClick={this.onNextClick.bind(this)}
                         onPlayClick={this.onPlayClick.bind(this)}
                     />
+                    // <Temp 
+                    //     state={this.state}
+                    //     onPrevClick={this.onPrevClick.bind(this)}
+                    //     onNextClick={this.onNextClick.bind(this)}
+                    //     onPlayClick={this.onPlayClick.bind(this)}
+                    // />
                 ) : (
                     <Home />
                 )}
