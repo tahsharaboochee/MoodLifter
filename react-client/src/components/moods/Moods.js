@@ -68,8 +68,8 @@ import {
 
     return (
         <div>
-            <div className="white pa3 f3">{props.userName}{' Click your Mood!!!'}</div>
-            <br />
+            <div className="white pa3 f3">{props.userName}{' Click your Mood'}</div>
+            <br/>
             <div className="pa3">
                 {/* <div className="form pa4 br3 shadow-5 ph3"> */}
                 {/* <Card>
@@ -80,7 +80,7 @@ import {
                 </Card> */}
                 <button
                     onClick={onHappyClick}
-                    className="pill no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
+                    className="pointer btn btn--playlist no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
                 >
                     <Card>
                     <CardBody>
@@ -96,9 +96,10 @@ import {
                     </Card>
                     {/* HAPPY */}
                 </button>
+                    <span className="pa3"></span>
                 <button
                     onClick={onSadClick}
-                    className="pill no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
+                    className="pointer btn btn--playlist no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
                 >
                     <Card>
                     <CardBody>
@@ -113,9 +114,10 @@ import {
                 </CardFooter>
                     </Card>
                 </button>
+                <span className="pa3"></span>
                 <button
                     onClick={onAngryClick}
-                    className="pill no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
+                    className="pointer btn btn--playlist no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
                 >
                     <Card>
                     <CardBody>

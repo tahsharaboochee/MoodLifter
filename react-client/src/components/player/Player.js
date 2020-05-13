@@ -38,14 +38,14 @@ const Player = (props) => {
     const { userInfo, artistName, songName, playing, backgroundImage, usersPlaylists, token, loading } = props.state;
     // console.log('playing', playing, userInfo)
     return (
-        <div className='center pa3 mr4 mw5 mw7-ns ph5-ns'>
+        <div className='center centered pa3 mr4 mw5 mw7-ns ph5-ns'>
          <Card 
           style={{
             // border: '5px solid #555555',
             // boxSizing: "border-box",
             textAlign: 'center',
             color: 'white',
-            margin: 'auto'
+            // margin: 'auto'
             // backgroundColor: '2B2D2F'
         }}
         > 
