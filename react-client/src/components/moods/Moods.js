@@ -21,6 +21,7 @@ import {
         // console.log('inside sadClick', playlists, playlists.moodSongsUris.sadUris)
         let sadUris = playlists.moodSongsUris.sadUris;
         onClickHandler(sadUris);
+        props.playlistPlaying()
     };
     const onHappyClick = () => {
         // console.log('inside sadClick', playlists, playlists.moodSongsUris.sadUris)
@@ -79,7 +80,7 @@ import {
                 </Card> */}
                 <button
                     onClick={onHappyClick}
-                    className=" no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent"
+                    className=" no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
                 >
                     <Card>
                     <CardBody>
@@ -97,7 +98,7 @@ import {
                 </button>
                 <button
                     onClick={onSadClick}
-                    className=" no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent"
+                    className=" no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
                 >
                     <Card>
                     <CardBody>
@@ -114,7 +115,7 @@ import {
                 </button>
                 <button
                     onClick={onAngryClick}
-                    className=" no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent"
+                    className=" no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
                 >
                     <Card>
                     <CardBody>
