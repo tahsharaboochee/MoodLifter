@@ -71,7 +71,7 @@ class App extends Component {
             angryMoodUris = [],
             happyMoodUris = [],
             sadMoodUris = [];
-        // console.log('we have a token', access_token, '\nrefresh token', refresh_token)
+
         if (access_token) {
             // Set token, loggedIn variable
             this.setState({
@@ -85,7 +85,6 @@ class App extends Component {
 
             usersTopArtistsOrSongs(access_token, 'tracks')
                 .then((data) => {
-                    // console.log('song info', data.items)
                     let songs = data.items.map((song) => {
                         return {
                             name: song['name'],
@@ -97,10 +96,8 @@ class App extends Component {
                 })
                 .then(async (songs) => {
                     songs = await songs;
-                    // console.log('top songs', songs)
                     for (let song of songs) {
                         let audio = await fetchAudioFeatures(access_token, song.track_id);
-                        // console.log('fetch audio features', audio)
                         let mood = audio.valence;
                         // let danceability = await audio.danceability;
                         // let energy = await audio.energy;
@@ -117,33 +114,27 @@ class App extends Component {
                     return moods;
                 })
                 .then((moods) => {
-                    // console.log('after fetch audio features request moods', moods)
                     let angryMood = moods['angry'];
                     let happyMood = moods['happy'];
                     let sadMood = moods['sad'];
 
                     angryMood.forEach((song) => {
-                        // console.log(song['track_uri'])
                         angryMoodUris.push(song['track_uri']);
                     });
                     happyMood.forEach((song) => {
-                        // console.log(song['track_uri'])
                         happyMoodUris.push(song['track_uri']);
                     });
                     sadMood.forEach((song) => {
-                        // console.log(song['track_uri'])
                         sadMoodUris.push(song['track_uri']);
                     });
-                    // console.log('angryMoodUris', angryMoodUris)
+
                     let moodSongsUris = { angryUris: angryMoodUris, happyUris: happyMoodUris, sadUris: sadMoodUris };
-                    // console.log('moodSongUris', moodSongsUris)
+
                     return moodSongsUris;
                 })
                 .then((moodSongsUris) => {
-                    // console.log('mood uris', moodSongsUris)
-                    // //user info
+                    //user info
                     fetchUser(access_token).then((userInfo) => {
-                        // console.log('inside fetch user', userInfo)
                         userProfile = userInfo;
                         let id = userInfo.id;
                         getUsersPlaylist(id, access_token)
@@ -156,12 +147,10 @@ class App extends Component {
                                         playlistInfo[playlist] = playlists[playlist];
                                     }
                                 }
-                                // console.log(playlistInfo)
                                 if (!playlistsName.includes('Sad Music MoodLifter')) {
                                     console.log('playlist does not exist');
                                     sad = createPlaylist(userInfo.id, access_token, 'Sad Music MoodLifter').then(
                                         async (info) => {
-                                            // console.log('listInfo', info)
                                             let data = await info;
                                             return data;
                                         },
@@ -171,7 +160,6 @@ class App extends Component {
                                     console.log('playlist does not exist');
                                     angry = createPlaylist(userInfo.id, access_token, 'Angry Music MoodLifter').then(
                                         async (info) => {
-                                            // console.log('listInfo', info)
                                             let data = await info;
                                             return data;
                                         },
@@ -181,13 +169,12 @@ class App extends Component {
                                     console.log('playlist does not exist');
                                     happy = createPlaylist(userInfo.id, access_token, 'Happy Music MoodLifter').then(
                                         async (info) => {
-                                            // console.log('listInfo', info)
                                             let data = await info;
                                             return data;
                                         },
                                     );
                                 }
-                                // console.log(playlistInfo, 'length', Object.keys(playlistInfo).length)
+
                                 if (Object.keys(playlistInfo).length === 3) {
                                     let playlist = await playlistInfo;
                                     return {
@@ -195,7 +182,6 @@ class App extends Component {
                                         moodSongsUris: moodSongsUris,
                                         setPlaylistExist: true,
                                     };
-                                    // return playlistInfo
                                 } else {
                                     let moodLifterCreatedPlaylists = Promise.all([angry, happy, sad]);
                                     return {
@@ -203,13 +189,13 @@ class App extends Component {
                                         moodSongsUris: moodSongsUris,
                                         setPlaylistExist: false,
                                     };
-                                    // return  moodLifterCreatedPlaylists
                                 }
                             })
                             .then(async (playlists) => {
                                 playlists = await playlists;
                                 let moodLifterCreatedPlaylists = await playlists['moodLifterCreatedPlaylists'];
 
+                                console.log('playlist', playlists);
                                 if (!playlists['setPlaylistExist']) {
                                     let setAngryPlaylist = setPlaylist(
                                         moodLifterCreatedPlaylists[0]['Angry Music MoodLifter']['id'],
@@ -243,8 +229,6 @@ class App extends Component {
                                         loading: false,
                                     });
                                 }
-
-                                // return playlists
                             });
                     });
                 });
@@ -254,8 +238,6 @@ class App extends Component {
 
     //player received an update from player
     onStateChange(state) {
-        // console.log('onStateChange line 72 state=', state)
-
         if (state !== null) {
             const { current_track } = state.track_window;
             const songName = current_track.name;
@@ -298,13 +280,8 @@ class App extends Component {
         // ready
         this.spotifyPlayer.addListener('ready', (data) => {
             let { device_id } = data;
-            //  console.log('let the music play on!', data)
-            // swap music playback to moodLifter
             transferPlaybackToMoodLifter(device_id, this.state.token);
-            // fetchAudioFeatures(this.state)
-            // console.log(this.spotifyPlayer)
             this.setState({ deviceId: device_id });
-            //  console.log('getting spotifyPlayer data .then', this.state.deviceId)
         });
     }
 
@@ -317,7 +294,6 @@ class App extends Component {
     }
 
     onNextClick() {
-        console.log('spotify player', this.spotifyPlayer);
         this.spotifyPlayer.nextTrack();
     }
 
@@ -342,20 +318,6 @@ class App extends Component {
             this.spotifyPlayer.connect();
         }
     }
-    logout = () => {
-        // AuthenticationClient.clearCookies(getApplication());
-        const url = 'https://www.spotify.com/logout/';
-        const spotifyLogoutWindow = window.open(url, 'Spotify Logout', 'width=700,height=500,top=40,left=40');
-        // const close= window.close('https://www.spotify.com/us/', 'Spotify Logout', 'width=700,height=500,top=40,left=40');
-        setTimeout(() => {
-            spotifyLogoutWindow();
-        }, 2000);
-        this.setState({
-            loggedIn: false,
-            access_token: null,
-        });
-        window.location.reload();
-    };
 
     getRefreshToken() {
         setInterval(
@@ -375,15 +337,9 @@ class App extends Component {
 
     render() {
         const { loggedIn, token } = this.state;
-        // console.log('state info', this.state)
 
         return (
-            <div
-                // className="App"
-                // style={{
-                //     width: this.state.windowWidth > this.mediaQuery.phone ? '50%' : '100%',
-                // }}
-            >
+            <div>
                 {loggedIn ? '' : <Login token={token} />}
                 {loggedIn ? (
                     <Player
