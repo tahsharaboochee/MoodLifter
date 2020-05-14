@@ -148,7 +148,6 @@ class App extends Component {
                         let id = userInfo.id;
                         getUsersPlaylist(id, access_token)
                             .then(async (playlists) => {
-                                console.log('getting users playlist', playlists);
                                 playlists = playlists[0];
                                 let playlistsName = Object.keys(playlists);
 
@@ -190,7 +189,6 @@ class App extends Component {
                                 }
                                 // console.log(playlistInfo, 'length', Object.keys(playlistInfo).length)
                                 if (Object.keys(playlistInfo).length === 3) {
-                                    console.log('playlist Info', playlistInfo);
                                     let playlist = await playlistInfo;
                                     return {
                                         playlistInfo: playlist,
@@ -212,9 +210,7 @@ class App extends Component {
                                 playlists = await playlists;
                                 let moodLifterCreatedPlaylists = await playlists['moodLifterCreatedPlaylists'];
 
-                                console.log('playlist', playlists);
                                 if (!playlists['setPlaylistExist']) {
-                                    console.log('about to set playlist');
                                     let setAngryPlaylist = setPlaylist(
                                         moodLifterCreatedPlaylists[0]['Angry Music MoodLifter']['id'],
                                         access_token,

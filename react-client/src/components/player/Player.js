@@ -23,20 +23,29 @@ const override = css`
 `;
 const Player = (props) => {
     const [onPlayListClick, setOnPlayListClick] = useState(false)
+    const [onBackClick, setOnBackClick] = useState(false)
     useEffect (()=>{
-        console.log('before if statement in useEffect', props.state.playing, 'playlist clicked', onPlayListClick)
+        console.log('before if statement in useEffect', props.state.playing, 'playlist clicked', onPlayListClick, 'back clicked', onBackClick)
         if(!props.state.playing){
             console.log('inside if statement')
             setOnPlayListClick(!onPlayListClick)
         }
-        console.log('after if statement', props, 'playlist clicked', onPlayListClick)
+
+        console.log('after if statement', props, 'playlist clicked', onPlayListClick, '')
     }, [])
+
     const playlistPlaying = () => {
-        setOnPlayListClick(!onPlayListClick)
+        setOnPlayListClick(!onPlayListClick)    
+      }
+    const backClick = () => {
+        setOnBackClick(!onBackClick)
+        setOnPlayListClick(!onPlayListClick)  
+        props.onPlayClick() 
       }
 
+
     const { userInfo, artistName, songName, playing, backgroundImage, usersPlaylists, token, loading } = props.state;
-    // console.log('playing', playing, userInfo)
+    console.log('playing', playing, userInfo, 'back clicked', onBackClick)
     return (
         <div className='center centered pa3 mr4 mw5 mw7-ns ph5-ns'>
          <Card 
@@ -49,16 +58,38 @@ const Player = (props) => {
             // backgroundColor: '2B2D2F'
         }}
         > 
-          <CardHeader> 
+            { loading ? 
+                <h2>It is Loading.</h2>
+                  : !onPlayListClick ? 
+                 <div>
+                    <h2>playing music</h2> 
+                    <button className='btn btn--playlist'
+                        onClick={backClick}
+                    >
+                        back
+                    </button>
+                 </div> 
+                  :
+                  <Moods userName={userInfo.display_name} userId={userInfo.id} playlists={usersPlaylists} playlistPlaying={playlistPlaying} token={token} />
+            }
+          {/* <CardHeader> 
           {loading ? (
+                    <DotLoader css={override} size={150} color={'#123abc'} loading={loading} />
                     <DotLoader css={override} size={150} color={'#123abc'} loading={loading} />
                 ) : (
                     <Moods userName={userInfo.display_name} userId={userInfo.id} playlists={usersPlaylists} playlistPlaying={playlistPlaying} token={token} />
                 )}
-          </CardHeader>
-          {
-           playing ? 
+          </CardHeader> */}
+          {/* {
+            onBackClick ? 
             <div>
+                <CardHeader>
+                    <button className='btn btn--playlist'
+                        onClick={backClick}
+                    >
+                        back
+                    </button>
+                </CardHeader>
                     <CardTitle>{songName} by: {artistName}</CardTitle> 
                 <CardBody>
                     <CardImg
@@ -79,8 +110,8 @@ const Player = (props) => {
                    />
                 </CardFooter>
             </div>
-            : ' '
-          }
+             : <Moods userName={userInfo.display_name} userId={userInfo.id} playlists={usersPlaylists} playlistPlaying={playlistPlaying} token={token} />
+          } */}
         </Card>
         </div>
     );

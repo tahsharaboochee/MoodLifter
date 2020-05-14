@@ -19,6 +19,7 @@ import {
 
     const onSadClick = () => {
         // console.log('inside sadClick', playlists, playlists.moodSongsUris.sadUris)
+        console.log('playlist playing true')
         let sadUris = playlists.moodSongsUris.sadUris;
         onClickHandler(sadUris);
         props.playlistPlaying()
@@ -27,11 +28,15 @@ import {
         // console.log('inside sadClick', playlists, playlists.moodSongsUris.sadUris)
         let happyUris = playlists.moodSongsUris.happyUris;
         onClickHandler(happyUris);
+        props.playlistPlaying()
+
     };
     const onAngryClick = () => {
         // console.log('inside sadClick', playlists, playlists.moodSongsUris.sadUris)
         let angryUris = playlists.moodSongsUris.angryUris;
         onClickHandler(angryUris);
+        props.playlistPlaying()
+
     };
     const onClickHandler = (mood) => {
         mood = shuffle(mood);
