@@ -294,6 +294,7 @@ class App extends Component {
     }
 
     onNextClick() {
+        console.log('clicked next')
         this.spotifyPlayer.nextTrack();
     }
 
