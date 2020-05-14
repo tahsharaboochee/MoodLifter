@@ -11,7 +11,7 @@ import {
     transferPlaybackToMoodLifter,
     usersTopArtistsOrSongs,
     fetchRefreshToken,
-} from './helpers/api-fetcher';
+} from '../helpers/api-fetcher';
 import Player from './player/Player';
 import './App.css';
 

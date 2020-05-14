@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { queuePlaylist, setPlayerToQueuedPlaylist, playPlaylist } from '../helpers/api-fetcher';
+import { queuePlaylist, setPlayerToQueuedPlaylist, playPlaylist } from '../../helpers/api-fetcher';
 import './Moods.css';
 import angryPic from '../photos/angryPic.jpeg';
 import happyPic from '../photos/happyPic.jpeg';
