@@ -338,10 +338,7 @@ class App extends Component {
         }
 
 onPrevClick() {
-// this.spotifyPlayer.previousTrack();
-this.spotifyPlayer.previousTrack().then(() => {
-    console.log('Set to previous track!');
-    });
+this.spotifyPlayer.previousTrack()
 }
 
 onPlayClick() {
@@ -349,10 +346,7 @@ this.spotifyPlayer.togglePlay();
 }
 
 onNextClick() {
-    console.log('Skipped to next track!');
-this.spotifyPlayer.nextTrack().then(() => {
-    console.log('Skipped to next track!');
-    });
+this.spotifyPlayer.nextTrack()
 }
 
     render() {
