@@ -11,7 +11,7 @@ const Login = (props) => {
                 className="item"
                 style={{ display: 'flex', justifyContent: 'flex-start', width: '48%', height: '100px' }}
             >
-                <p className="f3 white pa3 ma3">Moodlifter</p>
+                <p className="f3 white pa3 ma3">MoodLifter</p>
             </div>
             <div
                 style={{ display: 'flex', justifyContent: 'flex-end', width: '48%', height: '100px' }}
