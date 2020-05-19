@@ -75,31 +75,7 @@ const redirectUriForTokens = (access_token, refresh_token)=> {
     refresh_token: refresh_token,
   }))
 }
-
-//put all api endpoints under '/api
-app.get('/debug', (req, res) => {
-  req.session.foo = (req.session.foo || 0) + 1; 
-  res.type('txt')
-  .send(req.session)
-})
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname+'/react-client/build/index.html'))
-})
-
-//login temp 
-app.get('/loginTemp', function(req, res){
-  req.session.save(err => {
-    console.log("req.session.save error:", err);
-    console.log('inside login temp session is', req.session)
-    // res.redirect('http://localhost:3000/login')
-    if(!err){
-      res.redirect('/')
-    }
-  });
-
-})
 app.get('/login', function(req, res) {
-  // console.log('inside app.get spotifiy client id:', process.env.SPOTIFY_CLIENT_ID)
   //spotify getting moodLifter authorization
 
   // pseudocode for new process:
@@ -113,20 +89,9 @@ app.get('/login', function(req, res) {
       res.redirect(redirectUriForTokens(response.data.access_token, response.data.refresh_token))
     })
   }else {
-
-  // 2. if so:
-  //   a. try calling /api/token 
-  //   b. if we get new tokens, we're done; go to 5.
-  //   c. if not, go to 3
-  // 3. if not, or if getting new tokens failed:
-  // 4. redirect the user to spotify/authorize (as below)
-  // 5. either in /callback from 4, or as the result of 2.b.:
-  //   a. set session cookies with new(ly refreshed) tokens
-  //   b. send tokens to frontend
-
     const state = uuidv4(); //generate random string
-      // res.cookie(stateCookie, state) //setting a cookie
-      req.session.state = state //setting a cookie
+      res.cookie(stateCookie, state) //setting a cookie
+      // req.session.state = state //setting a cookie
       console.log('about to redirect to spotify state:', state)
       res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
@@ -148,8 +113,8 @@ app.get('/callback', function(req, res) {
   //moodLifter requesting refresh and access tokens after checking state parameter
   let code = req.query.code || null;
   let state = req.query.state || null;
-  // let storedState = req.cookies ? req.cookies[stateCookie] : null;
-  let storedState = req.session.state || null;
+  let storedState = req.cookies ? req.cookies[stateCookie] : null;
+  // let storedState = req.session.state || null;
 
   
   if(state === null || state !== storedState){
