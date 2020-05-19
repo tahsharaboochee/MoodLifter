@@ -229,9 +229,48 @@ export const setPlayerToQueuedPlaylist = (token) => {
         console.error(err);
     });
 };
-export const playPlaylist = (token) => {
+
+export const play = (token) => {
     return fetch(`https://api.spotify.com/v1/me/player/play`, {
         method: 'PUT',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+    }).catch((err) => {
+        console.error(err);
+    });
+};
+
+export const pause = (token) => {
+    return fetch(`https://api.spotify.com/v1/me/player/pause`, {
+        method: 'PUT',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+    }).catch((err) => {
+        console.error(err);
+    });
+};
+
+export const nextTrack = (token) => {
+    return fetch(`https://api.spotify.com/v1/me/player/next`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+    }).catch((err) => {
+        console.error(err);
+    });
+};
+export const prevTrack = (token) => {
+    return fetch(`https://api.spotify.com/v1/me/player/previous`, {
+        method: 'POST',
         headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
