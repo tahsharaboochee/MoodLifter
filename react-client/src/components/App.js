@@ -11,6 +11,10 @@ import {
     transferPlaybackToMoodLifter,
     usersTopArtistsOrSongs,
     fetchRefreshToken,
+    prevTrack, 
+    nextTrack, 
+    pause,
+    play
 } from '../helpers/api-fetcher';
 import Player from './player/Player';
 import './App.css';
@@ -78,6 +82,7 @@ class App extends Component {
                 token: access_token,
                 refresh_token: refresh_token,
                 loggedIn: true,
+                // loading: false,
             });
 
             //checking every second for spotifies SDK player window.Spotify variable
@@ -233,12 +238,13 @@ class App extends Component {
                     });
                 });
         }
-        this.getRefreshToken();
+        // this.getRefreshToken();
     }
 
     //player received an update from player
     onStateChange(state) {
         if (state !== null) {
+            console.log('spotify player state', state)
             const { current_track } = state.track_window;
             const songName = current_track.name;
             const position = current_track.position;
@@ -260,46 +266,40 @@ class App extends Component {
 
     spotifyApiEventHandlers() {
         // Error handling
-        this.spotifyPlayer.addListener('initialization_error', (message) => {
-            console.error('Failed to initialize', message);
+        this.spotifyPlayer.addListener('initialization_error', ({message}) => {
+            console.error('Failed to initialize something is wrong with spotify api', message);
         });
-        this.spotifyPlayer.addListener('authentication_error', (message) => {
+        this.spotifyPlayer.addListener('authentication_error', ({message}) => {
             console.error('Failed to authenticate', message);
             this.setState({ loggedIn: false });
         });
-        this.spotifyPlayer.addListener('account_error', (e) => {
-            console.error(e);
+        this.spotifyPlayer.addListener('account_error', ({message}) => {
+            console.error(message);
         });
-        this.spotifyPlayer.addListener('playback_error', (e) => {
-            console.error(e);
+        this.spotifyPlayer.addListener('playback_error', ({message}) => {
+            console.error(message);
         });
 
         //playback status updates
-        this.spotifyPlayer.addListener('player_state_changed', (state) => this.onStateChange(state));
+        this.spotifyPlayer.addListener('player_state_changed', state => this.onStateChange(state));
 
         // ready
-        this.spotifyPlayer.addListener('ready', (data) => {
-            let { device_id } = data;
+        this.spotifyPlayer.addListener('ready', ({device_id}) => {
             transferPlaybackToMoodLifter(device_id, this.state.token);
             this.setState({ deviceId: device_id });
         });
+        
+        //not ready 
+         // Not Ready
+        this.spotifyPlayer.addListener('not_ready', ({ device_id }) => {
+            console.log('Device ID has gone offline', device_id);
+        });
     }
 
-    onPrevClick() {
-        this.spotifyPlayer.previousTrack();
-    }
-
-    onPlayClick() {
-        this.spotifyPlayer.togglePlay();
-    }
-
-    onNextClick() {
-        console.log('clicked next')
-        this.spotifyPlayer.nextTrack();
-    }
-
+    
     checkingForSpotifyURI() {
         const { token } = this.state;
+        // console.log('window.Spotify', window.Spotify)
         //global variable Spotify is public index.html file however to access the global variable have to use window.Spotify
         if (window.Spotify !== undefined) {
             //cancel the interval
@@ -312,14 +312,15 @@ class App extends Component {
                 },
                 volume: 0.5,
             });
-
+            
             //set up the spotify uri event handlers
             this.spotifyApiEventHandlers();
+            
             //finally, connect!
             this.spotifyPlayer.connect();
         }
     }
-
+    
     getRefreshToken() {
         setInterval(
             () => {
@@ -333,8 +334,26 @@ class App extends Component {
                 });
             },
             this.state.loggedIn ? 1000 * 60 * 30 : 1000 * 60 * 60,
-        );
-    }
+            );
+        }
+
+onPrevClick() {
+// this.spotifyPlayer.previousTrack();
+this.spotifyPlayer.previousTrack().then(() => {
+    console.log('Set to previous track!');
+    });
+}
+
+onPlayClick() {
+this.spotifyPlayer.togglePlay();
+}
+
+onNextClick() {
+    console.log('Skipped to next track!');
+this.spotifyPlayer.nextTrack().then(() => {
+    console.log('Skipped to next track!');
+    });
+}
 
     render() {
         const { loggedIn, token } = this.state;
