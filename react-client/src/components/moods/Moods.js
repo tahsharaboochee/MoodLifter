@@ -14,35 +14,22 @@ useEffect(() =>{
 
     const onSadClick = () => {
         let sadUris = playlists.moodSongsUris.sadUris;
-        // console.log(sadUris)
-        onClickHandler(sadUris.splice(0, 5))
-        let interval = setInterval(() => { 
-            if (sadUris.length > 0) {
-                onClickHandler(sadUris.splice(0, 5));
-            } else {
-              clearInterval(interval);
-            }
-        }, 1000 * 60 * 5);
+        onClickHandler(sadUris)
         if(!playing){
             setPlayerToQueuedPlaylist(token).then(() => {
                 play(token);
             });
         }
-        // play(token);
+        if(!playing){
+            setPlayerToQueuedPlaylist(token).then(() => {
+                play(token);
+            });
+        }
         props.playlistPlaying();
     };
     const onHappyClick = () => {
         let happyUris = playlists.moodSongsUris.happyUris;
-        console.log('original happy uris list', Array.isArray(happyUris), happyUris)
-        let result = happyUris.splice(0, 5)
-        onClickHandler(result);
-        let interval = setInterval(() => { 
-            if (happyUris.length > 0) {
-                onClickHandler(happyUris.splice(0, 5));
-            } else {
-              clearInterval(interval);
-            }
-        }, 1000 * 60 * 5);
+        onClickHandler(happyUris);
         if(!playing){
             setPlayerToQueuedPlaylist(token).then(() => {
                 play(token);
@@ -53,14 +40,6 @@ useEffect(() =>{
     const onAngryClick = () => {
         let angryUris = playlists.moodSongsUris.angryUris;
         onClickHandler(angryUris);
-        // onClickHandler(angryUris.splice(0, 5));
-        // let interval = setInterval(() => { 
-        //     if (angryUris.length > 0) {
-        //         onClickHandler(angryUris.splice(0, 5));
-        //     } else {
-        //       clearInterval(interval);
-        //     }
-        // }, 1000 * 60 * 5);
         if(!playing){
             setPlayerToQueuedPlaylist(token).then(() => {
                 play(token);
@@ -69,13 +48,11 @@ useEffect(() =>{
         props.playlistPlaying();
     };
     const onClickHandler = (mood) => {
-        console.log('before first splice', mood)
         let temp = (shuffle(mood)).splice(0, 5);
         for(let uri of mood){
             queuePlaylist(token, uri)
         }
         let interval = setInterval(() => { 
-            console.log('after first splice', mood)
             temp = (shuffle(mood)).splice(0, 5);
             if (temp.length > 0) {
                 for(let uri of temp){
