@@ -15,20 +15,9 @@ const Player = (props) => {
     const [onPlayListClick, setOnPlayListClick] = useState(false);
     const [onBackClick, setOnBackClick] = useState(false);
     useEffect(() => {
-        console.log(
-            'before if statement in useEffect',
-            props.state.playing,
-            'playlist clicked',
-            onPlayListClick,
-            'back clicked',
-            onBackClick,
-        );
         if (!props.state.playing) {
-            console.log('inside if statement');
             setOnPlayListClick(!onPlayListClick);
         }
-
-        console.log('after if statement', props, 'playlist clicked', onPlayListClick, '');
     }, []);
 
     const playlistPlaying = () => {
@@ -40,7 +29,7 @@ const Player = (props) => {
         props.onPlayClick();
     };
 
-    const { userInfo, artistName, songName, playing, backgroundImage, usersPlaylists, token, loading } = props.state;
+    const { userInfo, artistName, songName, backgroundImage, usersPlaylists, token, loading, playing } = props.state;
   
     return (
         <div className="center centered pa3 mr4 mw5 mw7-ns ph5-ns">
@@ -51,7 +40,12 @@ const Player = (props) => {
                 }}
             >
                 {loading ? (
-                    <DotLoader css={override} size={150} color={'#123abc'} loading={loading} />
+                    <div>
+                        <DotLoader css={override} size={150} color={'#123abc'} loading={loading} /> 
+                        <p className='f3' style={{
+                            color: 'white'
+                        }}> {'Please wait while your playlists load'}</p>
+                    </div>
                 ) : !onPlayListClick ? (
                     <div>
                         <CardHeader>
@@ -82,6 +76,7 @@ const Player = (props) => {
                         playlists={usersPlaylists}
                         playlistPlaying={playlistPlaying}
                         token={token}
+                        playing={playing}
                     />
                 )}
             </Card>

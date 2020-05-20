@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { queuePlaylist, setPlayerToQueuedPlaylist, playPlaylist } from '../../helpers/api-fetcher';
+import { queuePlaylist, setPlayerToQueuedPlaylist, play } from '../../helpers/api-fetcher';
 import './Moods.css';
 import angryPic from '../photos/angryPic.jpeg';
 import happyPic from '../photos/happyPic.jpeg';
@@ -7,59 +7,93 @@ import sadPic from '../photos/sadPic.jpeg';
 import { Card, CardImg, CardBody, CardFooter } from 'reactstrap';
 
 const Moods = (props) => {
-    const { userId, token, playlists } = props;
-    const [loading, setLoading] = useState(true);
-    const [data, setData] = useState('now Playing');
-    // console.log(props);
+    const { userId, token, playlists, playing} = props;
+useEffect(() =>{
+    console.log('inside use effect', playlists)
+})
 
     const onSadClick = () => {
-        // console.log('inside sadClick', playlists, playlists.moodSongsUris.sadUris)
-        console.log('playlist playing true');
         let sadUris = playlists.moodSongsUris.sadUris;
-        onClickHandler(sadUris);
+        // console.log(sadUris)
+        onClickHandler(sadUris.splice(0, 5))
+        let interval = setInterval(() => { 
+            if (sadUris.length > 0) {
+                onClickHandler(sadUris.splice(0, 5));
+            } else {
+              clearInterval(interval);
+            }
+        }, 1000 * 60 * 5);
+        if(!playing){
+            setPlayerToQueuedPlaylist(token).then(() => {
+                play(token);
+            });
+        }
+        // play(token);
         props.playlistPlaying();
     };
     const onHappyClick = () => {
         let happyUris = playlists.moodSongsUris.happyUris;
-        onClickHandler(happyUris);
+        console.log('original happy uris list', Array.isArray(happyUris), happyUris)
+        let result = happyUris.splice(0, 5)
+        onClickHandler(result);
+        let interval = setInterval(() => { 
+            if (happyUris.length > 0) {
+                onClickHandler(happyUris.splice(0, 5));
+            } else {
+              clearInterval(interval);
+            }
+        }, 1000 * 60 * 5);
+        if(!playing){
+            setPlayerToQueuedPlaylist(token).then(() => {
+                play(token);
+            });
+        }
         props.playlistPlaying();
     };
     const onAngryClick = () => {
         let angryUris = playlists.moodSongsUris.angryUris;
         onClickHandler(angryUris);
+        // onClickHandler(angryUris.splice(0, 5));
+        // let interval = setInterval(() => { 
+        //     if (angryUris.length > 0) {
+        //         onClickHandler(angryUris.splice(0, 5));
+        //     } else {
+        //       clearInterval(interval);
+        //     }
+        // }, 1000 * 60 * 5);
+        if(!playing){
+            setPlayerToQueuedPlaylist(token).then(() => {
+                play(token);
+            });
+        }
         props.playlistPlaying();
     };
     const onClickHandler = (mood) => {
-        mood = shuffle(mood);
-        let urisPromises = [];
-        mood.forEach((uri) => {
-            console.log('uri:', uri);
-            urisPromises.push(queuePlaylist(token, uri));
-        });
-        Promise.all(urisPromises).then(() => {
-            setPlayerToQueuedPlaylist(token).then(() => {
-                playPlaylist(token);
-            });
-        });
-    };
-    const shuffle = function (array) {
-        let currentIndex = array.length;
-        let temporaryValue, randomIndex;
-
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            // And swap it with the current element.
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
+        console.log('before first splice', mood)
+        let temp = (shuffle(mood)).splice(0, 5);
+        for(let uri of mood){
+            queuePlaylist(token, uri)
         }
-
-        return array;
+        let interval = setInterval(() => { 
+            console.log('after first splice', mood)
+            temp = (shuffle(mood)).splice(0, 5);
+            if (temp.length > 0) {
+                for(let uri of temp){
+                    queuePlaylist(token, uri)
+                }
+            } else {
+              clearInterval(interval);
+            }
+        }, 1000 * 60 * 5);
     };
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+          // swap elements array[i] and array[j]
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array
+      }
 
     return (
         <div>

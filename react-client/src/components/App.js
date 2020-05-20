@@ -244,7 +244,6 @@ class App extends Component {
     //player received an update from player
     onStateChange(state) {
         if (state !== null) {
-            console.log('spotify player state', state)
             const { current_track } = state.track_window;
             const songName = current_track.name;
             const position = current_track.position;
@@ -338,6 +337,7 @@ class App extends Component {
         }
 
 onPrevClick() {
+// this.spotifyPlayer.previousTrack();
 this.spotifyPlayer.previousTrack()
 }
 

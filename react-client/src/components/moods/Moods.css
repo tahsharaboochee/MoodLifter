@@ -31,7 +31,6 @@
   border: 0.2em solid white; 
   color: #f8f8f5;
   cursor: pointer;
-  /* font-size: 3vmin; */
   padding: 0.7em 1.5em;
   text-transform: uppercase;
   transition: all 0.25s ease;
@@ -47,11 +46,6 @@
 }
 
 .centered {
-  /* position: fixed;
-  top: 50%;
-  left: 50%;
-  /* bring your own prefixes */
-  /* transform: translate(-50%, -50%); */ 
   display: flex;
   justify-content: center;
   align-items: center;

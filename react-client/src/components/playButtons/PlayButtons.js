@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import './PlayButtons.css';
 import { Card, CardImg, CardBody, CardFooter } from 'reactstrap';
+import {prevTrack } from '../../helpers/api-fetcher'
 
 const PlayButtons = (props) => {
-    const { playing, token, loading } = props.state;
+    const { playing, token} = props.state;
 
     return (
         <div>
             <div className="pa3">
                 <button
                     onClick={() => props.onPrevClick()}
+                    // onClick={() => prevTrack(token)}
                     className=" no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
                 >
                     <Card>
@@ -52,7 +53,7 @@ const PlayButtons = (props) => {
                     )}
                 </button>
                 <button
-                    onClick={props.onNextClick()}
+                    onClick={ () => props.onNextClick()}
                     className=" no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
                 >
                     <Card>
