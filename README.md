@@ -2,13 +2,14 @@
 
 https://moodlifter.herokuapp.com/
 
+![moodLifter](MoodLifter.gif)
 ## Inspiration
 
 Life is hard and sometimes it takes a word, phrase or song to help make your day a little better. A simple app to play music to let someone be in their feels for a moment but then let them see the light at the end of the tunnel with some uplifting music.
 
 ## What it does
 
-This website allows users to listen to music based on your mood. If you are angry or sad the music will be sad/angry for 20 min and then gradually shift to happy/uplifting music.
+This website allows users to listen to music based on their mood. 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
