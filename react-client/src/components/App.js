@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ColorChanger from './ColorChanger/ColorChanger';
 import Home from './Home/Home';
 import Login from './login/Login';
+import Moods from '../components/moods/Moods';
 import {
     createPlaylist,
     fetchAudioFeatures,
@@ -18,6 +19,15 @@ import {
 } from '../helpers/api-fetcher';
 import Player from './player/Player';
 import './App.css';
+import DotLoader from 'react-spinners/DotLoader';
+import { css } from '@emotion/core';
+
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: black;
+`;
+
 
 class App extends Component {
     constructor(props) {
@@ -31,19 +41,20 @@ class App extends Component {
 
         //set the initial state
         this.state = {
+            artistName: 'Artist Name',
+            backgroundImage: '',
+            deviceId: '',
+            duration: 0,
             loading: true,
+            loggedIn: false,
+            playing: false,
+            playlistPlaying: false,
+            position: 0,
             refresh_token: null,
+            songName: 'track Name',
             token: null,
             userInfo: {},
             usersPlaylists: {},
-            loggedIn: false,
-            playing: false,
-            deviceId: '',
-            songName: 'track Name',
-            artistName: 'Artist Name',
-            position: 0,
-            duration: 0,
-            backgroundImage: '',
             windowWidth: null,
         };
         //repeatedly check to see if SDK is ready
@@ -349,13 +360,70 @@ onNextClick() {
 this.spotifyPlayer.nextTrack()
 }
 
+onPlaylistClick(){
+    console.log('inside onPlayListClick')
+    this.setState({
+       playlistPlaying: !this.playlistPlaying
+    })
+}
     render() {
-        const { loggedIn, token } = this.state;
+        const { loggedIn, token, loading, playing, userInfo, playlistPlaying, usersPlaylists} = this.state;
 
         return (
-            <div>
+            <div >
                 {loggedIn ? '' : <Login token={token} />}
-                {loggedIn ? (
+                {loggedIn ? loading ? (
+                    <div className="center centered pa3 mr4 mw5 mw7-ns ph5-ns"
+                        style={{
+                        textAlign: 'center',
+                        color: 'white',
+                        }}
+                    >
+                        <DotLoader css={override} size={150} color={'#123abc'} loading={loading} /> 
+                        <br/>
+                        <p className='f3' style={{
+                            color: 'white'
+                        }}> 
+                            {'Please wait while your playlists load'}
+                        </p>
+                    </div>
+                ) : playlistPlaying ? (
+                    <div className="center centered pa3 mr4 mw5 mw7-ns ph5-ns"
+                        style={{
+                        textAlign: 'center',
+                        color: 'white',
+                        }}
+                    >
+                        <Player
+                            state={this.state}
+                            onPrevClick={this.onPrevClick.bind(this)}
+                            onNextClick={this.onNextClick.bind(this)}
+                            onPlayClick={this.onPlayClick.bind(this)}
+                            onPlaylistClick={this.onPlaylistClick.bind(this)}
+                        />
+                    </div>
+                    ) : (
+                        <div className="center centered pa3 mr4 mw5 mw7-ns ph5-ns"
+                        style={{
+                        textAlign: 'center',
+                        color: 'white',
+                        }}
+                        >
+                            <Moods
+                                userName={userInfo.display_name}
+                                userId={userInfo.id}
+                                playlists={usersPlaylists}
+                                playlistPlaying={playlistPlaying}
+                                token={token}
+                                playing={playing}
+                                onPlaylistClick={this.onPlaylistClick.bind(this)}
+                            />
+                        </div>
+                    )
+                    : 
+                        <Home />
+                }
+                {/* {loggedIn ? (
                     <Player
                         state={this.state}
                         onPrevClick={this.onPrevClick.bind(this)}
@@ -364,7 +432,7 @@ this.spotifyPlayer.nextTrack()
                     />
                 ) : (
                     <Home />
-                )}
+                )} */}
                 <ColorChanger />
             </div>
         );
@@ -372,3 +440,14 @@ this.spotifyPlayer.nextTrack()
 }
 
 export default App;
+
+
+// <div className="center centered pa3 mr4 mw5 mw7-ns ph5-ns">
+// style={{
+//     textAlign: 'center',
+//     color: 'white',
+// }}
+// >
+
+// </div>
+
