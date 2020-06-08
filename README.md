@@ -5,7 +5,7 @@ https://moodlifter.herokuapp.com/
 ![moodLifter](MoodLifter.gif)
 ## Inspiration
 
-Life is hard and sometimes it takes a word, phrase or song to help make your day a little better. A simple app to play music to let someone be in their feels for a moment but then let them see the light at the end of the tunnel with some uplifting music.
+Life is hard and sometimes it takes a word, phrase or song to help make your day a little better. A simple app to play music to let someone be in their feels for a moment.
 
 ## What it does
 
@@ -20,10 +20,8 @@ In the project directory, you can run:
 ### Setup Instructions
 
 1. npm install
-2. npm start
-3. cd react-client
-4. npm install
-5. npm start
+2. npm run client-install
+3. npm run dev
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
