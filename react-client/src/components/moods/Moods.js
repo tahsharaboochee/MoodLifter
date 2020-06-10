@@ -7,70 +7,75 @@ import sadPic from '../photos/sadPic.jpeg';
 import { Card, CardImg, CardBody, CardFooter } from 'reactstrap';
 
 const Moods = (props) => {
-    const { userId, token, playlists, playing} = props;
-useEffect(() =>{
-    console.log('inside use effect', playlists)
-})
+    const { userId, token, playlists, playing } = props;
+    // useEffect(() =>{
+    //     console.log('inside use effect', playlists)
+    // })
 
     const onSadClick = () => {
         let sadUris = playlists.moodSongsUris.sadUris;
-        onClickHandler(sadUris)
-        if(!playing){
+        onClickHandler(sadUris);
+        if (!playing) {
             setPlayerToQueuedPlaylist(token).then(() => {
                 play(token);
             });
         }
-        if(!playing){
+        if (!playing) {
             setPlayerToQueuedPlaylist(token).then(() => {
                 play(token);
             });
         }
-        props.playlistPlaying();
+        props.onPlaylistClick();
     };
     const onHappyClick = () => {
         let happyUris = playlists.moodSongsUris.happyUris;
         onClickHandler(happyUris);
-        if(!playing){
+        if (!playing) {
             setPlayerToQueuedPlaylist(token).then(() => {
                 play(token);
             });
         }
-        props.playlistPlaying();
+        props.onPlaylistClick();
+        //    return (
+        //         <div class='embed-container'>
+        //             <iframe src='https://embed.spotify.com/?uri=spotify:track:24lMtPOCzP5g4hrg3NklLa' frameborder='0' allowtransparency='true'></iframe>
+        //         </div>
+        //    )
     };
     const onAngryClick = () => {
         let angryUris = playlists.moodSongsUris.angryUris;
         onClickHandler(angryUris);
-        if(!playing){
+        if (!playing) {
             setPlayerToQueuedPlaylist(token).then(() => {
                 play(token);
             });
         }
-        props.playlistPlaying();
+        props.onPlaylistClick();
     };
     const onClickHandler = (mood) => {
-        let temp = (shuffle(mood)).splice(0, 5);
-        for(let uri of mood){
-            queuePlaylist(token, uri)
+        let temp = shuffle(mood).splice(0, 5);
+        for (let uri of mood) {
+            queuePlaylist(token, uri);
         }
-        let interval = setInterval(() => { 
-            temp = (shuffle(mood)).splice(0, 5);
+        let interval = setInterval(() => {
+            temp = shuffle(mood).splice(0, 5);
             if (temp.length > 0) {
-                for(let uri of temp){
-                    queuePlaylist(token, uri)
+                for (let uri of temp) {
+                    queuePlaylist(token, uri);
                 }
             } else {
-              clearInterval(interval);
+                clearInterval(interval);
             }
         }, 1000 * 60 * 5);
     };
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
-          let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-          // swap elements array[i] and array[j]
-          [array[i], array[j]] = [array[j], array[i]];
+            let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+            // swap elements array[i] and array[j]
+            [array[i], array[j]] = [array[j], array[i]];
         }
-        return array
-      }
+        return array;
+    }
 
     return (
         <div>
@@ -91,6 +96,11 @@ useEffect(() =>{
                         <CardFooter>HAPPY</CardFooter>
                     </Card>
                 </button>
+                {/* <span className="pa3">
+                    <div class='embed-container'>
+                        <iframe src='https://embed.spotify.com/?uri=spotify:track:24lMtPOCzP5g4hrg3NklLa' frameborder='0' allowtransparency='true'></iframe>
+                    </div>
+                </span> */}
                 <span className="pa3"></span>
                 <button
                     onClick={onSadClick}

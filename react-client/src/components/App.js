@@ -12,10 +12,10 @@ import {
     transferPlaybackToMoodLifter,
     usersTopArtistsOrSongs,
     fetchRefreshToken,
-    prevTrack, 
-    nextTrack, 
+    prevTrack,
+    nextTrack,
     pause,
-    play
+    play,
 } from '../helpers/api-fetcher';
 import Player from './player/Player';
 import './App.css';
@@ -27,7 +27,6 @@ const override = css`
     margin: 0 auto;
     border-color: black;
 `;
-
 
 class App extends Component {
     constructor(props) {
@@ -276,37 +275,36 @@ class App extends Component {
 
     spotifyApiEventHandlers() {
         // Error handling
-        this.spotifyPlayer.addListener('initialization_error', ({message}) => {
+        this.spotifyPlayer.addListener('initialization_error', ({ message }) => {
             console.error('Failed to initialize something is wrong with spotify api', message);
         });
-        this.spotifyPlayer.addListener('authentication_error', ({message}) => {
+        this.spotifyPlayer.addListener('authentication_error', ({ message }) => {
             console.error('Failed to authenticate', message);
             this.setState({ loggedIn: false });
         });
-        this.spotifyPlayer.addListener('account_error', ({message}) => {
+        this.spotifyPlayer.addListener('account_error', ({ message }) => {
             console.error(message);
         });
-        this.spotifyPlayer.addListener('playback_error', ({message}) => {
+        this.spotifyPlayer.addListener('playback_error', ({ message }) => {
             console.error(message);
         });
 
         //playback status updates
-        this.spotifyPlayer.addListener('player_state_changed', state => this.onStateChange(state));
+        this.spotifyPlayer.addListener('player_state_changed', (state) => this.onStateChange(state));
 
         // ready
-        this.spotifyPlayer.addListener('ready', ({device_id}) => {
+        this.spotifyPlayer.addListener('ready', ({ device_id }) => {
             transferPlaybackToMoodLifter(device_id, this.state.token);
             this.setState({ deviceId: device_id });
         });
-        
-        //not ready 
-         // Not Ready
+
+        //not ready
+        // Not Ready
         this.spotifyPlayer.addListener('not_ready', ({ device_id }) => {
             console.log('Device ID has gone offline', device_id);
         });
     }
 
-    
     checkingForSpotifyURI() {
         const { token } = this.state;
         // console.log('window.Spotify', window.Spotify)
@@ -322,15 +320,15 @@ class App extends Component {
                 },
                 volume: 0.5,
             });
-            
+
             //set up the spotify uri event handlers
             this.spotifyApiEventHandlers();
-            
+
             //finally, connect!
             this.spotifyPlayer.connect();
         }
     }
-    
+
     getRefreshToken() {
         setInterval(
             () => {
@@ -344,70 +342,75 @@ class App extends Component {
                 });
             },
             this.state.loggedIn ? 1000 * 60 * 30 : 1000 * 60 * 60,
-            );
-        }
+        );
+    }
 
-onPrevClick() {
-// this.spotifyPlayer.previousTrack();
-this.spotifyPlayer.previousTrack()
-}
+    onPrevClick() {
+        // this.spotifyPlayer.previousTrack();
+        this.spotifyPlayer.previousTrack();
+    }
 
-onPlayClick() {
-this.spotifyPlayer.togglePlay();
-}
+    onPlayClick() {
+        this.spotifyPlayer.togglePlay();
+    }
 
-onNextClick() {
-this.spotifyPlayer.nextTrack()
-}
+    onNextClick() {
+        this.spotifyPlayer.nextTrack();
+    }
 
-onPlaylistClick(){
-    console.log('inside onPlayListClick')
-    this.setState({
-       playlistPlaying: !this.playlistPlaying
-    })
-}
+    onPlaylistClick() {
+        console.log('inside onPlayListClick');
+        this.setState({
+            playlistPlaying: !this.playlistPlaying,
+        });
+    }
     render() {
-        const { loggedIn, token, loading, playing, userInfo, playlistPlaying, usersPlaylists} = this.state;
+        const { loggedIn, token, loading, playing, userInfo, playlistPlaying, usersPlaylists } = this.state;
 
         return (
-            <div >
+            <div>
                 {loggedIn ? '' : <Login token={token} />}
-                {loggedIn ? loading ? (
-                    <div className="center centered pa3 mr4 mw5 mw7-ns ph5-ns"
-                        style={{
-                        textAlign: 'center',
-                        color: 'white',
-                        }}
-                    >
-                        <DotLoader css={override} size={150} color={'#123abc'} loading={loading} /> 
-                        <br/>
-                        <p className='f3' style={{
-                            color: 'white'
-                        }}> 
-                            {'Please wait while your playlists load'}
-                        </p>
-                    </div>
-                ) : playlistPlaying ? (
-                    <div className="center centered pa3 mr4 mw5 mw7-ns ph5-ns"
-                        style={{
-                        textAlign: 'center',
-                        color: 'white',
-                        }}
-                    >
-                        <Player
-                            state={this.state}
-                            onPrevClick={this.onPrevClick.bind(this)}
-                            onNextClick={this.onNextClick.bind(this)}
-                            onPlayClick={this.onPlayClick.bind(this)}
-                            onPlaylistClick={this.onPlaylistClick.bind(this)}
-                        />
-                    </div>
+                {loggedIn ? (
+                    loading ? (
+                        <div
+                            className="center centered pa3 mr4 mw5 mw7-ns ph5-ns"
+                            style={{
+                                textAlign: 'center',
+                                color: 'white',
+                            }}
+                        >
+                            <DotLoader css={override} size={150} color={'#123abc'} loading={loading} />
+                            <br />
+                            <p
+                                className="f3"
+                                style={{
+                                    color: 'white',
+                                }}
+                            >
+                                {'Please wait while your playlists load'}
+                            </p>
+                        </div>
+                    ) : playlistPlaying ? (
+                        <div
+                            style={{
+                                textAlign: 'center',
+                                color: 'white',
+                            }}
+                        >
+                            <Player
+                                state={this.state}
+                                onPrevClick={this.onPrevClick.bind(this)}
+                                onNextClick={this.onNextClick.bind(this)}
+                                onPlayClick={this.onPlayClick.bind(this)}
+                                onPlaylistClick={this.onPlaylistClick.bind(this)}
+                            />
+                        </div>
                     ) : (
-                        <div className="center centered pa3 mr4 mw5 mw7-ns ph5-ns"
-                        style={{
-                        textAlign: 'center',
-                        color: 'white',
-                        }}
+                        <div
+                            className="centered"
+                            style={{
+                                textAlign: 'center',
+                            }}
                         >
                             <Moods
                                 userName={userInfo.display_name}
@@ -420,9 +423,9 @@ onPlaylistClick(){
                             />
                         </div>
                     )
-                    : 
-                        <Home />
-                }
+                ) : (
+                    <Home />
+                )}
                 {/* {loggedIn ? (
                     <Player
                         state={this.state}
@@ -440,14 +443,3 @@ onPlaylistClick(){
 }
 
 export default App;
-
-
-// <div className="center centered pa3 mr4 mw5 mw7-ns ph5-ns">
-// style={{
-//     textAlign: 'center',
-//     color: 'white',
-// }}
-// >
-
-// </div>
-
