@@ -73,7 +73,7 @@ class App extends Component {
         const access_token = urlParams.get('access_token');
         const refresh_token = urlParams.get('refresh_token');
         window.history.pushState({}, document.title, '/'); //To modify current URL https://stackoverflow.com/questions/22753052/remove-url-parameters-without-refreshing-page
-        const moodLifterPlaylists = ['Sad Music MoodLifter', 'Happy Music MoodLifter', 'Angry Music MoodLifter'];
+        const moodLifterPlaylists = ['sad Music MoodLifter', 'happy Music MoodLifter', 'angry Music MoodLifter'];
         let playlistInfo = {},
             userProfile = {},
             angrySongs = [],
@@ -162,33 +162,18 @@ class App extends Component {
                                         playlistInfo[playlist] = playlists[playlist];
                                     }
                                 }
-                                if (!playlistsName.includes('Sad Music MoodLifter')) {
-                                    console.log('playlist does not exist');
-                                    sad = createPlaylist(userInfo.id, access_token, 'Sad Music MoodLifter').then(
-                                        async (info) => {
-                                            let data = await info;
-                                            return data;
-                                        },
-                                    );
-                                }
-                                if (!playlistsName.includes('Angry Music MoodLifter')) {
-                                    console.log('playlist does not exist');
-                                    angry = createPlaylist(userInfo.id, access_token, 'Angry Music MoodLifter').then(
-                                        async (info) => {
-                                            let data = await info;
-                                            return data;
-                                        },
-                                    );
-                                }
-                                if (!playlistsName.includes('Happy Music MoodLifter')) {
-                                    console.log('playlist does not exist');
-                                    happy = createPlaylist(userInfo.id, access_token, 'Happy Music MoodLifter').then(
-                                        async (info) => {
-                                            let data = await info;
-                                            return data;
-                                        },
-                                    );
-                                }
+                                moodLifterPlaylists.forEach((mood) =>{
+                                    if (!playlistsName.includes(mood)) {
+                                        console.log('playlist does not exist');
+                                        mood = mood.split(' ')
+                                        mood[0] = createPlaylist(userInfo.id, access_token, mood.join(' ')).then(
+                                            async (info) => {
+                                                let data = await info;
+                                                return data;
+                                            },
+                                        );
+                                    }
+                                })
 
                                 if (Object.keys(playlistInfo).length === 3) {
                                     let playlist = await playlistInfo;
@@ -199,6 +184,7 @@ class App extends Component {
                                     };
                                 } else {
                                     let moodLifterCreatedPlaylists = Promise.all([angry, happy, sad]);
+                                    console.log(moodLifterCreatedPlaylists)
                                     return {
                                         moodLifterCreatedPlaylists: moodLifterCreatedPlaylists,
                                         moodSongsUris: moodSongsUris,
@@ -210,7 +196,7 @@ class App extends Component {
                                 playlists = await playlists;
                                 let moodLifterCreatedPlaylists = await playlists['moodLifterCreatedPlaylists'];
 
-                                console.log('playlist', playlists);
+                                console.log('playlist', moodLifterCreatedPlaylists);
                                 if (!playlists['setPlaylistExist']) {
                                     let setAngryPlaylist = setPlaylist(
                                         moodLifterCreatedPlaylists[0]['Angry Music MoodLifter']['id'],
