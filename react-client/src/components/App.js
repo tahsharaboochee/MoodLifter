@@ -129,6 +129,7 @@ class App extends Component {
                     return moods;
                 })
                 .then((moods) => {
+                    console.log(moods)
                     let angryMood = moods['angry'];
                     let happyMood = moods['happy'];
                     let sadMood = moods['sad'];
@@ -145,94 +146,13 @@ class App extends Component {
 
                     let moodSongsUris = { angryUris: angryMoodUris, happyUris: happyMoodUris, sadUris: sadMoodUris };
 
+                    this.setState({
+                        userInfo: userProfile,
+                        usersPlaylists: moodSongsUris,
+                        loading: false,
+                    });
                     return moodSongsUris;
                 })
-                .then((moodSongsUris) => {
-                    //user info
-                    fetchUser(access_token).then((userInfo) => {
-                        userProfile = userInfo;
-                        let id = userInfo.id;
-                        getUsersPlaylist(id, access_token)
-                            .then(async (playlists) => {
-                                playlists = playlists[0];
-                                let playlistsName = Object.keys(playlists);
-
-                                for (let playlist in playlists) {
-                                    if (moodLifterPlaylists.includes(playlist)) {
-                                        playlistInfo[playlist] = playlists[playlist];
-                                    }
-                                }
-                                moodLifterPlaylists.forEach((mood) =>{
-                                    if (!playlistsName.includes(mood)) {
-                                        console.log('playlist does not exist');
-                                        mood = mood.split(' ')
-                                        mood[0] = createPlaylist(userInfo.id, access_token, mood.join(' ')).then(
-                                            async (info) => {
-                                                let data = await info;
-                                                return data;
-                                            },
-                                        );
-                                    }
-                                })
-
-                                if (Object.keys(playlistInfo).length === 3) {
-                                    let playlist = await playlistInfo;
-                                    return {
-                                        playlistInfo: playlist,
-                                        moodSongsUris: moodSongsUris,
-                                        setPlaylistExist: true,
-                                    };
-                                } else {
-                                    let moodLifterCreatedPlaylists = Promise.all([angry, happy, sad]);
-                                    console.log(moodLifterCreatedPlaylists)
-                                    return {
-                                        moodLifterCreatedPlaylists: moodLifterCreatedPlaylists,
-                                        moodSongsUris: moodSongsUris,
-                                        setPlaylistExist: false,
-                                    };
-                                }
-                            })
-                            .then(async (playlists) => {
-                                playlists = await playlists;
-                                let moodLifterCreatedPlaylists = await playlists['moodLifterCreatedPlaylists'];
-
-                                console.log('playlist', moodLifterCreatedPlaylists);
-                                if (!playlists['setPlaylistExist']) {
-                                    let setAngryPlaylist = setPlaylist(
-                                        moodLifterCreatedPlaylists[0]['Angry Music MoodLifter']['id'],
-                                        access_token,
-                                        angryMoodUris,
-                                    );
-                                    let setHappyPlaylist = setPlaylist(
-                                        moodLifterCreatedPlaylists[1]['Happy Music MoodLifter']['id'],
-                                        access_token,
-                                        happyMoodUris,
-                                    );
-                                    let setSadPlaylist = setPlaylist(
-                                        moodLifterCreatedPlaylists[2]['Sad Music MoodLifter']['id'],
-                                        access_token,
-                                        sadMoodUris,
-                                    );
-                                    let moodLifterSetPlaylists = await Promise.all([
-                                        setAngryPlaylist,
-                                        setHappyPlaylist,
-                                        setSadPlaylist,
-                                    ]);
-                                    this.setState({
-                                        userInfo: userProfile,
-                                        usersPlaylists: playlists,
-                                        loading: false,
-                                    });
-                                } else {
-                                    this.setState({
-                                        userInfo: userProfile,
-                                        usersPlaylists: playlists,
-                                        loading: false,
-                                    });
-                                }
-                            });
-                    });
-                });
         }
         // this.getRefreshToken();
     }
