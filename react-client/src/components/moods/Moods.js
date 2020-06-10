@@ -8,9 +8,9 @@ import { Card, CardImg, CardBody, CardFooter } from 'reactstrap';
 
 const Moods = (props) => {
     const { userId, token, playlists, playing } = props;
-    // useEffect(() =>{
-    //     console.log('inside use effect', playlists)
-    // })
+    useEffect(() =>{
+        console.log('inside use effect', playlists)
+    })
 
     const onSadClick = () => {
         let sadUris = playlists.moodSongsUris.sadUris;
@@ -28,6 +28,7 @@ const Moods = (props) => {
         props.onPlaylistClick();
     };
     const onHappyClick = () => {
+        // let happyUris = playlists.happyUris;
         let happyUris = playlists.moodSongsUris.happyUris;
         onClickHandler(happyUris);
         if (!playing) {
@@ -78,14 +79,14 @@ const Moods = (props) => {
     }
 
     return (
-        <div>
-            <div className="white pa3 f3">
+        <div data-test='MoodComponent'>
+            <div className="white pa3 f3" data-test='userName'>
                 {props.userName}
                 {' Click your Mood'}
             </div>
             <br />
             <div className="pa3">
-                <button
+                <button data-test='onClickFunction'
                     onClick={onHappyClick}
                     className="pointer btn btn--playlist no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
                 >
@@ -102,7 +103,7 @@ const Moods = (props) => {
                     </div>
                 </span> */}
                 <span className="pa3"></span>
-                <button
+                <button data-test='onClickFunction'
                     onClick={onSadClick}
                     className="pointer btn btn--playlist no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
                 >
@@ -114,7 +115,7 @@ const Moods = (props) => {
                     </Card>
                 </button>
                 <span className="pa3"></span>
-                <button
+                <button data-test='onClickFunction'
                     onClick={onAngryClick}
                     className="pointer btn btn--playlist no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
                 >
