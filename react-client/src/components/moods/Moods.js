@@ -4,6 +4,7 @@ import './Moods.css';
 import angryPic from '../photos/angryPic.jpeg';
 import happyPic from '../photos/happyPic.jpeg';
 import sadPic from '../photos/sadPic.jpeg';
+import PropTypes from 'prop-types'
 import { Card, CardImg, CardBody, CardFooter } from 'reactstrap';
 
 const Moods = (props) => {
@@ -28,7 +29,6 @@ const Moods = (props) => {
         props.onPlaylistClick();
     };
     const onHappyClick = () => {
-        // let happyUris = playlists.happyUris;
         let happyUris = playlists.moodSongsUris.happyUris;
         onClickHandler(happyUris);
         if (!playing) {
@@ -37,11 +37,6 @@ const Moods = (props) => {
             });
         }
         props.onPlaylistClick();
-        //    return (
-        //         <div class='embed-container'>
-        //             <iframe src='https://embed.spotify.com/?uri=spotify:track:24lMtPOCzP5g4hrg3NklLa' frameborder='0' allowtransparency='true'></iframe>
-        //         </div>
-        //    )
     };
     const onAngryClick = () => {
         let angryUris = playlists.moodSongsUris.angryUris;
@@ -97,11 +92,6 @@ const Moods = (props) => {
                         <CardFooter>HAPPY</CardFooter>
                     </Card>
                 </button>
-                {/* <span className="pa3">
-                    <div class='embed-container'>
-                        <iframe src='https://embed.spotify.com/?uri=spotify:track:24lMtPOCzP5g4hrg3NklLa' frameborder='0' allowtransparency='true'></iframe>
-                    </div>
-                </span> */}
                 <span className="pa3"></span>
                 <button data-test='onClickFunction'
                     onClick={onSadClick}
@@ -135,5 +125,15 @@ const Moods = (props) => {
         </div>
     );
 };
+
+Moods.propTypes = {
+    userName: PropTypes.string,
+    userId: PropTypes.string,
+    playlists:  PropTypes.array,
+    playlistPlaying: PropTypes.bool,
+    token:PropTypes.string,
+    playing:PropTypes.bool,
+    onPlaylistClick: PropTypes.func,
+}
 
 export default Moods;

@@ -15,11 +15,6 @@ describe('Mood Component', () => {
         beforeEach(() => {
             const props = {
                 userName: 'Test username',
-                // userId: 'Test id',
-                // playlists: 'Test usersPlaylist an array',
-                // playlistPlaying: 'Test boolean',
-                // token:'Test token',
-                // playing:'test boolean',
                 onPlaylistClick: 'Test function onPlaylistClick'
             }
             wrapper = setUp(props);
