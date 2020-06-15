@@ -156,7 +156,7 @@ class App extends Component {
                                         playlistInfo[playlist] = playlists[playlist];
                                     }
                                 }
-                             let result = moodLifterPlaylists.map(mood =>{
+                                    let result = moodLifterPlaylists.map(mood =>{
                                     if (!playlistsName.includes(mood)) {
                                        return createPlaylist(userInfo.id, access_token, mood)
                                             .then(async (info) => {
@@ -174,56 +174,43 @@ class App extends Component {
                                     for(let mood in playlistInfo){
                                         playlistInfo[mood]['uris'] = moodSongsUris[mood]
                                     }
-                                    //returns an obj
                                     return {
-                                        playlistInfo: playlist,
+                                        moodLifterCreatedPlaylists: playlist,
                                         setPlaylistExist: true,
                                     };
                                 } else {
-                                    let moodLifterCreatedPlaylists = Promise.all(result)
-                                    //returns an array
+                                    let playlists = Promise.all(result).then(async (playlistInfo) =>{
+                                        let moodLifterCreatedPlaylists = {}
+                                        await playlistInfo.forEach((mood) =>{
+                                            let key = Object.keys(mood)[0];
+                                        moodLifterCreatedPlaylists[key] = mood[key]
+                                        })
+                                        return moodLifterCreatedPlaylists
+                                    })
                                     return {
-                                        moodLifterCreatedPlaylists: moodLifterCreatedPlaylists,
+                                        moodLifterCreatedPlaylists: playlists,
                                         setPlaylistExist: false,
                                     };
                                 }
                             })
                             .then(async (playlists) => {
-                                console.log(playlists)
                                 playlists = await playlists;
                                 let moodLifterCreatedPlaylists = await playlists['moodLifterCreatedPlaylists'];
 
                                 if (!playlists['setPlaylistExist']) {
-                                    let result = moodLifterCreatedPlaylists.map((mood) =>{
-                                            let key = Object.keys(mood)[0];
-                                            console.log(mood, 'mood[key]', mood[key])
-                                            return setPlaylist(
-                                                mood[key]['id'],
+                                    for(let mood in moodLifterCreatedPlaylists){
+                                            setPlaylist(
+                                                moodLifterCreatedPlaylists[mood]['id'],
                                                 access_token,
-                                                mood[key]['uris'],
-                                            )
-                                            
-                                    })
-                                    let obj = {};
-                                    
-                                    let moodLifterSetPlaylists = await Promise.all(result).then((moods) =>{
-                                        moods.forEach(mood =>{
-                                            let key = Object.keys(mood)[0]
-                                            obj[key] = mood[key]
-                                        })
-                                        this.setState({
-                                            userInfo: userProfile,
-                                            usersPlaylists: obj,
-                                            loading: false,
-                                        });
-                                    })
-                                } else {
-                                    this.setState({
-                                        userInfo: userProfile,
-                                        usersPlaylists: obj,
-                                        loading: false,
-                                    });
+                                                moodLifterCreatedPlaylists[mood]['uris'],
+                                            )   
+                                    }      
                                 }
+                                this.setState({
+                                    userInfo: userProfile,
+                                    usersPlaylists: playlists,
+                                    loading: false,
+                                });
                             });
                     });
                 });
@@ -391,7 +378,7 @@ class App extends Component {
                             <Moods
                                 userName={userInfo.display_name}
                                 userId={userInfo.id}
-                                playlists={usersPlaylists.usersPlaylistsInfo}
+                                playlists={usersPlaylists.moodLifterCreatedPlaylists}
                                 playlistPlaying={playlistPlaying}
                                 token={token}
                                 playing={playing}
