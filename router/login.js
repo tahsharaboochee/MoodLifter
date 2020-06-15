@@ -1,20 +1,22 @@
 const express = require('express')
 const router = express.Router()
+// The querystring module provides utilities for parsing and formatting URL query strings 
 const querystring = require('querystring')
+// generates random string to validate response from spitify to the call we actually gave
 const uuidv4 = require('uuid').v4
-const axios = require('axios').default;
 const spotify = require('./spotify')
-// const spotify = axios.create({
-//     baseURL: 'https://accounts.spotify.com/api/',
-//   })
+const callback = require('./callback')
 
-// spotify.defaults.headers.common['Authorization'] = 'Basic ' + (Buffer.from(
-//     process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
-//   ).toString('base64'))
-  
-// spotify.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+const session = require('express-session')
+const TWO_HOURS = 1000 * 60 * 60 * 2 //MAX time for a cookie 
+const {
+  SESS_NAME = 'sid', //session id
+  SESS_SECRET = 'MoodLifter',
+  SESS_LIFETIME = TWO_HOURS,
+} = process.env
 
 let frontEndUri = process.env.FRONTEND_URI || 'http://localhost:3000/'
+let redirect_uri = process.env.REDIRECT_URI || 'http://localhost:3000/callback';
 
 //name of cookie
 const stateCookie = 'spotify_auth_state'
@@ -25,6 +27,24 @@ const redirectUriForTokens = (access_token, refresh_token)=> {
     refresh_token: refresh_token,
   }))
 }
+
+router.use(session({
+    genid: (req) => {
+      console.log('Inside the session middleware')
+      console.log(req.sessionID)
+      return uuidv4() // use UUIDs for session IDs
+    },
+    name: SESS_NAME,
+    resave: false,
+    saveUninitialized: false,
+    secret: SESS_SECRET,
+    cookie: {
+      maxAge: SESS_LIFETIME,
+      sameSite: true,
+      httpOnly: false,  // this must be false if you want to access the cookie
+      // secure: IN_PROD
+    }
+  }))
 
 router.get('/login', function(req, res) {
   //spotify getting moodLifter authorization
@@ -44,4 +64,4 @@ router.get('/login', function(req, res) {
     console.log('___________________________________\nredirect to spotify completed')
 })
 
-module.export = router; 
+module.exports = router; 
