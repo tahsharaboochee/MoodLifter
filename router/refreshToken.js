@@ -1,17 +1,18 @@
 const express = require('express')
 const router = express.Router()
 const querystring = require('querystring')
-const axios = require('axios').default;
-// const routerCallback = require('./callback')
-const spotify = axios.create({
-    baseURL: 'https://accounts.spotify.com/api/',
-  })
+const spotify = require('./spotify')
+// const axios = require('axios').default;
+const routerCallback = require('./callback')
+// const spotify = axios.create({
+//     baseURL: 'https://accounts.spotify.com/api/',
+//   })
 
-spotify.defaults.headers.common['Authorization'] = 'Basic ' + (Buffer.from(
-    process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
-  ).toString('base64'))
+// spotify.defaults.headers.common['Authorization'] = 'Basic ' + (Buffer.from(
+//     process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
+//   ).toString('base64'))
   
-spotify.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+// spotify.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 let redirect_uri = process.env.REDIRECT_URI || 'http://localhost:3000/callback';
 

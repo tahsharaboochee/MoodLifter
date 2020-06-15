@@ -6,12 +6,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
-
-// trying to move into modules
-// const login = require('./router/login')
-// const routerRefreshToken = require('./router/refreshToken')
-// const routerCallback = require('./router/callback')
-// const spotify = require('./router/spotify')
+const routes = require('./router/routes')
 
 const session = require('express-session')
 // The querystring module provides utilities for parsing and formatting URL query strings 
@@ -44,11 +39,6 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(cors())
 app.use(cookieParser())
-
-//trying to separate into modules
-// app.use(login)
-// app.use(routerRefreshToken)
-// app.use(routerCallback)
 
 // const IN_PROD = process.env.NODE_ENV === "production"
 //serve static files from React app

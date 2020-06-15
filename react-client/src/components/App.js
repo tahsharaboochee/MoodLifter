@@ -39,18 +39,17 @@ class App extends Component {
             artistName: 'Artist Name',
             backgroundImage: '',
             deviceId: '',
-            duration: 0,
             loading: true,
             loggedIn: false,
             playing: false,
             playlistPlaying: false,
-            position: 0,
             refresh_token: null,
             songName: 'track Name',
             token: null,
             userInfo: {},
             usersPlaylists: {},
             windowWidth: null,
+            savePlaylistClicked: false
         };
         //repeatedly check to see if SDK is ready
         this.spotifyPlayerCheckInterval = null;
@@ -195,17 +194,17 @@ class App extends Component {
                             })
                             .then(async (playlists) => {
                                 playlists = await playlists;
-                                let moodLifterCreatedPlaylists = await playlists['moodLifterCreatedPlaylists'];
+                                // let moodLifterCreatedPlaylists = await playlists['moodLifterCreatedPlaylists'];
 
-                                if (!playlists['setPlaylistExist']) {
-                                    for(let mood in moodLifterCreatedPlaylists){
-                                            setPlaylist(
-                                                moodLifterCreatedPlaylists[mood]['id'],
-                                                access_token,
-                                                moodLifterCreatedPlaylists[mood]['uris'],
-                                            )   
-                                    }      
-                                }
+                                // if (!playlists['setPlaylistExist']) {
+                                //     for(let mood in moodLifterCreatedPlaylists){
+                                //             setPlaylist(
+                                //                 moodLifterCreatedPlaylists[mood]['id'],
+                                //                 access_token,
+                                //                 moodLifterCreatedPlaylists[mood]['uris'],
+                                //             )   
+                                //     }      
+                                // }
                                 this.setState({
                                     userInfo: userProfile,
                                     usersPlaylists: playlists,
@@ -327,6 +326,12 @@ class App extends Component {
             playlistPlaying: !this.playlistPlaying,
         });
     }
+
+    onSavePlaylistClick(){
+        this.setState({
+            savePlaylistClicked: true
+        })
+    }
     render() {
         const { loggedIn, token, loading, playing, userInfo, playlistPlaying, usersPlaylists } = this.state;
             console.log(this.state)
@@ -366,6 +371,7 @@ class App extends Component {
                                 onNextClick={this.onNextClick.bind(this)}
                                 onPlayClick={this.onPlayClick.bind(this)}
                                 onPlaylistClick={this.onPlaylistClick.bind(this)}
+                                onSavePlaylistClick={this.onSavePlaylistClick.bind(this)}
                             />
                         </div>
                     ) : (

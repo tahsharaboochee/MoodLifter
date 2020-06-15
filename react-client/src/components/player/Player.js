@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // import Moods from '../moods/Moods';
 import PlayButtons from '../playButtons/PlayButtons';
 import { Card, CardImg, CardBody, CardHeader, CardTitle, CardFooter } from 'reactstrap';
-
+import SavePlaylist from '../savePlaylist/SavePlaylist'
 const Player = (props) => {
     const [onBackClick, setOnBackClick] = useState(false);
     const backClick = () => {
@@ -25,6 +25,10 @@ const Player = (props) => {
                 <CardTitle>
                     {songName} by: {artistName}
                 </CardTitle>
+                    <SavePlaylist 
+                        state={props.state}
+                        onSavePlaylistClick={props.onSavePlaylistClick}
+                    />
                 <CardBody>
                     <CardImg src={backgroundImage} alt="album cover" />
                 </CardBody>
