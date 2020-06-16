@@ -28,18 +28,7 @@ const PlayButtons = (props) => {
                     onClick={() => props.onPlayClick()}
                     className=" no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
                 >
-                    {playing ? (
-                        <Card>
-                            <CardBody>
-                                <CardImg
-                                    className="br-100 h4 w4 dib ba b--black-05 pa2"
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR0N7ohjKiD2k1N1EkurkwuZH4JIFDbGyqKvUchsBFFUPZWpYgR&usqp=CAU"
-                                    alt="play button"
-                                />
-                            </CardBody>
-                            <CardFooter>Play</CardFooter>
-                        </Card>
-                    ) : (
+                    {playing ? (     
                         <Card>
                             <CardBody>
                                 <CardImg
@@ -49,6 +38,17 @@ const PlayButtons = (props) => {
                                 />
                             </CardBody>
                             <CardFooter>Pause</CardFooter>
+                        </Card>
+                    ) : (
+                        <Card>
+                            <CardBody>
+                                <CardImg
+                                    className="br-100 h4 w4 dib ba b--black-05 pa2"
+                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR0N7ohjKiD2k1N1EkurkwuZH4JIFDbGyqKvUchsBFFUPZWpYgR&usqp=CAU"
+                                    alt="play button"
+                                />
+                            </CardBody>
+                            <CardFooter>Play</CardFooter>
                         </Card>
                     )}
                 </button>

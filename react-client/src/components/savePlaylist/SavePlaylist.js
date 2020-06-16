@@ -3,9 +3,9 @@ import {setPlaylist} from '../../helpers/api-fetcher'
 const SavePlaylist = (props) => {
     const { token, playlists} = props;
     const onClick = () => {
-            let moodLifterCreatedPlaylists = playlists['moodLifterCreatedPlaylists'];
+            let moodLifterCreatedPlaylists = playlists;
         
-            if (!playlists['setPlaylistExist']) {
+            // if (!playlists['setPlaylistExist']) {
                 for(let mood in moodLifterCreatedPlaylists){
                         setPlaylist(
                             moodLifterCreatedPlaylists[mood]['id'],
@@ -13,8 +13,8 @@ const SavePlaylist = (props) => {
                             moodLifterCreatedPlaylists[mood]['uris'],
                         )   
                 }      
-            }
-          props.onSavePlaylistClicked();
+            // }
+          props.onSavePlaylistClick();
         };
     return (
         <button className="btn btn--playlist" onClick={onClick}>

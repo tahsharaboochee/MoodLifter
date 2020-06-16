@@ -14,6 +14,7 @@ const Moods = (props) => {
     })
 
     const onSadClick = () => {
+        console.log(playlists)
         let sadUris = playlists['Sad Music MoodLifter'].uris;
         onClickHandler(sadUris);
         if (!playing) {

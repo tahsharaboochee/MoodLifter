@@ -173,10 +173,9 @@ class App extends Component {
                                     for(let mood in playlistInfo){
                                         playlistInfo[mood]['uris'] = moodSongsUris[mood]
                                     }
-                                    return {
-                                        moodLifterCreatedPlaylists: playlist,
-                                        setPlaylistExist: true,
-                                    };
+                                    playlists['setPlaylistExist'] = true; 
+                                    return playlist
+                                
                                 } else {
                                     let playlists = Promise.all(result).then(async (playlistInfo) =>{
                                         let moodLifterCreatedPlaylists = {}
@@ -186,25 +185,23 @@ class App extends Component {
                                         })
                                         return moodLifterCreatedPlaylists
                                     })
-                                    return {
-                                        moodLifterCreatedPlaylists: playlists,
-                                        setPlaylistExist: false,
-                                    };
+                                    playlists['setPlaylistExist'] = false; 
+                                    return playlists
                                 }
                             })
                             .then(async (playlists) => {
-                                playlists = await playlists;
+                             playlists = await playlists
                                 // let moodLifterCreatedPlaylists = await playlists['moodLifterCreatedPlaylists'];
 
-                                // if (!playlists['setPlaylistExist']) {
-                                //     for(let mood in moodLifterCreatedPlaylists){
-                                //             setPlaylist(
-                                //                 moodLifterCreatedPlaylists[mood]['id'],
-                                //                 access_token,
-                                //                 moodLifterCreatedPlaylists[mood]['uris'],
-                                //             )   
-                                //     }      
-                                // }
+                                if (!playlists['setPlaylistExist']) {
+                                    for(let mood in playlists){
+                                            setPlaylist(
+                                                playlists[mood]['id'],
+                                                access_token,
+                                                playlists[mood]['uris'],
+                                            )   
+                                    }     
+                                }
                                 this.setState({
                                     userInfo: userProfile,
                                     usersPlaylists: playlists,
@@ -326,15 +323,9 @@ class App extends Component {
             playlistPlaying: !this.playlistPlaying,
         });
     }
-
-    onSavePlaylistClick(){
-        this.setState({
-            savePlaylistClicked: true
-        })
-    }
     render() {
         const { loggedIn, token, loading, playing, userInfo, playlistPlaying, usersPlaylists } = this.state;
-            console.log(this.state)
+
         return (
             <div>
                 {loggedIn ? '' : <Login token={token} />}
@@ -371,7 +362,6 @@ class App extends Component {
                                 onNextClick={this.onNextClick.bind(this)}
                                 onPlayClick={this.onPlayClick.bind(this)}
                                 onPlaylistClick={this.onPlaylistClick.bind(this)}
-                                onSavePlaylistClick={this.onSavePlaylistClick.bind(this)}
                             />
                         </div>
                     ) : (
@@ -384,7 +374,7 @@ class App extends Component {
                             <Moods
                                 userName={userInfo.display_name}
                                 userId={userInfo.id}
-                                playlists={usersPlaylists.moodLifterCreatedPlaylists}
+                                playlists={usersPlaylists}
                                 playlistPlaying={playlistPlaying}
                                 token={token}
                                 playing={playing}

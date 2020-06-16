@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-// import Moods from '../moods/Moods';
+import {pause} from '../../helpers/api-fetcher';
 import PlayButtons from '../playButtons/PlayButtons';
 import { Card, CardImg, CardBody, CardHeader, CardTitle, CardFooter } from 'reactstrap';
-import SavePlaylist from '../savePlaylist/SavePlaylist'
+
 const Player = (props) => {
-    const [onBackClick, setOnBackClick] = useState(false);
     const backClick = () => {
-        setOnBackClick(!onBackClick);
-        props.onPlayClick();
+        console.log(props.state.token)
+        pause(props)
         props.onPlaylistClick();
     };
 
@@ -17,18 +16,16 @@ const Player = (props) => {
         <div>
             <Card>
                 <CardHeader>
-                    <button className="btn btn--playlist" onClick={backClick}>
+                    <button className="btn btn--playlist" onClick={() => backClick()}>
+                        <a className="login white" href="/login">
                         Click a different Mood
+                        </a>
                     </button>
                 </CardHeader>
                 <div className="pa3"></div>
                 <CardTitle>
                     {songName} by: {artistName}
                 </CardTitle>
-                    <SavePlaylist 
-                        state={props.state}
-                        onSavePlaylistClick={props.onSavePlaylistClick}
-                    />
                 <CardBody>
                     <CardImg src={backgroundImage} alt="album cover" />
                 </CardBody>
