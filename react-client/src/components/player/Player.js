@@ -5,8 +5,7 @@ import { Card, CardImg, CardBody, CardHeader, CardTitle, CardFooter } from 'reac
 
 const Player = (props) => {
     const backClick = () => {
-        console.log(props.state.token)
-        pause(props)
+        pause(props.state.toke)
         props.onPlaylistClick();
     };
 

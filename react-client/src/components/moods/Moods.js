@@ -9,12 +9,7 @@ import { Card, CardImg, CardBody, CardFooter } from 'reactstrap';
 
 const Moods = (props) => {
     const { userId, token, playlists, playing } = props;
-    useEffect(() =>{
-        console.log('inside use effect', props)
-    })
-
     const onSadClick = () => {
-        console.log(playlists)
         let sadUris = playlists['Sad Music MoodLifter'].uris;
         onClickHandler(sadUris);
         if (!playing) {

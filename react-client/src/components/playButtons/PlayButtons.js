@@ -10,7 +10,6 @@ const PlayButtons = (props) => {
             <div className="pa3">
                 <button
                     onClick={() => props.onPrevClick()}
-                    // onClick={() => prevTrack(token)}
                     className=" no-underline f4 b bw2 ph3 pv2 mb2 dib white bg-transparent bg-animate hover-bg-black hover-white"
                 >
                     <Card>
