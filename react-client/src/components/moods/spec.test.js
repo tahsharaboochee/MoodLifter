@@ -1,8 +1,8 @@
 import  React from 'react'
 import {shallow} from 'enzyme'
-import {findByTestAtr} from './../../../Utils'
-
+import {findByTestAtr, checkProps} from './../../../Utils'
 import Moods from './Moods'
+
 
 const setUp = (props = {}) => {
     const component = shallow(<Moods {...props} />)
@@ -10,6 +10,27 @@ const setUp = (props = {}) => {
 }
 
 describe('Mood Component', () => {
+    describe('checking proptypes', () => {
+        it('should not throw a warning', () => {
+            const expectedProps = {
+                userName: 'test username',
+                userId: 'test id',
+                playlists:  ['temp', 'Array'],
+                playlistPlaying: true,
+                token:'12345678abcdefg',
+                playing: false,
+            }
+            const propsErr = checkProps(Moods, expectedProps);
+            expect(propsErr).toBeUndefined();
+        })
+    })
+    describe('onPlaylistClick function', ()=>{
+        const mockCallback = jest.fn(bool => !bool);
+        mockCallback(true)
+        expect(mockCallback.mock.calls.length).toBe(1);
+        expect(mockCallback.mock.results[0].value).toBe(false);
+    })
+
     describe('Have props', () => {
         let wrapper; 
         beforeEach(() => {
@@ -19,7 +40,7 @@ describe('Mood Component', () => {
             }
             wrapper = setUp(props);
         })
-
+        
         it('should render without errors', () => {
             const component = findByTestAtr(wrapper, 'MoodComponent');
             expect(component.length).toBe(1);

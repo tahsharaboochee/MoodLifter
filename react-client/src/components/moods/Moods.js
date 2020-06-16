@@ -133,8 +133,7 @@ Moods.propTypes = {
     playlists:  PropTypes.array,
     playlistPlaying: PropTypes.bool,
     token:PropTypes.string,
-    playing:PropTypes.bool,
-    onPlaylistClick: PropTypes.func,
+    playing:PropTypes.bool
 }
 
 export default Moods;
