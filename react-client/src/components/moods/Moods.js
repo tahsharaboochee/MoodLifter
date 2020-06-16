@@ -9,12 +9,8 @@ import { Card, CardImg, CardBody, CardFooter } from 'reactstrap';
 
 const Moods = (props) => {
     const { userId, token, playlists, playing } = props;
-    useEffect(() =>{
-        console.log('inside use effect', playlists)
-    })
-
     const onSadClick = () => {
-        let sadUris = playlists.moodSongsUris.sadUris;
+        let sadUris = playlists['Sad Music MoodLifter'].uris;
         onClickHandler(sadUris);
         if (!playing) {
             setPlayerToQueuedPlaylist(token).then(() => {
@@ -29,7 +25,7 @@ const Moods = (props) => {
         props.onPlaylistClick();
     };
     const onHappyClick = () => {
-        let happyUris = playlists.moodSongsUris.happyUris;
+        let happyUris = playlists['Happy Music MoodLifter'].uris;
         onClickHandler(happyUris);
         if (!playing) {
             setPlayerToQueuedPlaylist(token).then(() => {
@@ -39,7 +35,7 @@ const Moods = (props) => {
         props.onPlaylistClick();
     };
     const onAngryClick = () => {
-        let angryUris = playlists.moodSongsUris.angryUris;
+        let angryUris = playlists['Angry Music MoodLifter'].uris;
         onClickHandler(angryUris);
         if (!playing) {
             setPlayerToQueuedPlaylist(token).then(() => {
