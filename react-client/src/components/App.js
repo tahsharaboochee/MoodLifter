@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ColorChanger from './ColorChanger/ColorChanger';
 import Home from './Home/Home';
 import Login from './login/Login';
+import SelectMoodOrPlayMood from './selectMoodOrPlayMood/SelectMoodOrPlayMood';
 import {
     createPlaylist,
     fetchAudioFeatures,
@@ -11,13 +12,16 @@ import {
     transferPlaybackToMoodLifter,
     usersTopArtistsOrSongs,
     fetchRefreshToken,
-    prevTrack, 
-    nextTrack, 
-    pause,
-    play
 } from '../helpers/api-fetcher';
-import Player from './player/Player';
 import './App.css';
+import DotLoader from 'react-spinners/DotLoader';
+import { css } from '@emotion/core';
+
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: black;
+`;
 
 class App extends Component {
     constructor(props) {
@@ -31,20 +35,20 @@ class App extends Component {
 
         //set the initial state
         this.state = {
+            artistName: 'Artist Name',
+            backgroundImage: '',
+            deviceId: '',
             loading: true,
+            loggedIn: false,
+            playing: false,
+            playlistPlaying: false,
             refresh_token: null,
+            songName: 'track Name',
             token: null,
             userInfo: {},
             usersPlaylists: {},
-            loggedIn: false,
-            playing: false,
-            deviceId: '',
-            songName: 'track Name',
-            artistName: 'Artist Name',
-            position: 0,
-            duration: 0,
-            backgroundImage: '',
             windowWidth: null,
+            savePlaylistClicked: false,
         };
         //repeatedly check to see if SDK is ready
         this.spotifyPlayerCheckInterval = null;
@@ -64,17 +68,6 @@ class App extends Component {
         const refresh_token = urlParams.get('refresh_token');
         window.history.pushState({}, document.title, '/'); //To modify current URL https://stackoverflow.com/questions/22753052/remove-url-parameters-without-refreshing-page
         const moodLifterPlaylists = ['Sad Music MoodLifter', 'Happy Music MoodLifter', 'Angry Music MoodLifter'];
-        let playlistInfo = {},
-            userProfile = {},
-            angrySongs = [],
-            happySongs = [],
-            sadSongs = [],
-            angry,
-            happy,
-            sad,
-            angryMoodUris = [],
-            happyMoodUris = [],
-            sadMoodUris = [];
 
         if (access_token) {
             // Set token, loggedIn variable
@@ -101,11 +94,12 @@ class App extends Component {
                 })
                 .then(async (songs) => {
                     songs = await songs;
+                    let angrySongs = [],
+                        happySongs = [],
+                        sadSongs = [];
                     for (let song of songs) {
                         let audio = await fetchAudioFeatures(access_token, song.track_id);
                         let mood = audio.valence;
-                        // let danceability = await audio.danceability;
-                        // let energy = await audio.energy;
 
                         if (mood <= 0.33) {
                             sadSongs.push(song);
@@ -115,30 +109,38 @@ class App extends Component {
                             happySongs.push(song);
                         }
                     }
-                    let moods = { angry: angrySongs, happy: happySongs, sad: sadSongs };
+                    let moods = moodLifterPlaylists.map((mood, i) => {
+                        let result = {};
+                        if (mood === 'Sad Music MoodLifter') {
+                            result[mood] = sadSongs;
+                        } else if (mood === 'Angry Music MoodLifter') {
+                            result[mood] = angrySongs;
+                        } else {
+                            result[mood] = happySongs;
+                        }
+                        return result;
+                    });
                     return moods;
                 })
                 .then((moods) => {
-                    let angryMood = moods['angry'];
-                    let happyMood = moods['happy'];
-                    let sadMood = moods['sad'];
-
-                    angryMood.forEach((song) => {
-                        angryMoodUris.push(song['track_uri']);
-                    });
-                    happyMood.forEach((song) => {
-                        happyMoodUris.push(song['track_uri']);
-                    });
-                    sadMood.forEach((song) => {
-                        sadMoodUris.push(song['track_uri']);
-                    });
-
-                    let moodSongsUris = { angryUris: angryMoodUris, happyUris: happyMoodUris, sadUris: sadMoodUris };
+                    let moodSongsUris = {};
+                    for (let i = 0; i < moods.length; i++) {
+                        let result = [];
+                        for (let mood in moods[i]) {
+                            moods[i][mood].forEach((song) => {
+                                result.push(song['track_uri']);
+                            });
+                            moodSongsUris[mood] = result;
+                        }
+                    }
 
                     return moodSongsUris;
                 })
-                .then((moodSongsUris) => {
+                .then(async (moodSongsUris) => {
                     //user info
+                    let playlistInfo = {},
+                        userProfile = {};
+                    moodSongsUris = await moodSongsUris;
                     fetchUser(access_token).then((userInfo) => {
                         userProfile = userInfo;
                         let id = userInfo.id;
@@ -152,88 +154,50 @@ class App extends Component {
                                         playlistInfo[playlist] = playlists[playlist];
                                     }
                                 }
-                                if (!playlistsName.includes('Sad Music MoodLifter')) {
-                                    console.log('playlist does not exist');
-                                    sad = createPlaylist(userInfo.id, access_token, 'Sad Music MoodLifter').then(
-                                        async (info) => {
-                                            let data = await info;
+                                let result = moodLifterPlaylists.map((mood) => {
+                                    if (!playlistsName.includes(mood)) {
+                                        return createPlaylist(userInfo.id, access_token, mood).then(async (info) => {
+                                            let data = await info,
+                                                key = Object.keys(data)[0];
+                                            data[key]['uris'] = moodSongsUris[mood];
                                             return data;
-                                        },
-                                    );
-                                }
-                                if (!playlistsName.includes('Angry Music MoodLifter')) {
-                                    console.log('playlist does not exist');
-                                    angry = createPlaylist(userInfo.id, access_token, 'Angry Music MoodLifter').then(
-                                        async (info) => {
-                                            let data = await info;
-                                            return data;
-                                        },
-                                    );
-                                }
-                                if (!playlistsName.includes('Happy Music MoodLifter')) {
-                                    console.log('playlist does not exist');
-                                    happy = createPlaylist(userInfo.id, access_token, 'Happy Music MoodLifter').then(
-                                        async (info) => {
-                                            let data = await info;
-                                            return data;
-                                        },
-                                    );
-                                }
+                                        });
+                                    }
+                                });
 
                                 if (Object.keys(playlistInfo).length === 3) {
                                     let playlist = await playlistInfo;
-                                    return {
-                                        playlistInfo: playlist,
-                                        moodSongsUris: moodSongsUris,
-                                        setPlaylistExist: true,
-                                    };
+                                    for (let mood in playlistInfo) {
+                                        playlistInfo[mood]['uris'] = moodSongsUris[mood];
+                                    }
+                                    playlists['setPlaylistExist'] = true;
+                                    return playlist;
                                 } else {
-                                    let moodLifterCreatedPlaylists = Promise.all([angry, happy, sad]);
-                                    return {
-                                        moodLifterCreatedPlaylists: moodLifterCreatedPlaylists,
-                                        moodSongsUris: moodSongsUris,
-                                        setPlaylistExist: false,
-                                    };
+                                    let playlists = Promise.all(result).then(async (playlistInfo) => {
+                                        let moodLifterCreatedPlaylists = {};
+                                        await playlistInfo.forEach((mood) => {
+                                            let key = Object.keys(mood)[0];
+                                            moodLifterCreatedPlaylists[key] = mood[key];
+                                        });
+                                        return moodLifterCreatedPlaylists;
+                                    });
+                                    playlists['setPlaylistExist'] = false;
+                                    return playlists;
                                 }
                             })
                             .then(async (playlists) => {
                                 playlists = await playlists;
-                                let moodLifterCreatedPlaylists = await playlists['moodLifterCreatedPlaylists'];
 
-                                console.log('playlist', playlists);
                                 if (!playlists['setPlaylistExist']) {
-                                    let setAngryPlaylist = setPlaylist(
-                                        moodLifterCreatedPlaylists[0]['Angry Music MoodLifter']['id'],
-                                        access_token,
-                                        angryMoodUris,
-                                    );
-                                    let setHappyPlaylist = setPlaylist(
-                                        moodLifterCreatedPlaylists[1]['Happy Music MoodLifter']['id'],
-                                        access_token,
-                                        happyMoodUris,
-                                    );
-                                    let setSadPlaylist = setPlaylist(
-                                        moodLifterCreatedPlaylists[2]['Sad Music MoodLifter']['id'],
-                                        access_token,
-                                        sadMoodUris,
-                                    );
-                                    let moodLifterSetPlaylists = await Promise.all([
-                                        setAngryPlaylist,
-                                        setHappyPlaylist,
-                                        setSadPlaylist,
-                                    ]);
-                                    this.setState({
-                                        userInfo: userProfile,
-                                        usersPlaylists: playlists,
-                                        loading: false,
-                                    });
-                                } else {
-                                    this.setState({
-                                        userInfo: userProfile,
-                                        usersPlaylists: playlists,
-                                        loading: false,
-                                    });
+                                    for (let mood in playlists) {
+                                        setPlaylist(playlists[mood]['id'], access_token, playlists[mood]['uris']);
+                                    }
                                 }
+                                this.setState({
+                                    userInfo: userProfile,
+                                    usersPlaylists: playlists,
+                                    loading: false,
+                                });
                             });
                     });
                 });
@@ -265,40 +229,37 @@ class App extends Component {
 
     spotifyApiEventHandlers() {
         // Error handling
-        this.spotifyPlayer.addListener('initialization_error', ({message}) => {
+        this.spotifyPlayer.addListener('initialization_error', ({ message }) => {
             console.error('Failed to initialize something is wrong with spotify api', message);
         });
-        this.spotifyPlayer.addListener('authentication_error', ({message}) => {
+        this.spotifyPlayer.addListener('authentication_error', ({ message }) => {
             console.error('Failed to authenticate', message);
             this.setState({ loggedIn: false });
         });
-        this.spotifyPlayer.addListener('account_error', ({message}) => {
+        this.spotifyPlayer.addListener('account_error', ({ message }) => {
             console.error(message);
         });
-        this.spotifyPlayer.addListener('playback_error', ({message}) => {
+        this.spotifyPlayer.addListener('playback_error', ({ message }) => {
             console.error(message);
         });
 
         //playback status updates
-        this.spotifyPlayer.addListener('player_state_changed', state => this.onStateChange(state));
+        this.spotifyPlayer.addListener('player_state_changed', (state) => this.onStateChange(state));
 
         // ready
-        this.spotifyPlayer.addListener('ready', ({device_id}) => {
+        this.spotifyPlayer.addListener('ready', ({ device_id }) => {
             transferPlaybackToMoodLifter(device_id, this.state.token);
             this.setState({ deviceId: device_id });
         });
-        
-        //not ready 
-         // Not Ready
+
+        // Not Ready
         this.spotifyPlayer.addListener('not_ready', ({ device_id }) => {
             console.log('Device ID has gone offline', device_id);
         });
     }
 
-    
     checkingForSpotifyURI() {
         const { token } = this.state;
-        // console.log('window.Spotify', window.Spotify)
         //global variable Spotify is public index.html file however to access the global variable have to use window.Spotify
         if (window.Spotify !== undefined) {
             //cancel the interval
@@ -311,15 +272,15 @@ class App extends Component {
                 },
                 volume: 0.5,
             });
-            
+
             //set up the spotify uri event handlers
             this.spotifyApiEventHandlers();
-            
+
             //finally, connect!
             this.spotifyPlayer.connect();
         }
     }
-    
+
     getRefreshToken() {
         setInterval(
             () => {
@@ -333,35 +294,75 @@ class App extends Component {
                 });
             },
             this.state.loggedIn ? 1000 * 60 * 30 : 1000 * 60 * 60,
-            );
-        }
+        );
+    }
 
-onPrevClick() {
-// this.spotifyPlayer.previousTrack();
-this.spotifyPlayer.previousTrack()
-}
+    onPrevClick() {
+        this.spotifyPlayer.previousTrack();
+    }
 
-onPlayClick() {
-this.spotifyPlayer.togglePlay();
-}
+    onPlayClick() {
+        this.spotifyPlayer.togglePlay();
+    }
 
-onNextClick() {
-this.spotifyPlayer.nextTrack()
-}
+    onNextClick() {
+        this.spotifyPlayer.nextTrack();
+    }
 
+    onPlaylistClick() {
+        this.setState({
+            playlistPlaying: !this.playlistPlaying,
+        });
+    }
     render() {
-        const { loggedIn, token } = this.state;
+        const { loggedIn, token, loading, playing, userInfo, playlistPlaying, usersPlaylists } = this.state;
 
         return (
             <div>
                 {loggedIn ? '' : <Login token={token} />}
                 {loggedIn ? (
-                    <Player
-                        state={this.state}
-                        onPrevClick={this.onPrevClick.bind(this)}
-                        onNextClick={this.onNextClick.bind(this)}
-                        onPlayClick={this.onPlayClick.bind(this)}
-                    />
+                    loading ? (
+                        <div
+                            className="center centered pa3 mr4 mw5 mw7-ns ph5-ns"
+                            style={{
+                                textAlign: 'center',
+                                color: 'white',
+                            }}
+                        >
+                            <DotLoader css={override} size={150} color={'#123abc'} loading={loading} />
+                            <br />
+                            <p
+                                className="f3"
+                                style={{
+                                    color: 'white',
+                                }}
+                            >
+                                {'Please wait while your playlists load'}
+                            </p>
+                        </div>
+                    ) : (
+                        <div
+                            style={{
+                                textAlign: 'center',
+                                color: 'white',
+                            }}
+                        >
+                            <SelectMoodOrPlayMood
+                                state={this.state}
+                                onPrevClick={this.onPrevClick.bind(this)}
+                                onNextClick={this.onNextClick.bind(this)}
+                                onPlayClick={this.onPlayClick.bind(this)}
+                                onPlaylistClick={this.onPlaylistClick.bind(this)}
+                                userName={userInfo.display_name}
+                                userId={userInfo.id}
+                                playlists={usersPlaylists}
+                                playlistPlaying={playlistPlaying}
+                                token={token}
+                                playing={playing}
+                                onPlaylistClick={this.onPlaylistClick.bind(this)}
+                            />
+                        </div>
+                    )
                 ) : (
                     <Home />
                 )}

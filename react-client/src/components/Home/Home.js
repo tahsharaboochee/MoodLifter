@@ -4,8 +4,8 @@ import './Home.css';
 class Home extends Component {
     render() {
         return (
-            <main className="site-layout" data-opennav="false">
-                <div className="hero">
+            <main className="site-layout" data-test="site-layout" data-opennav="false">
+                <div className="hero" data-test="hero">
                     <h2 className="f-headline lh-solid ">
                         <span className="title">
                             Create

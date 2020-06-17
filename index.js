@@ -6,14 +6,12 @@ const bodyParser = require('body-parser')
 const app = express()
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+
 const session = require('express-session')
-//The querystring module provides utilities for parsing and formatting URL query strings 
+// The querystring module provides utilities for parsing and formatting URL query strings 
 const querystring = require('querystring')
-//generates random string to validate response from spitify to the call we actually gave
+// generates random string to validate response from spitify to the call we actually gave
 const uuidv4 = require('uuid').v4
-const spotify = axios.create({
-  baseURL: 'https://accounts.spotify.com/api/',
-})
 const TWO_HOURS = 1000 * 60 * 60 * 2 //MAX time for a cookie 
 const {
   SESS_NAME = 'sid', //session id
@@ -21,9 +19,11 @@ const {
   SESS_LIFETIME = TWO_HOURS,
 } = process.env
 
-//name of cookie
+// name of cookie
 const stateCookie = 'spotify_auth_state'
-
+const spotify = axios.create({
+  baseURL: 'https://accounts.spotify.com/api/',
+})
 spotify.defaults.headers.common['Authorization'] = 'Basic ' + (Buffer.from(
   process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
 ).toString('base64'))
@@ -39,8 +39,8 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(cors())
 app.use(cookieParser())
 
-const IN_PROD = process.env.NODE_ENV === "production"
-//serve static files from React app
+// // const IN_PROD = process.env.NODE_ENV === "production"
+// //serve static files from React app
 app.use(express.static(path.join(__dirname, 'react-client/build')));
 app.use(session({
   genid: (req) => {
@@ -60,7 +60,6 @@ app.use(session({
   }
 }))
 let refresh_token;
-  // console.log('redirect uri:', redirect_uri)
   const refreshTokenChecker = (refresh_token) => {
     return spotify.post('token',  querystring.stringify({
       grant_type: "refresh_token",
@@ -77,9 +76,6 @@ const redirectUriForTokens = (access_token, refresh_token)=> {
 }
 app.get('/login', function(req, res) {
   //spotify getting moodLifter authorization
-
-  // pseudocode for new process:
-  // 1. check if our session cookie exists, and has a refresh token
   console.log('login request for cookie session', req.session.refresh_token)
   if(req.session.refresh_token){
     console.log('about to call refreshTokenChecker')
@@ -90,8 +86,7 @@ app.get('/login', function(req, res) {
     })
   }else {
     const state = uuidv4(); //generate random string
-      res.cookie(stateCookie, state) //setting a cookie
-      // req.session.state = state //setting a cookie
+      req.session.state = state //setting a cookie
       console.log('about to redirect to spotify state:', state)
       res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
@@ -105,16 +100,12 @@ app.get('/login', function(req, res) {
     console.log('___________________________________\nredirect to spotify completed')
   }
 })
-app.get('/callback', function(req, res) {
-  // console.log('/callback req:', req)
-  console.log('inside callback session is:', req.session)
 
-  console.log( 'in /callback res:')
+app.get('/callback', function(req, res) {
   //moodLifter requesting refresh and access tokens after checking state parameter
   let code = req.query.code || null;
   let state = req.query.state || null;
-  let storedState = req.cookies ? req.cookies[stateCookie] : null;
-  // let storedState = req.session.state || null;
+  let storedState = req.session.state || null;
 
   
   if(state === null || state !== storedState){
@@ -164,7 +155,6 @@ app.get('/refresh_token', function(req, res) {
   if (refresh_token){
     refreshTokenChecker(refresh_token)
     .then((resp)=>{
-      // console.log('inside .then refresh token checker resp:', resp, 'res.data', resp.data, 'resp status', resp.statusCode)
       if(resp.status === 200){
         let access_token = resp.data.access_token;
         res.send({
