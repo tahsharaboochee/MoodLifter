@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import {pause} from '../../helpers/api-fetcher';
+import { pause } from '../../helpers/api-fetcher';
 import PlayButtons from '../playButtons/PlayButtons';
 import { Card, CardImg, CardBody, CardHeader, CardTitle, CardFooter } from 'reactstrap';
 
 const Player = (props) => {
     const backClick = () => {
-        console.log(props.state.token)
-        pause(props)
+        pause(props);
         props.onPlaylistClick();
     };
 
-    const { userInfo, artistName, songName, backgroundImage, usersPlaylists, token, loading, playing } = props.state;
+    const { artistName, songName, backgroundImage } = props.state;
 
     return (
         <div>
@@ -18,7 +17,7 @@ const Player = (props) => {
                 <CardHeader>
                     <button className="btn btn--playlist" onClick={() => backClick()}>
                         <a className="login white" href="/login">
-                        Click a different Mood
+                            Click a different Mood
                         </a>
                     </button>
                 </CardHeader>

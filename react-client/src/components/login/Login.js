@@ -2,12 +2,12 @@ import React from 'react';
 import './login.css';
 import '../logo/logo-white.png';
 import '../logo/Mood Lifter-white.png';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 const Login = (props) => {
     const { token } = props;
     return (
-        <nav data-test='loginComponent' style={{ display: 'flex', flexWrap: 'wrap' }} className="container">
+        <nav data-test="loginComponent" style={{ display: 'flex', flexWrap: 'wrap' }} className="container">
             <div
                 className="item"
                 style={{ display: 'flex', justifyContent: 'flex-start', width: '48%', height: '100px' }}
@@ -29,6 +29,6 @@ const Login = (props) => {
 };
 
 Login.propTypes = {
-    token:PropTypes.string
-}
+    token: PropTypes.string,
+};
 export default Login;
