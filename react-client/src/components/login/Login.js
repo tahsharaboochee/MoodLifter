@@ -6,7 +6,7 @@ import '../logo/Mood Lifter-white.png';
 const Login = (props) => {
     const { token } = props;
     return (
-        <nav style={{ display: 'flex', flexWrap: 'wrap' }} className="container">
+        <nav data-test='loginComponent' style={{ display: 'flex', flexWrap: 'wrap' }} className="container">
             <div
                 className="item"
                 style={{ display: 'flex', justifyContent: 'flex-start', width: '48%', height: '100px' }}
