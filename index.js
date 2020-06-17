@@ -60,7 +60,6 @@ app.use(session({
   }
 }))
 let refresh_token;
-  // console.log('redirect uri:', redirect_uri)
   const refreshTokenChecker = (refresh_token) => {
     return spotify.post('token',  querystring.stringify({
       grant_type: "refresh_token",
@@ -77,9 +76,6 @@ const redirectUriForTokens = (access_token, refresh_token)=> {
 }
 app.get('/login', function(req, res) {
   //spotify getting moodLifter authorization
-
-  // pseudocode for new process:
-  // 1. check if our session cookie exists, and has a refresh token
   console.log('login request for cookie session', req.session.refresh_token)
   if(req.session.refresh_token){
     console.log('about to call refreshTokenChecker')
@@ -90,7 +86,6 @@ app.get('/login', function(req, res) {
     })
   }else {
     const state = uuidv4(); //generate random string
-      // res.cookie(stateCookie, state) //setting a cookie
       req.session.state = state //setting a cookie
       console.log('about to redirect to spotify state:', state)
       res.redirect('https://accounts.spotify.com/authorize?' +
@@ -107,14 +102,9 @@ app.get('/login', function(req, res) {
 })
 
 app.get('/callback', function(req, res) {
-  // console.log('/callback req:', req)
-  console.log('inside callback session is:', req.session)
-
-  console.log( 'in /callback res:')
   //moodLifter requesting refresh and access tokens after checking state parameter
   let code = req.query.code || null;
   let state = req.query.state || null;
-  // let storedState = req.cookies ? req.cookies[stateCookie] : null;
   let storedState = req.session.state || null;
 
   
@@ -165,7 +155,6 @@ app.get('/refresh_token', function(req, res) {
   if (refresh_token){
     refreshTokenChecker(refresh_token)
     .then((resp)=>{
-      // console.log('inside .then refresh token checker resp:', resp, 'res.data', resp.data, 'resp status', resp.statusCode)
       if(resp.status === 200){
         let access_token = resp.data.access_token;
         res.send({
