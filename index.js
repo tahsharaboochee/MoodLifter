@@ -74,11 +74,7 @@ const redirectUriForTokens = (access_token, refresh_token)=> {
 }
 app.get('/login', function(req, res) {
   //spotify getting moodLifter authorization
-<<<<<<< HEAD
-  console.log('login request for cookie session', req.session.refresh_token)
-=======
   // 1. check if our session cookie exists, and has a refresh token
->>>>>>> 5474ed8fcf3ce9c5338001240c7ffc2fc5fc67ce
   if(req.session.refresh_token){
     refreshTokenChecker(req.session.refresh_token)
     .then((response)=>{

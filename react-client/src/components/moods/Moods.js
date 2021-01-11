@@ -8,14 +8,8 @@ import PropTypes from 'prop-types';
 import { Card, CardImg, CardBody, CardFooter } from 'reactstrap';
 
 const Moods = (props) => {
-<<<<<<< HEAD
-    const { userName, token, playlists, playing } = props;
-    const onSadClick = () => {
-        console.log(playlists);
-=======
     const { userId, token, playlists, playing } = props;
     const onSadClick = () => {
->>>>>>> 5474ed8fcf3ce9c5338001240c7ffc2fc5fc67ce
         let sadUris = playlists['Sad Music MoodLifter'].uris;
         onClickHandler(sadUris);
         if (!playing) {
@@ -78,7 +72,7 @@ const Moods = (props) => {
     return (
         <div data-test="MoodComponent">
             <div className="white pa3 f3" data-test="userName">
-                {userName}
+                {userId}
                 {' Click your Mood'}
             </div>
             <br />
