@@ -99,7 +99,7 @@ class App extends Component {
                         sadSongs = [];
                     for (let song of songs) {
                         let audio = await fetchAudioFeatures(access_token, song.track_id);
-                        let mood = audio.valence;
+                        let mood = await audio.valence;
 
                         if (mood <= 0.33) {
                             sadSongs.push(song);
