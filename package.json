@@ -7,6 +7,10 @@
   },
   "description": "MoodLifter is an app that helps uplift a persons mood through music",
   "main": "index.js",
+  "description": "filling out this field to avoid warnings",
+  "repository": "not publishing",
+  "readme": "not publishing",
+  "license": "not publishing",
   "scripts": {
     "client-install": "npm install --prefix react-client",
     "start": "node index.js",
